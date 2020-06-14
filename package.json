@@ -23,11 +23,7 @@
         "dev:app": "lerna run start --stream --scope @desc/app",
         "lint": "lerna run lint --stream",
         "postinstall": "yarn bootstrap",
-        "test:api": "lerna run test --stream --scope @desc/api",
-        "test:api-p": "lerna run test --stream --scope @desc/api-postgres",
-        "test:api:unit": "lerna run test:unit --stream --scope @desc/api",
-        "test:api:integration": "lerna run test:integration --stream --scope @desc/api",
-        "test:api:acceptance": "lerna run test:acceptance --stream --scope @desc/api",
+        "test:api": "lerna run test --stream --scope @desc/api-postgres",
         "test:app:all": "lerna run test --stream --scope @desc/app -- --colors --watchAll=false",
         "test:app:watch": "lerna run test --stream --scope @desc/app -- --colors",
         "test:e2e": "lerna run test:e2e --stream"

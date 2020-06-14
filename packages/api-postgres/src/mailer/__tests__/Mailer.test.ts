@@ -1,8 +1,11 @@
 import Mailer from '../Mailer';
+import User from '../../entity/User';
 
 describe('Mailer', () => {
     it('sends default verification email', async () => {
-        const email = await Mailer.sendVerificationEmail();
+        const testUser = new User();
+        testUser.emailVerificationToken = 'randomtokenstringhere';
+        const email = await Mailer.sendVerificationEmail('http://localhost:3001', testUser);
 
         expect(email).toEqual(
             expect.objectContaining({

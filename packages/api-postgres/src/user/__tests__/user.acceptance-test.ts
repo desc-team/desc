@@ -47,8 +47,7 @@ describe('User route acceptance tests', () => {
                                 email: 'oliver@desc.org',
                                 program: expect.any(String),
                                 roles: expect.arrayContaining(['requestor'])
-                            }),
-                            accessToken: expect.any(String)
+                            })
                         })
                     })
                 );

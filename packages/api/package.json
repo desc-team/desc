@@ -10,13 +10,7 @@
         "dev": "DEBUG=app,db* nodemon src/server.js --watch src/ --exec babel-node",
         "lint": "eslint src/**/*.js --max-warnings 0",
         "prestart": "yarn build",
-        "start": "node build/server.js",
-        "test": "yarn -s test:unit && yarn -s test:integration && yarn -s test:acceptance",
-        "test:acceptance": "NODE_ENV=testing DEBUG=app,test,db:connection mocha --colors --exit src/utils/db-test-setup.js src/**/*.a-test.js --require @babel/register",
-        "test:integration": "NODE_ENV=testing DEBUG=app,test,db:connection mocha --colors --exit src/utils/db-test-setup.js src/**/*.i-test.js --require @babel/register",
-        "test:unit": "NODE_ENV=testing mocha --colors 'src/**/*.u-test.js' --require @babel/register",
-        "test:e2e": "NODE_ENV=testing yarn dev",
-        "posttest:acceptance": "rimraf test-sessions"
+        "start": "node build/server.js"
     },
     "husky": {
         "hooks": {

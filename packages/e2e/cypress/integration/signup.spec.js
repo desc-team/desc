@@ -140,29 +140,7 @@ describe('User Signup', () => {
             .contains('Sign Up')
             .click();
 
-        cy.url().should('eq', 'http://localhost:4200/');
-
-        cy.get('nav .profile-menu a span').should(
-            'contain',
-            `${userData.firstName} ${userData.lastName}`
-        );
-        cy.get('h3').should('contain', userData.firstName);
-    });
-
-    it('maintains new user context on page reload', () => {
-        cy.reload();
-        cy.get('h3').should('contain', userData.firstName);
-    });
-
-    it('logs out the user after signup', () => {
-        cy.visit('http://localhost:4200/');
-
-        cy.get('.profile-menu > a').click();
-        cy.get('.profile-menu a')
-            .contains('Logout')
-            .click();
-        cy.url().should('eq', 'http://localhost:4200/');
-        cy.get('h3').should('contain', 'Home Page');
-        cy.get('h3').not('contain', userData.firstName);
+        cy.get('h4').should('contain', 'Thank you for registering');
+        cy.get('h5').should('contain', 'sent an email to the account');
     });
 });

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../entity/User';
 import UserService from './UserService';
 import AuthUtils from '../auth/AuthUtils';
+import Mailer from '../mailer/Mailer';
 
 class UserController {
     static createUser(req: Request, res: Response): Promise<Response> {
@@ -10,15 +11,15 @@ class UserController {
         const { firstName, lastName, email, password, program } = req.body;
 
         return UserService.createUser({ firstName, lastName, email, password, program })
-            .then((user) => {
-                res.cookie('qid', AuthUtils.createRefreshToken(user), { httpOnly: true });
-                const accessToken = AuthUtils.createAccessToken(user);
+            .then(async (user) => {
+                const baseUrl = (req.get('origin') as string) || '';
+                await Mailer.sendVerificationEmail(baseUrl, user);
+
                 return res.status(201).json({
                     success: true,
                     message: 'user created',
                     payload: {
-                        user: user.toClientJSON(),
-                        accessToken
+                        user: user.toClientJSON()
                     }
                 });
             })

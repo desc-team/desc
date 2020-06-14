@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
 import TextField from '../Common/TextField';
 import { signup } from '../../services/users';
@@ -18,8 +17,7 @@ const css = {
     }
 };
 
-const SignupForm = ({ history }) => {
-    const authCtx = useContext(AuthContext);
+const SignupForm = ({ history, onRegister }) => {
     const [form, setValues] = useState({
         firstName: '',
         lastName: '',
@@ -77,9 +75,7 @@ const SignupForm = ({ history }) => {
             signup(payload)
                 .then(data => {
                     if (data.success) {
-                        const { user, accessToken: token } = data.payload;
-                        authCtx.login(user, token);
-                        history.push('/');
+                        onRegister();
                     } else {
                         setIsFetching(false);
                     }

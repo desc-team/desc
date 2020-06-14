@@ -1,4 +1,9 @@
 import nodemailer from 'nodemailer';
+import User from '../entity/User';
+import {
+    getEmailVerificatonTemplateText,
+    getEmailVerificatonTemplateHTML
+} from './templates/emailVerificaton';
 
 interface MailOptions {
     port?: number;
@@ -6,18 +11,20 @@ interface MailOptions {
 }
 
 class Mailer {
-    public static async sendVerificationEmail(): Promise<any> {
+    public static async sendVerificationEmail(baseUrl: string, user: User): Promise<any> {
         const transporter = nodemailer.createTransport(Mailer.getMailOptions());
         const verifiedTransporter =
-            process.env.NODE_ENV === 'testing' ? true : await transporter.verify();
+            process.env.NODE_ENV === 'testingE2E' || process.env.NODE_ENV === 'testing'
+                ? true
+                : await transporter.verify();
 
         if (verifiedTransporter) {
             return transporter.sendMail({
-                from: 'account.verify@sandbox.com',
-                to: 'newUser@desc.org',
+                from: 'account.verify@descportal.org',
+                to: user.email,
                 subject: 'Email Verification',
-                text: 'Thank you for registering',
-                html: 'Thank you for registering'
+                text: getEmailVerificatonTemplateText(baseUrl, user.emailVerificationToken),
+                html: getEmailVerificatonTemplateHTML(baseUrl, user.emailVerificationToken)
             });
         }
     }
@@ -25,16 +32,17 @@ class Mailer {
     private static getMailOptions(): MailOptions {
         let mailOpts = {};
         switch (process.env.NODE_ENV) {
-            case 'testing':
-                mailOpts = {
-                    jsonTransport: true
-                };
-                break;
-
             case 'development':
                 // configure for local 'mailhog' smtp server
                 mailOpts = {
                     port: 1025
+                };
+                break;
+
+            case 'testing':
+            case 'testingE2E':
+                mailOpts = {
+                    jsonTransport: true
                 };
                 break;
 
