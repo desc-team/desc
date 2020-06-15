@@ -80,7 +80,7 @@ export const availableShirtOrCoatSizes = [
 type ShirtOrCoatSizes = typeof availableShirtOrCoatSizes[number];
 
 export const availablePantSizes = [
-    'XS (25-26/28',
+    'XS (25-26/28)',
     'S (27-29/30)',
     'M (30-32/32)',
     'L (33-37/34)',
