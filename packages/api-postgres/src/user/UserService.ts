@@ -64,6 +64,11 @@ export default class UserService {
         return user;
     }
 
+    static async confirmEmail(token: string): Promise<User | undefined> {
+        const user = await User.findOne({ where: { emailVerificationToken: token } });
+        return UserService.updateUser(user?.id as string, { isEmailVerified: true });
+    }
+
     private static async getUserCount(): Promise<number> {
         const count = await getRepository(User).createQueryBuilder('user').getCount();
         return count;

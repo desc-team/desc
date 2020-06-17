@@ -154,4 +154,40 @@ describe('User service integration tests', () => {
             expect(users).toHaveLength(1);
         });
     });
+
+    describe('confirmEmail method', () => {
+        let emailToken: string;
+
+        beforeEach(async () => {
+            await UserService.createUser({
+                firstName: 'Barry',
+                lastName: 'Allen',
+                email: 'barry@starlabs.com',
+                password: 'test1234'
+            });
+            const { firstName, lastName, email, password, program } = testUser;
+            const user = await UserService.createUser({
+                firstName,
+                lastName,
+                email,
+                password,
+                program
+            });
+            emailToken = user.emailVerificationToken;
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        it('returns undefined if user cannot be found with given token', async () => {
+            const result = await UserService.confirmEmail('4157b081-e365-4984-aeac-c31aa255a474');
+            expect(result).toBeUndefined();
+        });
+
+        it(`confirms the user's email address`, async () => {
+            const result = await UserService.confirmEmail(emailToken);
+            expect(result?.isEmailVerified).toBe(true);
+        });
+    });
 });
