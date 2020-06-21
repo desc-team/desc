@@ -188,6 +188,7 @@ describe('User service integration tests', () => {
         it(`confirms the user's email address`, async () => {
             const result = await UserService.confirmEmail(emailToken);
             expect(result?.isEmailVerified).toBe(true);
+            expect(result?.emailVerificationToken).toBe('');
         });
     });
 });

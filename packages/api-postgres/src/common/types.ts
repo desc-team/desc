@@ -23,6 +23,7 @@ export interface UserFields {
     program?: Program;
     roles?: UserRole[];
     isEmailVerified?: boolean;
+    emailVerificationToken?: string;
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;

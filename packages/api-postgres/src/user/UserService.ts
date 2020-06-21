@@ -66,7 +66,10 @@ export default class UserService {
 
     static async confirmEmail(token: string): Promise<User | undefined> {
         const user = await User.findOne({ where: { emailVerificationToken: token } });
-        return UserService.updateUser(user?.id as string, { isEmailVerified: true });
+        return UserService.updateUser(user?.id as string, {
+            isEmailVerified: true,
+            emailVerificationToken: ''
+        });
     }
 
     private static async getUserCount(): Promise<number> {
