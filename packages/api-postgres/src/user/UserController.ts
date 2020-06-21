@@ -151,6 +151,40 @@ class UserController {
             });
     }
 
+    static confirmEmail(req: Request, res: Response): Promise<Response> {
+        const emailToken = req.params.token;
+        return UserService.confirmEmail(emailToken)
+            .then((user) => {
+                if (user) {
+                    return res.json({
+                        success: true,
+                        message: 'email confirmed',
+                        payload: {
+                            user: user.toClientJSON()
+                        }
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        message: 'email token not found',
+                        payload: {
+                            user: null
+                        }
+                    });
+                }
+            })
+            .catch((err) => {
+                return res.json({
+                    success: false,
+                    message: 'error confirming email',
+                    payload: {
+                        error: err.message,
+                        user: null
+                    }
+                });
+            });
+    }
+
     static async me(req: Request, res: Response): Promise<Response> {
         const baseResponse = {
             success: true,

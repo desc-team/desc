@@ -332,4 +332,60 @@ describe('User route acceptance tests', () => {
             });
         });
     });
+
+    describe('/api/users/confirmemail/:token route', () => {
+        let client: TestClient;
+        let emailToken: string;
+
+        beforeAll(() => {
+            client = new TestClient();
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        beforeEach(async () => {
+            const user = await TestUtils.createTestUser({
+                firstName: 'Oliver',
+                lastName: 'Queen',
+                email: 'oliver@desc.org',
+                password: '123456',
+                program: Program.SURVIVAL
+            });
+
+            emailToken = user.emailVerificationToken;
+        });
+
+        describe('PATCH request method', () => {
+            it('confirms the email of a new user', async () => {
+                const response = await client.confirmEmail(emailToken);
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: true,
+                        message: 'email confirmed',
+                        payload: expect.objectContaining({
+                            user: expect.any(Object)
+                        })
+                    })
+                );
+            });
+
+            it('returns a null user if the email token is not found', async () => {
+                const unknownToken = '5fd3215e-834e-4d1c-ba27-9a668c4bb242';
+                const response = await client.confirmEmail(unknownToken);
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: 'email token not found',
+                        payload: expect.objectContaining({
+                            user: null
+                        })
+                    })
+                );
+            });
+        });
+    });
 });

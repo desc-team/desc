@@ -77,6 +77,12 @@ class TestClient extends BaseTestClient {
         return request(this.app).get('/api/auth/logout').set('Content-Type', 'application/json');
     }
 
+    public confirmEmail(token: string): Test {
+        return request(this.app)
+            .patch(`/api/users/confirmemail/${token}`)
+            .set('Content-Type', 'application/json');
+    }
+
     public createItem(itemData: any): Test {
         return request(this.app)
             .post('/api/items')

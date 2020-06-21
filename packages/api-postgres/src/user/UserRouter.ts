@@ -38,6 +38,8 @@ class UserRouter {
             .get(isAdminOrSelf, UserController.getUser)
             .patch(isAdminOrSelf, UserController.updateUser)
             .delete(isAdminOrSelf, UserController.deleteUser);
+
+        UserRouter.router.route('/confirmemail/:token').patch(UserController.confirmEmail);
     }
 }
 
