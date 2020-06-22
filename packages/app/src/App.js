@@ -12,6 +12,7 @@ import Inbox from './containers/Inbox';
 import RequestCreationPage from './components/RequestCreation/RequestCreationPage';
 import Request from './containers/Request';
 import Home from './components/Home';
+import ConfirmEmail from './containers/ConfirmEmail';
 import PrivateRoute from './components/PrivateRoute';
 import { reducer } from './reducers/reducer';
 
@@ -29,6 +30,8 @@ function App() {
                         <Route exact path="/" component={Home} />
                         <Route exact path="/signup" component={Signup} />
                         <Route exact path="/signin" component={Signin} />
+                        <Route exact path="/confirmemail/:token" component={ConfirmEmail} />
+
                         <PrivateRoute exact path="/inbox" component={Inbox} />
                         <PrivateRoute exact path="/createv1" component={RequestCreationPage} />
                         <PrivateRoute exact path="/create" component={Request} />

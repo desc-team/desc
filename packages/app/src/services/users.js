@@ -12,3 +12,14 @@ export const signup = userData => {
         }
     });
 };
+
+export const confirmEmail = token => {
+    return fetch(`${BASE_URL}/api/users/confirmemail/${token}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' }
+    }).then(res => {
+        if (res.ok && res.status === 200) {
+            return res.json();
+        }
+    });
+};
