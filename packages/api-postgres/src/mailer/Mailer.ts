@@ -20,9 +20,9 @@ class Mailer {
 
         if (verifiedTransporter) {
             return transporter.sendMail({
-                from: 'account.verify@descportal.org',
+                from: 'portal-admin@desc.org',
                 to: user.email,
-                subject: 'Email Verification',
+                subject: 'DESC In-Kind Portal Email Verification',
                 text: getEmailVerificatonTemplateText(baseUrl, user.emailVerificationToken),
                 html: getEmailVerificatonTemplateHTML(baseUrl, user.emailVerificationToken)
             });
@@ -32,6 +32,10 @@ class Mailer {
     private static getMailOptions(): MailOptions {
         let mailOpts = {};
         switch (process.env.NODE_ENV) {
+            case 'production':
+                // add mail options to connect to outgoing email account
+                // when one is identified
+                break;
             case 'development':
                 // configure for local 'mailhog' smtp server
                 mailOpts = {
@@ -45,7 +49,6 @@ class Mailer {
                     jsonTransport: true
                 };
                 break;
-
             default:
                 break;
         }
