@@ -40,7 +40,7 @@ const ConfirmEmail = ({ match }) => {
                         information.
                     </p>
                     <p className="grey-text text-darken-2" style={css.secondary_text}>
-                        Feel free to <Link to="/login">login</Link> to access your account.
+                        Feel free to <Link to="/signin">sign in</Link> to access your account.
                     </p>
                 </React.Fragment>
             )}
