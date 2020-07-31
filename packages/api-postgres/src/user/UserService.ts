@@ -72,6 +72,17 @@ export default class UserService {
         });
     }
 
+    static async generatePasswordResetToken(email: string): Promise<User | undefined> {
+        const user = await UserService.getUserByEmail(email);
+        if (user) {
+            const in2hrs = new Date(Date.now() + 120 * 1000 * 60);
+            user.passwordResetToken = v4();
+            user.passwordResetTokenExpiresAt = in2hrs;
+            await user.save();
+        }
+        return user;
+    }
+
     private static async getUserCount(): Promise<number> {
         const count = await getRepository(User).createQueryBuilder('user').getCount();
         return count;

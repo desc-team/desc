@@ -191,4 +191,36 @@ describe('User service integration tests', () => {
             expect(result?.emailVerificationToken).toBe('');
         });
     });
+
+    describe('generatePasswordResetToken method', () => {
+        let userEmail: string;
+
+        beforeEach(async () => {
+            const { firstName, lastName, email, password, program } = testUser;
+            const user = await UserService.createUser({
+                firstName,
+                lastName,
+                email,
+                password,
+                program
+            });
+
+            userEmail = user.email;
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        it('returns undefined if user cannot be found with given email', async () => {
+            const result = await UserService.generatePasswordResetToken('unknown-user@test.com');
+            expect(result).toBeUndefined();
+        });
+
+        it('generates random token to use for password reset', async () => {
+            const result = await UserService.generatePasswordResetToken(userEmail);
+            expect(result?.passwordResetToken.length).toBeGreaterThan(0);
+            expect(result?.passwordResetTokenExpiresAt instanceof Date).toBeTruthy();
+        });
+    });
 });
