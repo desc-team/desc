@@ -14,4 +14,17 @@ describe('Mailer', () => {
             })
         );
     });
+
+    it('sends password reset email', async () => {
+        const testUser = new User();
+        testUser.passwordResetToken = 'randomtokenstringhere';
+        const email = await Mailer.sendPasswordResetEmail('http://localhost:3001', testUser);
+
+        expect(email).toEqual(
+            expect.objectContaining({
+                envelope: expect.any(Object),
+                messageId: expect.any(String)
+            })
+        );
+    });
 });
