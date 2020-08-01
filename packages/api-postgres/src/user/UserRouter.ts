@@ -27,6 +27,7 @@ class UserRouter {
 
     private static defineRoutes(): void {
         UserRouter.router.route('/me').get(checkForRefreshToken, UserController.me);
+        UserRouter.router.route('/forgotpassword').patch(UserController.forgotPassword);
 
         UserRouter.router
             .route('/')
@@ -34,7 +35,7 @@ class UserRouter {
             .get(isAdmin, UserController.getAllUsers);
 
         UserRouter.router
-            .route('/:id')
+            .route('/:id([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})')
             .get(isAdminOrSelf, UserController.getUser)
             .patch(isAdminOrSelf, UserController.updateUser)
             .delete(isAdminOrSelf, UserController.deleteUser);

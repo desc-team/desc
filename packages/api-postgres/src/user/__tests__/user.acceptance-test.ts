@@ -388,4 +388,56 @@ describe('User route acceptance tests', () => {
             });
         });
     });
+
+    describe('/api/users/forgotpassword route', () => {
+        let client: TestClient;
+
+        beforeAll(() => {
+            client = new TestClient();
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        beforeEach(async () => {
+            await TestUtils.createTestUser({
+                firstName: 'Oliver',
+                lastName: 'Queen',
+                email: 'oliver@desc.org',
+                password: '123456',
+                program: Program.SURVIVAL
+            });
+        });
+
+        describe('PATCH request method', () => {
+            it('sends password reset email to user', async () => {
+                const response = await client.forgotPassword('oliver@desc.org');
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: true,
+                        message: 'password reset instructions sent to user email',
+                        payload: expect.objectContaining({
+                            user: expect.any(Object)
+                        })
+                    })
+                );
+            });
+
+            it('returns a null user if the user (email) is not found', async () => {
+                const response = await client.forgotPassword('unknownemail@desc.org');
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: 'user not found',
+                        payload: expect.objectContaining({
+                            user: null
+                        })
+                    })
+                );
+            });
+        });
+    });
 });

@@ -83,6 +83,13 @@ class TestClient extends BaseTestClient {
             .set('Content-Type', 'application/json');
     }
 
+    public forgotPassword(email: string): Test {
+        return request(this.app)
+            .patch(`/api/users/forgotpassword`)
+            .set('Content-Type', 'application/json')
+            .send({ email });
+    }
+
     public createItem(itemData: any): Test {
         return request(this.app)
             .post('/api/items')
