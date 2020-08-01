@@ -4,6 +4,10 @@ import {
     getEmailVerificatonTemplateText,
     getEmailVerificatonTemplateHTML
 } from './templates/emailVerificaton';
+import {
+    getPasswordResetTemplateHTML,
+    getPasswordResetTemplateText
+} from './templates/passwordReset';
 
 interface MailOptions {
     port?: number;
@@ -25,6 +29,24 @@ class Mailer {
                 subject: 'DESC In-Kind Portal Email Verification',
                 text: getEmailVerificatonTemplateText(baseUrl, user.emailVerificationToken),
                 html: getEmailVerificatonTemplateHTML(baseUrl, user.emailVerificationToken)
+            });
+        }
+    }
+
+    public static async sendPasswordResetEmail(baseUrl: string, user: User): Promise<any> {
+        const transporter = nodemailer.createTransport(Mailer.getMailOptions());
+        const verifiedTransporter =
+            process.env.NODE_ENV === 'testingE2E' || process.env.NODE_ENV === 'testing'
+                ? true
+                : await transporter.verify();
+
+        if (verifiedTransporter) {
+            return transporter.sendMail({
+                from: 'portal-admin@desc.org',
+                to: user.email,
+                subject: 'DESC In-Kind Password Reset',
+                text: getPasswordResetTemplateText(baseUrl, user.passwordResetToken),
+                html: getPasswordResetTemplateHTML(baseUrl, user.passwordResetToken)
             });
         }
     }
