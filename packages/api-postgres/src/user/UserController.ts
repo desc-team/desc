@@ -185,6 +185,32 @@ class UserController {
             });
     }
 
+    static forgotPassword(req: Request, res: Response): Promise<Response> {
+        const { email } = req.body;
+        return UserService.generatePasswordResetToken(email).then(async (user) => {
+            if (user) {
+                const baseUrl = (req.get('origin') as string) || '';
+                await Mailer.sendPasswordResetEmail(baseUrl, user);
+
+                return res.json({
+                    success: true,
+                    message: 'password reset instructions sent to user email',
+                    payload: {
+                        user: user.toClientJSON()
+                    }
+                });
+            }
+
+            return res.json({
+                success: false,
+                message: 'user not found',
+                payload: {
+                    user: null
+                }
+            });
+        });
+    }
+
     static async me(req: Request, res: Response): Promise<Response> {
         const baseResponse = {
             success: true,
