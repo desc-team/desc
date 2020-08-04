@@ -3,14 +3,16 @@ import { v4 } from 'uuid';
 import User from '../entity/User';
 import { getRepository } from 'typeorm';
 import { UserFields, UpdatableUserFields, UserRole } from '../common/types';
+import DateUtils from '../common/DateUtils';
 
 export default class UserService {
+    // reduce the hash salt length for tests to decrease the test run time
+    static saltLength = process.env.NODE_ENV === 'testing' ? 4 : 12;
+
     static async createUser(userData: UserFields): Promise<User> {
         const { password } = userData;
 
-        // reduce the hash salt length for tests to decrease the test run time
-        const saltLength = process.env.NODE_ENV === 'testing' ? 4 : 12;
-        const hashedPassword = await bcrypt.hash(password, saltLength);
+        const hashedPassword = await bcrypt.hash(password, UserService.saltLength);
         let data: UserFields = { ...userData, password: hashedPassword };
 
         // for dev purposes, let's make the first user created an 'admin' & 'approver';
@@ -72,10 +74,30 @@ export default class UserService {
         });
     }
 
+    static async changePassword(token: string, newPassword: string): Promise<User | undefined> {
+        const user = await User.findOne({ where: { passwordResetToken: token } });
+        if (user) {
+            const now = DateUtils.getCurrentDateTime();
+            const isTokenExpired = now > user.passwordResetTokenExpiresAt;
+            if (!isTokenExpired) {
+                user.password = await bcrypt.hash(newPassword, UserService.saltLength);
+                user.passwordResetToken = '';
+                user.passwordResetTokenExpiresAt = now;
+                user.passwordLastChangedAt = now;
+
+                return user.save();
+            } else {
+                throw new Error('password reset token is expired');
+            }
+        } else {
+            return undefined;
+        }
+    }
+
     static async generatePasswordResetToken(email: string): Promise<User | undefined> {
         const user = await UserService.getUserByEmail(email);
         if (user) {
-            const in2hrs = new Date(Date.now() + 120 * 1000 * 60);
+            const in2hrs = DateUtils.getDateMinutesFromNow(120);
             user.passwordResetToken = v4();
             user.passwordResetTokenExpiresAt = in2hrs;
             await user.save();

@@ -3,6 +3,7 @@ import User from '../../entity/User';
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import TestUtils from '../../testUtils/TestUtilities';
 import { Program } from '../../common/types';
+import DateUtils from '../../common/DateUtils';
 
 const testUser = {
     firstName: 'John',
@@ -217,10 +218,72 @@ describe('User service integration tests', () => {
             expect(result).toBeUndefined();
         });
 
-        it('generates random token to use for password reset', async () => {
+        it('generates random token and effective timestamp to use for password reset', async () => {
             const result = await UserService.generatePasswordResetToken(userEmail);
             expect(result?.passwordResetToken.length).toBeGreaterThan(0);
             expect(result?.passwordResetTokenExpiresAt instanceof Date).toBeTruthy();
+        });
+    });
+
+    describe('changePassword method', () => {
+        let user: User;
+
+        beforeEach(async () => {
+            const { firstName, lastName, email, password, program } = testUser;
+            await UserService.createUser({
+                firstName,
+                lastName,
+                email,
+                password,
+                program
+            });
+
+            user = (await UserService.generatePasswordResetToken(email)) as User;
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        it('changes the password when provided a valid reset token', async () => {
+            const oldPasswordHash = user.password;
+            const result = await UserService.changePassword(
+                user.passwordResetToken,
+                'secure-password'
+            );
+
+            expect(result?.password).not.toBe(oldPasswordHash);
+            expect(result?.passwordResetToken).toBe('');
+            expect(result?.passwordResetTokenExpiresAt).toBeTruthy();
+            expect(result?.passwordLastChangedAt).toBeTruthy();
+        });
+
+        it('returns undefined when provided an invalid reset token', async () => {
+            const result = await UserService.changePassword(
+                '4157b081-e365-4984-aeac-c31aa255a474',
+                'secure-password'
+            );
+
+            expect(result).toBeUndefined();
+        });
+
+        it('throws an error if the reset token has expired', async () => {
+            expect.assertions(1);
+
+            // mock the current date time to be 3 hours in the future to force the password
+            // reset token to be expired
+            const spy = jest
+                .spyOn(DateUtils, 'getCurrentDateTime')
+                .mockImplementationOnce(() => new Date(Date.now() + 180 * 60 * 1000));
+
+            try {
+                await UserService.changePassword(user.passwordResetToken, 'secure-password');
+            } catch (e) {
+                expect(e.message).toBe('password reset token is expired');
+            } finally {
+                spy.mockReset();
+                spy.mockRestore();
+            }
         });
     });
 });

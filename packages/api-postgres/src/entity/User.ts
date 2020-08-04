@@ -58,6 +58,9 @@ export default class User extends BaseEntity {
     @Column({ default: new Date() })
     passwordResetTokenExpiresAt: Date;
 
+    @Column({ default: new Date() })
+    passwordLastChangedAt: Date;
+
     @Column({ nullable: true })
     lastLoginAt: Date;
 
