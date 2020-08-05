@@ -211,6 +211,40 @@ class UserController {
         });
     }
 
+    static changePassword(req: Request, res: Response): Promise<Response> {
+        const resetToken = req.params.token;
+        const { newPassword } = req.body;
+        return UserService.changePassword(resetToken, newPassword)
+            .then((user) => {
+                if (user) {
+                    return res.json({
+                        success: true,
+                        message: 'password changed',
+                        payload: {
+                            user: user.toClientJSON()
+                        }
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        message: 'password not changed',
+                        payload: {
+                            user: null
+                        }
+                    });
+                }
+            })
+            .catch(() => {
+                return res.json({
+                    success: false,
+                    message: 'error with reset token',
+                    payload: {
+                        user: null
+                    }
+                });
+            });
+    }
+
     static async me(req: Request, res: Response): Promise<Response> {
         const baseResponse = {
             success: true,

@@ -26,13 +26,13 @@ class UserRouter {
     }
 
     private static defineRoutes(): void {
-        UserRouter.router.route('/me').get(checkForRefreshToken, UserController.me);
-        UserRouter.router.route('/forgotpassword').patch(UserController.forgotPassword);
-
         UserRouter.router
             .route('/')
             .post(UserController.createUser)
             .get(isAdmin, UserController.getAllUsers);
+
+        UserRouter.router.route('/me').get(checkForRefreshToken, UserController.me);
+        UserRouter.router.route('/forgotpassword').patch(UserController.forgotPassword);
 
         UserRouter.router
             .route('/:id([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})')
@@ -41,6 +41,7 @@ class UserRouter {
             .delete(isAdminOrSelf, UserController.deleteUser);
 
         UserRouter.router.route('/confirmemail/:token').patch(UserController.confirmEmail);
+        UserRouter.router.route('/changepassword/:token').patch(UserController.changePassword);
     }
 }
 
