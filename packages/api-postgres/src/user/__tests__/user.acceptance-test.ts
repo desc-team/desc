@@ -2,6 +2,7 @@ import { Program } from '../../common/types';
 import TestClient from '../../testUtils/TestClient';
 import TestUtils from '../../testUtils/TestUtilities';
 import { createPostgresConnection, closeConnection } from '../../config/database';
+import UserService from '../UserService';
 
 describe('User route acceptance tests', () => {
     beforeAll(async () => {
@@ -437,6 +438,84 @@ describe('User route acceptance tests', () => {
                         })
                     })
                 );
+            });
+        });
+    });
+
+    describe('/api/users/changepassword/:token route', () => {
+        let client: TestClient;
+        let resetToken: string;
+
+        beforeAll(() => {
+            client = new TestClient();
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        beforeEach(async () => {
+            await TestUtils.createTestUser({
+                firstName: 'Oliver',
+                lastName: 'Queen',
+                email: 'oliver@desc.org',
+                password: '123456',
+                program: Program.SURVIVAL
+            });
+
+            const user = await UserService.generatePasswordResetToken('oliver@desc.org');
+            resetToken = user?.passwordResetToken as string;
+        });
+
+        describe('PATCH request method', () => {
+            it(`changes a user's password if given a valid reset token`, async () => {
+                const response = await client.changePassword(resetToken, 'supersecret');
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: true,
+                        message: 'password changed',
+                        payload: expect.objectContaining({
+                            user: expect.any(Object)
+                        })
+                    })
+                );
+            });
+
+            it('does nothing if a user is not found to have the reset token', async () => {
+                const unknownToken = '5fd3215e-834e-4d1c-ba27-9a668c4bb242';
+                const response = await client.changePassword(unknownToken, 'nopasswordupdate');
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: 'password not changed',
+                        payload: expect.objectContaining({
+                            user: null
+                        })
+                    })
+                );
+            });
+
+            it('does nothing if the reset token has expired', async () => {
+                const spy = jest
+                    .spyOn(UserService, 'changePassword')
+                    .mockRejectedValue(new Error('reset token is expired'));
+
+                const response = await client.changePassword(resetToken, 'supersecret');
+
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: 'error with reset token',
+                        payload: expect.objectContaining({
+                            user: null
+                        })
+                    })
+                );
+
+                spy.mockReset();
+                spy.mockRestore();
             });
         });
     });

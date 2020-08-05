@@ -90,6 +90,13 @@ class TestClient extends BaseTestClient {
             .send({ email });
     }
 
+    public changePassword(token: string, newPassword: string): Test {
+        return request(this.app)
+            .patch(`/api/users/changepassword/${token}`)
+            .set('Content-Type', 'application/json')
+            .send({ newPassword });
+    }
+
     public createItem(itemData: any): Test {
         return request(this.app)
             .post('/api/items')
