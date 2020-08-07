@@ -420,7 +420,7 @@ describe('User route acceptance tests', () => {
                         success: true,
                         message: 'password reset instructions sent to user email',
                         payload: expect.objectContaining({
-                            user: expect.any(Object)
+                            email: 'oliver@desc.org'
                         })
                     })
                 );
@@ -434,7 +434,7 @@ describe('User route acceptance tests', () => {
                         success: false,
                         message: 'user not found',
                         payload: expect.objectContaining({
-                            user: null
+                            email: null
                         })
                     })
                 );
