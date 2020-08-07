@@ -196,7 +196,7 @@ class UserController {
                     success: true,
                     message: 'password reset instructions sent to user email',
                     payload: {
-                        user: user.toClientJSON()
+                        email: user.email
                     }
                 });
             }
@@ -205,7 +205,7 @@ class UserController {
                 success: false,
                 message: 'user not found',
                 payload: {
-                    user: null
+                    email: null
                 }
             });
         });
