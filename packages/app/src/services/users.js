@@ -23,3 +23,15 @@ export const confirmEmail = token => {
         }
     });
 };
+
+export const forgotPassword = email => {
+    return fetch(`${BASE_URL}/api/users/forgotpassword`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    }).then(res => {
+        if (res.ok && res.status === 200) {
+            return res.json();
+        }
+    });
+};

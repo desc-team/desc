@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import M from 'materialize-css';
 import AuthContext from '../../context/AuthContext';
 import TextField from '../Common/TextField';
@@ -12,6 +13,11 @@ const css = {
     },
 
     errorText: {
+        padding: '0 4rem',
+        fontSize: '1rem'
+    },
+
+    forgotPassword: {
         padding: '0 4rem',
         fontSize: '1rem'
     },
@@ -108,11 +114,13 @@ const SigninForm = ({ history }) => {
                         />
                     </div>
                 </div>
-                <div className="row">
-                    <p className="red-text" style={css.errorText}>
-                        {form.errorMsg}
-                    </p>
-                </div>
+                {form.errorMsg.length > 0 && (
+                    <div className="row">
+                        <p className="red-text" style={css.errorText}>
+                            {form.errorMsg}
+                        </p>
+                    </div>
+                )}
                 <div className="row">
                     <div className="col right">
                         <button
@@ -127,6 +135,11 @@ const SigninForm = ({ history }) => {
                             {`${!isFetching ? 'Sign In' : 'Signing In...'}`}
                         </button>
                     </div>
+                </div>
+                <div className="row">
+                    <Link to="/forgotpassword" className="teal-text" style={css.forgotPassword}>
+                        Forgot Password?
+                    </Link>
                 </div>
             </form>
         </div>
