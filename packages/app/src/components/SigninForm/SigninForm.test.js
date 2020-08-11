@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import SigninForm from './SigninForm';
 import { AuthProvider } from '../../context/AuthContext';
 import * as Auth from '../../services/auth';
@@ -14,12 +15,20 @@ describe('SigninForm', () => {
     afterEach(cleanup);
 
     it('renders an input for email', () => {
-        const { getByLabelText } = render(<SigninForm />);
+        const { getByLabelText } = render(
+            <MemoryRouter>
+                <SigninForm />{' '}
+            </MemoryRouter>
+        );
         expect(getByLabelText('Your Email')).toBeTruthy();
     });
 
     it('renders an input for password', () => {
-        const { getByLabelText } = render(<SigninForm />);
+        const { getByLabelText } = render(
+            <MemoryRouter>
+                <SigninForm />{' '}
+            </MemoryRouter>
+        );
         expect(getByLabelText('Password')).toBeTruthy();
     });
 
@@ -29,9 +38,11 @@ describe('SigninForm', () => {
             .mockResolvedValue({ success: true, message: 'User authenticated', payload: {} });
 
         const { getByLabelText, getByText } = render(
-            <AuthProvider value={{ login: () => {} }}>
-                <SigninForm history={history} />
-            </AuthProvider>
+            <MemoryRouter>
+                <AuthProvider value={{ login: () => {} }}>
+                    <SigninForm history={history} />
+                </AuthProvider>
+            </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');
         const passwordInput = getByLabelText('Password');
