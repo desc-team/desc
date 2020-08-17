@@ -14,6 +14,7 @@ import Request from './containers/Request';
 import Home from './components/Home';
 import ConfirmEmail from './containers/ConfirmEmail';
 import ForgotPassword from './containers/ForgotPassword';
+import ChangePassword from './containers/ChangePassword';
 import PrivateRoute from './components/PrivateRoute';
 import { reducer } from './reducers/reducer';
 
@@ -33,6 +34,7 @@ function App() {
                         <Route exact path="/signin" component={Signin} />
                         <Route exact path="/forgotpassword" component={ForgotPassword} />
                         <Route exact path="/confirmemail/:token" component={ConfirmEmail} />
+                        <Route exact path="/changepassword/:token" component={ChangePassword} />
 
                         <PrivateRoute exact path="/inbox" component={Inbox} />
                         <PrivateRoute exact path="/createv1" component={RequestCreationPage} />

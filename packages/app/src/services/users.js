@@ -35,3 +35,15 @@ export const forgotPassword = email => {
         }
     });
 };
+
+export const changePassword = (token, newPassword) => {
+    return fetch(`${BASE_URL}/api/users/changepassword/${token}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword })
+    }).then(res => {
+        if (res.ok && res.status === 200) {
+            return res.json();
+        }
+    });
+};
