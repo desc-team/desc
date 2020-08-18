@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const TextField = ({ type, name, label, validate, value, error, icon, disabled, handleChange }) => {
+const TextField = (
+    { type, name, label, validate, value, error, icon, disabled, handleChange },
+    ref
+) => {
     return (
         <div className="input-field">
             {icon && <i className="small material-icons prefix">{icon}</i>}
             <input
+                ref={ref}
                 className={validate ? 'validate' : ''}
                 type={type}
                 id={name}
@@ -18,14 +22,4 @@ const TextField = ({ type, name, label, validate, value, error, icon, disabled, 
     );
 };
 
-TextField.defaultProps = {
-    type: 'text',
-    name: 'unknown',
-    label: 'Text Label',
-    validat: false,
-    value: '',
-    icon: '',
-    handleChange: () => {}
-};
-
-export default TextField;
+export default forwardRef(TextField);

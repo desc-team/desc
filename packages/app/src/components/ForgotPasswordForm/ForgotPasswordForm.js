@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import M from 'materialize-css';
 import TextField from '../Common/TextField';
@@ -30,6 +30,7 @@ const css = {
 
 const ForgotPasswordForm = () => {
     const history = useHistory();
+    const textFieldRef = useRef();
 
     const [isRequestSent, setIsRequestSent] = useState(false);
     const [email, setEmail] = useState('');
@@ -40,7 +41,8 @@ const ForgotPasswordForm = () => {
         setFormValue(v => '');
         setTimeout(() => {
             M.updateTextFields();
-        }, 500);
+            textFieldRef.current.classList.remove('valid');
+        }, 250);
     }, [email]);
 
     const handleSubmit = e => {
@@ -76,6 +78,7 @@ const ForgotPasswordForm = () => {
                 <div className="row">
                     <div className="col s12">
                         <TextField
+                            ref={textFieldRef}
                             label="Your Email"
                             icon="email"
                             type="text"
