@@ -22,7 +22,7 @@ export default class Note extends BaseEntity {
     submittedBy: User;
 
     @ManyToOne(() => Item, { onDelete: 'CASCADE' })
-    item: Item;
+    item: Item | undefined;
 
     @CreateDateColumn()
     createdAt: Date;

@@ -23,7 +23,7 @@ export default class Item extends BaseEntity {
     clientId: string;
 
     @ManyToOne(() => ClientRequest)
-    clientRequest: ClientRequest;
+    clientRequest: ClientRequest | undefined;
 
     @Column({ type: 'enum', enum: ItemCategory })
     category: ItemCategory;

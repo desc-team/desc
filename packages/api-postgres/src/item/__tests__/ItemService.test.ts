@@ -360,6 +360,15 @@ describe('Item service', () => {
                 ])
             );
         });
+
+        it('throws an error if  unknown query is passed', async () => {
+            expect.assertions(1);
+            try {
+                await ItemService.getAllItems({ unknownParam: 'bogusvalue' });
+            } catch (e) {
+                expect(e).toBeTruthy();
+            }
+        });
     });
 
     describe('getItemById() method', () => {

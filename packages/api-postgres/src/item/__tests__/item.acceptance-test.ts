@@ -458,21 +458,21 @@ describe('Item route acceptance tests', () => {
                 expect(response.body.payload.items).toHaveLength(2);
             });
 
-            it('ignores invalid query params and fetches all the items', async () => {
+            it('sends error if invalid query params is provided', async () => {
                 const response = await requestor1Client.getAllItemsByQuery(
                     'unknownParam=bogusvalue'
                 );
 
                 expect(response.body).toEqual(
                     expect.objectContaining({
-                        success: true,
+                        success: false,
                         message: expect.any(String),
                         payload: expect.objectContaining({
-                            items: expect.any(Object)
+                            error: expect.any(String),
+                            items: null
                         })
                     })
                 );
-                expect(response.body.payload.items).toHaveLength(3);
             });
         });
     });
