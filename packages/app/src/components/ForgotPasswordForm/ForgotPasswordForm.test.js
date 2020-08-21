@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render, cleanup, fireEvent, waitForElement } from '@testing-library/react';
+import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import * as UserDataService from '../../services/users';
 
@@ -36,8 +36,12 @@ describe('Forgotpassword Form', () => {
         fireEvent.change(emailInput, { target: { value: 'some@email.com' } });
         fireEvent.click(getByTestId('submit-btn'));
 
-        const message = await waitForElement(() => getByTestId('success-message'), { container });
-        expect(message.textContent).toContain('Thank you.');
+        await waitFor(
+            () => expect(getByTestId('success-message').textContent).toContain('Thank you.'),
+            {
+                container
+            }
+        );
         expect(UserDataService.forgotPassword).toHaveBeenCalledWith('some@email.com');
     });
 
@@ -59,8 +63,11 @@ describe('Forgotpassword Form', () => {
         fireEvent.change(emailInput, { target: { value: 'unknown-user@email.com' } });
         fireEvent.click(getByTestId('submit-btn'));
 
-        const message = await waitForElement(() => getByTestId('error-message'), { container });
-        expect(message.textContent).toContain('Something went wrong.');
+        await waitFor(
+            () =>
+                expect(getByTestId('error-message').textContent).toContain('Something went wrong.'),
+            { container }
+        );
         expect(UserDataService.forgotPassword).toHaveBeenCalledWith('unknown-user@email.com');
     });
 });

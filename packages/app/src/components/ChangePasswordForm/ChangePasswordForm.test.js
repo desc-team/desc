@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
-import { render, cleanup, fireEvent, waitForElement } from '@testing-library/react';
+import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import ChangePasswordForm from './ChangePasswordForm';
 import * as UserDataService from '../../services/users';
 
@@ -82,10 +82,10 @@ describe('ChangePassword Form', () => {
         fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
         fireEvent.click(getByTestId('submit-btn'));
 
-        const toast = await waitForElement(() => getByText('Your password has been changed'), {
+        await waitFor(() => expect(getByText('Your password has been changed')).toBeTruthy(), {
             container
         });
-        expect(toast).toBeTruthy();
+
         expect(UserDataService.changePassword).toHaveBeenCalledTimes(1);
         expect(UserDataService.changePassword).toHaveBeenCalledWith(token, 'correctpassword');
     });
@@ -113,10 +113,10 @@ describe('ChangePassword Form', () => {
         fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
         fireEvent.click(getByTestId('submit-btn'));
 
-        const message = await waitForElement(() => getByText(/Something went wrong/i), {
+        await waitFor(() => expect(getByText(/Something went wrong/i)).toBeTruthy(), {
             container
         });
-        expect(message).toBeTruthy();
+
         expect(UserDataService.changePassword).toHaveBeenCalledTimes(1);
         expect(UserDataService.changePassword).toHaveBeenCalledWith(token, 'correctpassword');
     });
