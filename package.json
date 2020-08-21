@@ -30,7 +30,7 @@
     },
     "license": "MIT",
     "devDependencies": {
-        "lerna": "^3.16.1"
+        "lerna": "3.22.1"
     },
     "engines": {
         "node": ">=10.15.0 <13.0.0",
