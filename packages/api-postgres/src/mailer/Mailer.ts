@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import config from '../config/config';
 import User from '../entity/User';
 import {
     getEmailVerificatonTemplateText,
@@ -18,7 +19,7 @@ class Mailer {
     public static async sendVerificationEmail(baseUrl: string, user: User): Promise<any> {
         const transporter = nodemailer.createTransport(Mailer.getMailOptions());
         const verifiedTransporter =
-            process.env.NODE_ENV === 'testingE2E' || process.env.NODE_ENV === 'testing'
+            config.env === 'testingE2E' || config.env === 'testing'
                 ? true
                 : await transporter.verify();
 
@@ -36,7 +37,7 @@ class Mailer {
     public static async sendPasswordResetEmail(baseUrl: string, user: User): Promise<any> {
         const transporter = nodemailer.createTransport(Mailer.getMailOptions());
         const verifiedTransporter =
-            process.env.NODE_ENV === 'testingE2E' || process.env.NODE_ENV === 'testing'
+            config.env === 'testingE2E' || config.env === 'testing'
                 ? true
                 : await transporter.verify();
 
@@ -53,7 +54,7 @@ class Mailer {
 
     private static getMailOptions(): MailOptions {
         let mailOpts = {};
-        switch (process.env.NODE_ENV) {
+        switch (config.env) {
             case 'production':
                 // add mail options to connect to outgoing email account
                 // when one is identified
