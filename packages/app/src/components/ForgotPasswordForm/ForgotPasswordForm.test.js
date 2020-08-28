@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import * as UserDataService from '../../services/users';
 
@@ -33,8 +34,8 @@ describe('Forgotpassword Form', () => {
             </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');
-        fireEvent.change(emailInput, { target: { value: 'some@email.com' } });
-        fireEvent.click(getByTestId('submit-btn'));
+        await user.type(emailInput, 'some@email.com');
+        user.click(getByTestId('submit-btn'));
 
         await waitFor(
             () => expect(getByTestId('success-message').textContent).toContain('Thank you.'),
@@ -60,8 +61,8 @@ describe('Forgotpassword Form', () => {
             </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');
-        fireEvent.change(emailInput, { target: { value: 'unknown-user@email.com' } });
-        fireEvent.click(getByTestId('submit-btn'));
+        await user.type(emailInput, 'unknown-user@email.com');
+        user.click(getByTestId('submit-btn'));
 
         await waitFor(
             () =>

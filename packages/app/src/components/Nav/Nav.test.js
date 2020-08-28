@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter as Router } from 'react-router-dom';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import Nav from './Nav';
 import { AuthProvider } from '../../context/AuthContext';
 import * as Auth from '../../services/auth';
@@ -86,7 +87,7 @@ describe('NavBar', () => {
     it('calls the logout method from the auth service when Logout is clicked', () => {
         Auth.logout = jest.fn().mockResolvedValue({ success: true, message: 'User logged out' });
         const { getByText } = renderWithRouterAndContext();
-        fireEvent.click(getByText('Logout'));
+        user.click(getByText('Logout'));
         expect(Auth.logout).toHaveBeenCalled();
     });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import ChangePasswordForm from './ChangePasswordForm';
 import * as UserDataService from '../../services/users';
 
@@ -29,7 +30,7 @@ describe('ChangePassword Form', () => {
         expect(getByLabelText('Confirm Password')).toBeTruthy();
     });
 
-    it('does not display message if password fields match', () => {
+    it('does not display message if password fields match', async () => {
         const { getByLabelText, queryByText } = render(
             <MemoryRouter>
                 <ChangePasswordForm />
@@ -38,13 +39,13 @@ describe('ChangePassword Form', () => {
 
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'correctpassword');
 
         expect(queryByText('Passwords do NOT match')).toBe(null);
     });
 
-    it('displays a message when the password fields do not match', () => {
+    it('displays a message when the password fields do not match', async () => {
         const { getByLabelText, getByText } = render(
             <MemoryRouter>
                 <ChangePasswordForm />
@@ -53,8 +54,8 @@ describe('ChangePassword Form', () => {
 
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'incorrectpassword' } });
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'incorrectpassword');
 
         expect(getByText('Passwords do NOT match')).toBeTruthy();
     });
@@ -78,9 +79,9 @@ describe('ChangePassword Form', () => {
 
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
-        fireEvent.click(getByTestId('submit-btn'));
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'correctpassword');
+        user.click(getByTestId('submit-btn'));
 
         await waitFor(() => expect(getByText('Your password has been changed')).toBeTruthy(), {
             container
@@ -109,9 +110,9 @@ describe('ChangePassword Form', () => {
 
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
-        fireEvent.click(getByTestId('submit-btn'));
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'correctpassword');
+        user.click(getByTestId('submit-btn'));
 
         await waitFor(() => expect(getByText(/Something went wrong/i)).toBeTruthy(), {
             container

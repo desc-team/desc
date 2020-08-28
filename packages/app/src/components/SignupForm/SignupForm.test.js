@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import SignupForm from './SignupForm';
 
 describe('SignupForm', () => {
@@ -32,7 +33,7 @@ describe('SignupForm', () => {
         'Health Services',
         'Employment Services',
         'Research & Innovation'
-    ].forEach(program => {
+    ].forEach((program) => {
         it(`renders an option for ${program} program`, () => {
             const { getAllByText } = render(<SignupForm />);
             expect(getAllByText(program)).toBeTruthy();
@@ -49,21 +50,21 @@ describe('SignupForm', () => {
         expect(getByLabelText('Confirm Password')).toBeTruthy();
     });
 
-    it('does not display message if password fields match', () => {
+    it('does not display message if password fields match', async () => {
         const { getByLabelText, queryByText } = render(<SignupForm />);
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'correctpassword' } });
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'correctpassword');
         expect(queryByText('Passwords do NOT match')).toBe(null);
     });
 
-    it('displays a message when the password fields do not match', () => {
+    it('displays a message when the password fields do not match', async () => {
         const { getByLabelText, getByText } = render(<SignupForm />);
         const passwordInput = getByLabelText('Password');
         const confirmPasswordInput = getByLabelText('Confirm Password');
-        fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-        fireEvent.change(confirmPasswordInput, { target: { value: 'incorrectpassword' } });
+        await user.type(passwordInput, 'correctpassword');
+        await user.type(confirmPasswordInput, 'incorrectpassword');
         expect(getByText('Passwords do NOT match')).toBeTruthy();
     });
 });

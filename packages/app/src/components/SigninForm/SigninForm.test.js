@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import SigninForm from './SigninForm';
 import { AuthProvider } from '../../context/AuthContext';
@@ -32,7 +33,7 @@ describe('SigninForm', () => {
         expect(getByLabelText('Password')).toBeTruthy();
     });
 
-    it('calls the login method from the auth service when Signin is clicked', () => {
+    it('calls the login method from the auth service when Signin is clicked', async () => {
         Auth.login = jest
             .fn()
             .mockResolvedValue({ success: true, message: 'User authenticated', payload: {} });
@@ -46,9 +47,9 @@ describe('SigninForm', () => {
         );
         const emailInput = getByLabelText('Your Email');
         const passwordInput = getByLabelText('Password');
-        fireEvent.change(emailInput, { target: { value: 'oliver@desc.org' } });
-        fireEvent.change(passwordInput, { target: { value: 'mySecret' } });
-        fireEvent.click(getByText('Sign In'));
+        await user.type(emailInput, 'oliver@desc.org');
+        await user.type(passwordInput, 'mySecret');
+        user.click(getByText('Sign In'));
 
         expect(Auth.login).toHaveBeenCalled();
     });
