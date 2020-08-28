@@ -1,0 +1,35 @@
+name: Client Unit Tests
+
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - 'packages/app/**'
+
+    pull_request:
+        branches:
+            - master
+            - 'feature/**'
+        paths:
+            - 'packages/app/**'
+
+jobs:
+    runner-job:
+        name: unit tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Install node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '12'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run unit tests
+              run: npm run test:app:all
