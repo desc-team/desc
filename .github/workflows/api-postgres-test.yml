@@ -1,0 +1,54 @@
+name: API Postgres tests
+
+on:
+    push:
+        branches:
+            - master
+        paths:
+            - 'packages/api-postgres/**'
+
+    pull_request:
+        branches:
+            - master
+            - 'feature/**'
+        paths:
+            - 'packages/api-postgres/**'
+
+jobs:
+    runner-job:
+        name: API tests
+        runs-on: ubuntu-latest
+        env:
+            ACCESS_TOKEN_SECRET: AccesstokenSECRETforTESTING
+            REFRESH_TOKEN_SECRET: RefreshtokenSECRETforTESTING
+
+        services:
+            postgres:
+                image: postgres:latest
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                options: >-
+                    --health-cmd pg_isready --health-interval 10s --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    - 5432:5432
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Set up test database
+              run: |
+                  docker exec -i $(docker container ls -aq) bash < ./packages/api-postgres/scripts/db-setup.sh
+
+            - name: Install node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '12'
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run API tests
+              run: npm run test:api-p
