@@ -23,11 +23,11 @@ const css = {
 };
 
 const programMap = {
-    housing: 'Housing First',
-    integrated: 'Integrated Services',
-    survival: 'Survival Services',
-    health: 'Health Services',
-    employment: 'Employment Services',
+    'housing first': 'Housing First',
+    'integrated services': 'Integrated Services',
+    'survival services': 'Survival Services',
+    'health services': 'Health Services',
+    'employment services': 'Employment Services',
     research_innovation: 'Research & Innovation'
 };
 
@@ -42,9 +42,10 @@ const UserRoles = ({ roles }) => {
     return (
         <div style={{ display: 'flex' }}>
             {roles.map((role, i) => (
-                <p style={{ marginRight: '0.5rem', fontStyle: 'italic' }} key={i}>{`${
-                    rolesMap[role]
-                }${i !== roles.length - 1 ? ', ' : ''}`}</p>
+                <span
+                    style={{ marginRight: '0.5rem', fontStyle: 'italic', fontSize: '1.125rem' }}
+                    key={i}
+                >{`${rolesMap[role]}${i !== roles.length - 1 ? ', ' : ''}`}</span>
             ))}
         </div>
     );
@@ -52,39 +53,32 @@ const UserRoles = ({ roles }) => {
 
 const UserProfileDetails = ({ user }) => {
     return (
-        <div style={css.userProfileContainer}>
-            <img
-                className="circle responsive-img"
-                style={css.userImage}
-                width="200"
-                height="200"
-                src={avatar}
-                alt="default user avatar"
-            />
-            <div style={css.userDetails}>
+        <div className="row">
+            <div className="col s12 m6 l6">
+                <img
+                    className="circle responsive-img"
+                    style={{ backgroundColor: avatarBgColor, display: 'block', margin: '0 auto' }}
+                    width="200"
+                    height="200"
+                    src={avatar}
+                    alt="default user avatar"
+                />
+            </div>
+            <div className="col s12 m6 l6">
                 <h3
                     className="teal-text text-darken-2"
-                    style={{ margin: '0' }}
+                    style={{ marginTop: '0' }}
                 >{`${user.name.first} ${user.name.last}`}</h3>
-                <h5
-                    className="grey-text text-darken-2"
-                    style={{ marginTop: '0.5rem', marginBottom: '0' }}
-                >
+                <h5 className="grey-text text-darken-2" style={{}}>
                     {programMap[user.program]}
                 </h5>
-                <div
-                    className="grey-text text-darken-1"
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        fontSize: '1.25rem',
-                        marginTop: '0.5rem'
-                    }}
+                <UserRoles roles={user.roles} />
+                <p
+                    className="teal-text text-darken-2"
+                    style={{ fontSize: '1.125rem', marginTop: '0.5rem' }}
                 >
-                    <UserRoles roles={user.roles} />
-                    <p className="teal-text text-darken-2">{user.email}</p>
-                </div>
+                    {user.email}
+                </p>
             </div>
         </div>
     );
