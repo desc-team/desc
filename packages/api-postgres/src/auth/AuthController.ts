@@ -74,7 +74,7 @@ class AuthController {
             try {
                 const decoded: any = AuthUtils.verifyAccessToken(token);
                 if (decoded) {
-                    req.user = {
+                    req.user  = {
                         id: decoded.sub,
                         email: decoded.email
                     };

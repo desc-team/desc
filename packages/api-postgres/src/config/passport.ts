@@ -3,8 +3,17 @@ import LocalStrategy from './strategies/local';
 import UserService from '../user/UserService';
 import { PassportStatic } from 'passport';
 
+declare global  {
+    namespace Express {
+        interface User {
+            id: string;
+            email: string;
+        }
+    }
+}
+
 export const passportConfig = (passport: PassportStatic): void => {
-    passport.serializeUser((user: User, done: (err: any, id?: any) => void) => {
+    passport.serializeUser((user: Express.User, done: (err: any, id?: string) => void) => {
         done(null, user.id);
     });
 
