@@ -38,17 +38,19 @@ const ForgotPasswordForm = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        setFormValue(v => '');
+        setFormValue((v) => '');
         setTimeout(() => {
             M.updateTextFields();
-            textFieldRef.current.classList.remove('valid');
+            if (textFieldRef.current) {
+                textFieldRef.current.classList.remove('valid');
+            }
         }, 250);
     }, [email]);
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (formValue.length > 0) {
-            forgotPassword(formValue).then(data => {
+            forgotPassword(formValue).then((data) => {
                 if (data.success) {
                     setEmail(data.payload.email);
                     setIsRequestSent(true);
@@ -63,7 +65,7 @@ const ForgotPasswordForm = () => {
         history.push('/');
     };
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setFormValue(e.target.value);
     };
 

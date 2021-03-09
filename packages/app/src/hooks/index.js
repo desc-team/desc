@@ -18,8 +18,8 @@ const useTokenOrRefresh = (runOnLoad = false) => {
                 method: 'GET',
                 credentials: 'include'
             })
-                .then(res => res.json())
-                .then(data => {
+                .then((res) => res.json())
+                .then((data) => {
                     if (data && data.payload) {
                         setToken(data.payload.accessToken);
                         authContext.updateToken(data.payload.accessToken);
@@ -68,7 +68,6 @@ const useFetchData = (endpoint, options = {}) => {
             }
         };
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     return { response, error, isFetching };
