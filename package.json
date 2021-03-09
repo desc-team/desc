@@ -30,10 +30,10 @@
     },
     "license": "MIT",
     "devDependencies": {
-        "lerna": "3.22.1"
+        "lerna": "4.0.0"
     },
     "engines": {
-        "node": ">=10.15.0 <13.0.0",
+        "node": ">=12.20.0 <16.0.0",
         "yarn": ">=1.16.0"
     }
 }
