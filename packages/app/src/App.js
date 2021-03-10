@@ -20,6 +20,7 @@ import { reducer } from './reducers/reducer';
 
 import './App.css';
 import 'materialize-css/dist/css/materialize.css';
+import { AuthProvider } from './context/AuthContext';
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
 
@@ -27,21 +28,23 @@ function App() {
     return (
         <Provider store={store}>
             <BrowserRouter>
-                <Layout>
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/signup" component={Signup} />
-                        <Route exact path="/signin" component={Signin} />
-                        <Route exact path="/forgotpassword" component={ForgotPassword} />
-                        <Route exact path="/confirmemail/:token" component={ConfirmEmail} />
-                        <Route exact path="/changepassword/:token" component={ChangePassword} />
+                <AuthProvider>
+                    <Layout>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/signup" component={Signup} />
+                            <Route exact path="/signin" component={Signin} />
+                            <Route exact path="/forgotpassword" component={ForgotPassword} />
+                            <Route exact path="/confirmemail/:token" component={ConfirmEmail} />
+                            <Route exact path="/changepassword/:token" component={ChangePassword} />
 
-                        <PrivateRoute exact path="/inbox" component={Inbox} />
-                        <PrivateRoute exact path="/createv1" component={RequestCreationPage} />
-                        <PrivateRoute exact path="/create" component={Request} />
-                        <PrivateRoute exact path="/profile" component={UserProfile} />
-                    </Switch>
-                </Layout>
+                            <PrivateRoute exact path="/inbox" component={Inbox} />
+                            <PrivateRoute exact path="/createv1" component={RequestCreationPage} />
+                            <PrivateRoute exact path="/create" component={Request} />
+                            <PrivateRoute exact path="/profile" component={UserProfile} />
+                        </Switch>
+                    </Layout>
+                </AuthProvider>
             </BrowserRouter>
         </Provider>
     );

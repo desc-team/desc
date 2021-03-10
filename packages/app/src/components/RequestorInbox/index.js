@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
 import Spinner from '../Common/Spinner';
 import TextField from '../Common/TextField';
-import AuthContext from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import { useFetchData } from '../../hooks';
 import { addNoteToItem } from '../../services/items';
 import { getValidToken } from '../../services/auth';
@@ -55,7 +55,7 @@ const NoteDetails = ({ note }) => {
 };
 
 const AddNoteForm = React.memo(({ itemId, onNoteAdd }) => {
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const [note, setNote] = useState('');
 
     const handleSubmit = (e) => {
@@ -186,7 +186,7 @@ const List = ({ items, filter }) => {
 };
 
 const RequestorInbox = () => {
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const { response, error, isFetching } = useFetchData(
         `/api/items?submittedBy=${authContext.contextUser.id}`
     );

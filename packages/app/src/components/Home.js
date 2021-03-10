@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
+import React from 'react';
+import { useAuthContext } from '../context/AuthContext';
 
 const Home = () => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     return (
         <>
-            {authCtx.contextUser ? (
+            {!authCtx.isFetchingToken && authCtx.contextUser ? (
                 <h3 className="center-align teal-text">
                     Welcome, {`${authCtx.contextUser.name.first}`}
                 </h3>

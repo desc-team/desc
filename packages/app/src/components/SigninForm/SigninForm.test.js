@@ -3,7 +3,7 @@ import { render, cleanup } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import SigninForm from './SigninForm';
-import { AuthProvider } from '../../context/AuthContext';
+import AuthContext from '../../context/AuthContext';
 import * as Auth from '../../services/auth';
 
 jest.mock('../../services/auth');
@@ -40,9 +40,9 @@ describe('SigninForm', () => {
 
         const { getByLabelText, getByText } = render(
             <MemoryRouter>
-                <AuthProvider value={{ login: () => {} }}>
+                <AuthContext.Provider value={{ login: () => {} }}>
                     <SigninForm history={history} />
-                </AuthProvider>
+                </AuthContext.Provider>
             </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');

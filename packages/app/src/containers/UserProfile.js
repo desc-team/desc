@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import UserProfileDetails from '../components/UserProfileDetails';
-import AuthContext from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 
 const UserProfile = () => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
 
     return (
         <React.Fragment>

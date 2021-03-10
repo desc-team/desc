@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import SignedOutLinks from './SignedOutLinks';
 import SignedInLinks from './SignedInLinks';
 import UserDropdown from './UserDropdown';
-import AuthContext from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import { logout } from '../../services/auth';
 import './Nav.css';
 
 const Nav = () => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     const isAuthed = authCtx.contextUser && authCtx.token;
 
     const handleLogout = () => {

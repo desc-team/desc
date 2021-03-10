@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SigninForm from '../components/SigninForm/SigninForm';
-import AuthContext from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 
 const Signin = (props) => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     if (authCtx.contextUser) {
         return <Redirect to="/" />;
     }

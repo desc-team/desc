@@ -3,7 +3,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import Nav from './Nav';
-import { AuthProvider } from '../../context/AuthContext';
+import AuthContext from '../../context/AuthContext';
 import * as Auth from '../../services/auth';
 
 jest.mock('../../services/auth');
@@ -20,11 +20,11 @@ const token = 'eythisisthetokenoftheauthuser1234';
 
 const renderWithRouterAndContext = () => {
     return render(
-        <AuthProvider value={{ contextUser, token, logout: () => {} }}>
+        <AuthContext.Provider value={{ contextUser, token, logout: () => {} }}>
             <Router>
                 <Nav />
             </Router>
-        </AuthProvider>
+        </AuthContext.Provider>
     );
 };
 

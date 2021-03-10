@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import SignupForm from '../components/SignupForm/SignupForm';
-import AuthContext from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 
 const css = {
     container: {
@@ -26,7 +26,7 @@ const SignupComplete = () => {
 };
 
 const Signup = (props) => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     const [isSignupComplete, setIsSignupComplete] = useState(false);
 
     if (authCtx.contextUser) {

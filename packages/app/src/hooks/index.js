@@ -1,10 +1,10 @@
-import { useCallback, useContext, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import jwt from 'jsonwebtoken';
-import AuthContext from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 import { BASE_URL } from '../services/util';
 
 const useTokenOrRefresh = (runOnLoad = false) => {
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     const [token, setToken] = useState(authContext.token);
     const tokenExpiresRef = useRef();
     const nowRef = useRef();

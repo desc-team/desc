@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import M from 'materialize-css';
-import AuthContext from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import TextField from '../Common/TextField';
 import { login } from '../../services/auth';
 
@@ -30,7 +30,7 @@ const css = {
 };
 
 const SigninForm = ({ history }) => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     const [isFetching, setIsFetching] = useState(false);
 
     const [form, setValues] = useState({

@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import M from 'materialize-css';
-import AuthContext from '../../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import TextField from '../Common/TextField';
 import Select from '../Common/Select';
 import { initialState, itemReducer } from './itemReducer';
@@ -160,7 +160,7 @@ const RequestedItem = ({ item, id, onDelete, showBottomBorder }) => {
 };
 
 const NewRequestForm = () => {
-    const authCtx = useContext(AuthContext);
+    const authCtx = useAuthContext();
     const [form, setForm] = useState({
         clientId: '',
         location: 'default',
