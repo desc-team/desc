@@ -11,17 +11,6 @@
         "test": "NODE_ENV=testing jest --color --runInBand",
         "test:e2e": "NODE_ENV=testingE2E yarn dev"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "lint-staged": {
-        "*.ts": [
-            "eslint --fix --max-warnings 0",
-            "git add"
-        ]
-    },
     "author": "Jason S. Jones",
     "license": "MIT",
     "dependencies": {
