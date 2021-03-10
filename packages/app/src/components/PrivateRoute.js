@@ -7,7 +7,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
         <Route
             {...rest}
-            render={props => (authCtx.token ? <Component {...props} /> : <Redirect to="/signin" />)}
+            render={(props) =>
+                authCtx.token ? <Component {...props} /> : <Redirect to="/signin" />
+            }
         />
     );
 };

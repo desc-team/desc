@@ -7,7 +7,7 @@ export const getItemsForUser = async (userId, token) => {
         headers: {
             Authorization: `Bearer ${token}`
         }
-    }).then(response => {
+    }).then((response) => {
         if (response.ok) {
             return response.json();
         }
@@ -20,7 +20,7 @@ export const addNoteToItem = (itemId, postBody, token) => {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(postBody)
-    }).then(response => {
+    }).then((response) => {
         if (response.ok) {
             return response.json();
         }

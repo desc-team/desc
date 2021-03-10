@@ -6,7 +6,7 @@ export const makeClientRequest = (requestData, token) => {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         credentials: 'include',
         body: JSON.stringify(requestData)
-    }).then(response => {
+    }).then((response) => {
         if (response.ok) {
             return response.json();
         }

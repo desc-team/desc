@@ -19,7 +19,7 @@ const ConfirmEmail = ({ match }) => {
     const [isConfirming, setIsConfirming] = useState(true);
 
     useEffect(() => {
-        confirmEmail(match.params.token).then(response => {
+        confirmEmail(match.params.token).then((response) => {
             if (response && response.success) {
                 setIsEmailConfirmed(true);
             }

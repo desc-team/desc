@@ -1,7 +1,7 @@
 import React from 'react';
 import RequestForm from '../components/RequestForm/';
 
-const Request = props => {
+const Request = (props) => {
     return <RequestForm {...props} />;
 };
 

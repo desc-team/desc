@@ -19,6 +19,7 @@
         "dev": "PORT=4200 react-scripts start",
         "start": "serve -s build",
         "build": "react-scripts build",
+        "lint": "eslint src/**/*.js",
         "test": "react-scripts test",
         "test:e2e": "BROWSER=none yarn dev",
         "eject": "react-scripts eject"

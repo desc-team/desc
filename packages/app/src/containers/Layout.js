@@ -3,13 +3,13 @@ import Nav from '../components/Nav/Nav';
 import { AuthProvider } from '../context/AuthContext';
 import { fetchSessionUser } from '../services/auth';
 
-const Layout = props => {
+const Layout = (props) => {
     const [contextUser, setContextUser] = useState(null);
     const [token, setToken] = useState('');
     const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
-        fetchSessionUser().then(data => {
+        fetchSessionUser().then((data) => {
             if (data && data.payload) {
                 setContextUser(data.payload.user);
                 setToken(data.payload.accessToken);
@@ -36,7 +36,7 @@ const Layout = props => {
         }, 1000);
     };
 
-    const updateToken = token => {
+    const updateToken = (token) => {
         setToken(token);
     };
 

@@ -25,7 +25,7 @@ const SignupComplete = () => {
     );
 };
 
-const Signup = props => {
+const Signup = (props) => {
     const authCtx = useContext(AuthContext);
     const [isSignupComplete, setIsSignupComplete] = useState(false);
 
