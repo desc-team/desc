@@ -12,7 +12,7 @@ const Nav = () => {
     const isAuthed = authCtx.contextUser && authCtx.token;
 
     const handleLogout = () => {
-        logout().then(data => {
+        logout().then((data) => {
             if (data.success) {
                 authCtx.logout();
             }

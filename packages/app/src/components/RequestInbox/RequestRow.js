@@ -97,13 +97,13 @@ class RequestRow extends React.Component {
         };
 
         getValidToken(this.context.token)
-            .then(token => {
+            .then((token) => {
                 if (token !== this.context.token) {
                     this.context.updateToken(token);
                 }
                 return token;
             })
-            .then(token => this.state.row.updateItemStatus(itemData, token));
+            .then((token) => this.state.row.updateItemStatus(itemData, token));
     }
 }
 
@@ -111,13 +111,13 @@ RequestRow.propTypes = {
     updateItemStatus: PropTypes.func
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         isAuth: state.isAuth
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         updateItemStatus: (itemStatusData, token) =>
             dispatch(actions.updateItemStatus(itemStatusData, token))

@@ -43,7 +43,7 @@ const SignupForm = ({ history, onRegister }) => {
         M.FormSelect.init(elems);
     }, []);
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setValues({
             ...form,
             [e.target.id]: e.target.value
@@ -61,7 +61,7 @@ const SignupForm = ({ history, onRegister }) => {
         );
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (isFormValid()) {
             setIsFetching(true);
@@ -73,14 +73,14 @@ const SignupForm = ({ history, onRegister }) => {
                 program: form.program
             };
             signup(payload)
-                .then(data => {
+                .then((data) => {
                     if (data.success) {
                         onRegister();
                     } else {
                         setIsFetching(false);
                     }
                 })
-                .catch(err => console.error(err));
+                .catch((err) => console.error(err));
         }
     };
 

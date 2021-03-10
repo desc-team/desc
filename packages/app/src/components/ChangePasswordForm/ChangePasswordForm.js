@@ -42,13 +42,13 @@ const ChangePasswordForm = () => {
         }
     }, [form]);
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         if (isFormValid()) {
             setIsFetching(true);
             changePassword(token, form.password)
-                .then(data => {
+                .then((data) => {
                     if (data.success) {
                         setError(null);
                         M.toast({
@@ -65,13 +65,13 @@ const ChangePasswordForm = () => {
                     setForm({ password: '', confirmPassword: '' });
                     setIsFetching(false);
                 })
-                .catch(err => console.log(err));
+                .catch((err) => console.log(err));
         } else {
             setError('Password is not provided. Try again');
         }
     };
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setForm({
             ...form,
             [e.target.id]: e.target.value

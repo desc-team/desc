@@ -19,10 +19,10 @@ const css = {
 class RequestedItemsList extends React.Component {
     componentDidMount() {
         const bgClasses = ['teal', 'lighten-5'];
-        const onOpenStartCb = el => {
+        const onOpenStartCb = (el) => {
             el.querySelector('.collapsible-header').classList.add(...bgClasses);
         };
-        const onCloseEndCb = el => {
+        const onCloseEndCb = (el) => {
             el.querySelector('.collapsible-header').classList.remove(...bgClasses);
         };
         const elems = document.querySelectorAll('.collapsible.expandable');
@@ -47,15 +47,15 @@ class RequestedItemsList extends React.Component {
                     </li>
                     {this.props.items &&
                         this.props.items
-                            .filter(item => item.status === this.props.type)
-                            .map(item => <RequestRow key={item.id} {...item} />)}
+                            .filter((item) => item.status === this.props.type)
+                            .map((item) => <RequestRow key={item.id} {...item} />)}
                 </ul>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         items: state.items
     };

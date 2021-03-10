@@ -28,7 +28,7 @@ class RequestCreationPage extends React.Component {
         M.FormSelect.init(elems);
     }
 
-    handleChange = evt => {
+    handleChange = (evt) => {
         const { id, value } = evt.target;
         this.setState({
             [id]: value
@@ -72,7 +72,7 @@ class RequestCreationPage extends React.Component {
             credentials: 'include',
             body: JSON.stringify(body)
         })
-            .then(function(response) {
+            .then(function (response) {
                 console.log(response);
                 if (response.ok && response.status === 200) {
                     return response.json();
@@ -80,7 +80,7 @@ class RequestCreationPage extends React.Component {
                     return Promise.reject({ message: 'err' });
                 }
             })
-            .then(function(data) {
+            .then(function (data) {
                 if (data.success) {
                     M.toast({ html: 'Your request has been created' });
                     // TODO: navigate to inbox
@@ -89,7 +89,7 @@ class RequestCreationPage extends React.Component {
                 }
                 console.log(data);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 // M.toast({ html: 'Error' });
                 console.log(err);
             });

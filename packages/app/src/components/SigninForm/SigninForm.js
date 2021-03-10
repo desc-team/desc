@@ -39,7 +39,7 @@ const SigninForm = ({ history }) => {
         errorMsg: ''
     });
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         setValues({
             ...form,
             errorMsg: '',
@@ -51,7 +51,7 @@ const SigninForm = ({ history }) => {
         return form.email.length > 0 && form.password.length > 0;
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (isFormValid()) {
             setIsFetching(true);
@@ -60,7 +60,7 @@ const SigninForm = ({ history }) => {
                 password: form.password
             };
             login(creds)
-                .then(data => {
+                .then((data) => {
                     if (data.success) {
                         const { user, accessToken: token } = data.payload;
                         authCtx.login(user, token);
@@ -77,7 +77,7 @@ const SigninForm = ({ history }) => {
                         setIsFetching(false);
                     }
                 })
-                .catch(err => console.log(err));
+                .catch((err) => console.log(err));
         }
     };
 
