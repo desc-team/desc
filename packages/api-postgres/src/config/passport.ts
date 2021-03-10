@@ -3,6 +3,7 @@ import LocalStrategy from './strategies/local';
 import UserService from '../user/UserService';
 import { PassportStatic } from 'passport';
 
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global  {
     namespace Express {
         interface User {

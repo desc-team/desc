@@ -32,7 +32,7 @@ export default class UserService {
     static async createAdminTestUser(userData: UserFields): Promise<User> {
         const { password } = userData;
         const hashedPassword = await bcrypt.hash(password, 4);
-        let data: UserFields = {
+        const data: UserFields = {
             ...userData,
             password: hashedPassword,
             roles: [UserRole.ADMIN, UserRole.APPROVER]

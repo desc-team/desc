@@ -43,12 +43,12 @@ class AuthUtils {
         return token;
     };
 
-    static verifyAccessToken = (token: string): string | object => {
-        return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
+    static verifyAccessToken = (token: string): string => {
+        return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as string;
     };
 
-    static verifyRefreshToken = (token: string): string | object => {
-        return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string);
+    static verifyRefreshToken = (token: string): string => {
+        return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string) as string;
     };
 }
 

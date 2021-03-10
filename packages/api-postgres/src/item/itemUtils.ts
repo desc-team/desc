@@ -17,9 +17,9 @@ import {
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
 export function normalizeData(payload: any): any {
-    let data: any = {};
+    const data: any = {};
 
-    for (let key in payload) {
+    for (const key in payload) {
         if (typeof payload[key] === 'string' && fieldsToNormalize.includes(key)) {
             data[key] = payload[key].toLowerCase();
         } else {

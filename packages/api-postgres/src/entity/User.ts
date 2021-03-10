@@ -82,7 +82,7 @@ export default class User extends BaseEntity {
         return this.roles.includes(UserRole.ADMIN);
     }
 
-    isOwner(otherId: string = ''): boolean {
+    isOwner(otherId = ''): boolean {
         return this.id === otherId;
     }
 
