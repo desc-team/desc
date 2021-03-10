@@ -120,7 +120,7 @@ export const updateItemStatus = (itemStatusData, token) => {
             body: JSON.stringify(itemStatusData.requestBody),
             credentials: 'include'
         })
-            .then(function(response) {
+            .then(function (response) {
                 console.log(response);
                 if (response.ok && response.status === 200) {
                     return response.json();
@@ -128,14 +128,14 @@ export const updateItemStatus = (itemStatusData, token) => {
                     return Promise.reject({ message: 'err' });
                 }
             })
-            .then(function(data) {
+            .then(function (data) {
                 if (data.success) {
                     //   M.toast({ html: "Item status updated" });
                 } else {
                 }
                 console.log(data);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
             });
     };
@@ -150,7 +150,7 @@ export const postNoteToItem = (noteData, token) => {
             body: JSON.stringify(noteData.requestBody),
             credentials: 'include'
         })
-            .then(function(response) {
+            .then(function (response) {
                 console.log(response);
                 if (response.ok && response.status === 200) {
                     return response.json();
@@ -158,14 +158,14 @@ export const postNoteToItem = (noteData, token) => {
                     return Promise.reject({ message: 'err' });
                 }
             })
-            .then(function(data) {
+            .then(function (data) {
                 if (data.success) {
                     //   M.toast({ html: "Note posted" });
                 } else {
                 }
                 console.log(data);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log(err);
             });
     };
