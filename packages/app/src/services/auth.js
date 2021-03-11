@@ -38,17 +38,19 @@ export function getValidToken(currentToken) {
     const tokenExpires = jwt.decode(currentToken).exp;
     const now = Date.now().valueOf() / 1000;
     if (now > tokenExpires) {
-        return fetch('http://localhost:3001/api/auth/refreshtoken', {
-            credentials: 'include'
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.payload.accessToken) {
-                    return data.payload.accessToken;
-                } else {
-                    return '';
-                }
-            });
+        return refreshToken().then((data) => {
+            if (data.payload.accessToken) {
+                return data.payload.accessToken;
+            } else {
+                return '';
+            }
+        });
     }
     return Promise.resolve(currentToken);
+}
+
+export function refreshToken() {
+    return fetch('http://localhost:3001/api/auth/refreshtoken', {
+        credentials: 'include'
+    }).then((res) => res.json());
 }

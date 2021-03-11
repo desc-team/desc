@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { fetchSessionUser } from '../services/auth';
+import React, { useContext, useState } from 'react';
+import useRefreshAccessToken from '../hooks/useRefreshAccessToken';
 
 const AuthContext = React.createContext({
     contextUser: null,
@@ -14,20 +14,13 @@ const AuthConsumer = AuthContext.Consumer;
 function AuthProvider({ children }) {
     const [contextUser, setContextUser] = useState(null);
     const [token, setToken] = useState('');
-    const [isFetchingToken, setIsFetchingToken] = useState(true);
 
-    useEffect(() => {
-        fetchSessionUser().then((data) => {
-            if (data && data.payload) {
-                setContextUser(data.payload.user);
-                setToken(data.payload.accessToken);
-            }
-
-            setTimeout(() => {
-                setIsFetchingToken(false);
-            }, 750);
-        });
-    }, []);
+    const { isLoading: isFetchingToken } = useRefreshAccessToken(12, (data) => {
+        if (data && data.success && data.payload) {
+            setContextUser(data.payload.user);
+            setToken(data.payload.accessToken);
+        }
+    });
 
     const login = (user, token) => {
         setContextUser(user);
@@ -35,13 +28,8 @@ function AuthProvider({ children }) {
     };
 
     const logout = () => {
-        setIsFetchingToken(true);
         setContextUser(null);
         setToken('');
-
-        setTimeout(() => {
-            setIsFetchingToken(false);
-        }, 750);
     };
 
     const updateToken = (token) => {
