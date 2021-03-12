@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import SigninForm from './SigninForm';
@@ -12,13 +13,17 @@ const history = {
     push: jest.fn()
 };
 
+const queryClient = new QueryClient();
+
 describe('SigninForm', () => {
     afterEach(cleanup);
 
     it('renders an input for email', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
-                <SigninForm />{' '}
+                <QueryClientProvider client={queryClient}>
+                    <SigninForm />{' '}
+                </QueryClientProvider>
             </MemoryRouter>
         );
         expect(getByLabelText('Your Email')).toBeTruthy();
@@ -27,7 +32,9 @@ describe('SigninForm', () => {
     it('renders an input for password', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
-                <SigninForm />{' '}
+                <QueryClientProvider client={queryClient}>
+                    <SigninForm />{' '}
+                </QueryClientProvider>
             </MemoryRouter>
         );
         expect(getByLabelText('Password')).toBeTruthy();
@@ -41,7 +48,9 @@ describe('SigninForm', () => {
         const { getByLabelText, getByText } = render(
             <MemoryRouter>
                 <AuthContext.Provider value={{ login: () => {} }}>
-                    <SigninForm history={history} />
+                    <QueryClientProvider client={queryClient}>
+                        <SigninForm history={history} />
+                    </QueryClientProvider>
                 </AuthContext.Provider>
             </MemoryRouter>
         );
@@ -51,6 +60,8 @@ describe('SigninForm', () => {
         await user.type(passwordInput, 'mySecret');
         user.click(getByText('Sign In'));
 
-        expect(Auth.login).toHaveBeenCalled();
+        await waitFor(() => {
+            expect(Auth.login).toHaveBeenCalledTimes(1);
+        });
     });
 });

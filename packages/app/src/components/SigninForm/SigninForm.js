@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import M from 'materialize-css';
 import { useAuthContext } from '../../context/AuthContext';
 import TextField from '../Common/TextField';
-import { login } from '../../services/auth';
+import useLogin from '../../hooks/useLogin';
 
 const css = {
     formContainer: {
@@ -31,12 +31,28 @@ const css = {
 
 const SigninForm = ({ history }) => {
     const authCtx = useAuthContext();
-    const [isFetching, setIsFetching] = useState(false);
 
     const [form, setValues] = useState({
         email: '',
         password: '',
         errorMsg: ''
+    });
+
+    const { mutate: doLogin, isLoading } = useLogin((data) => {
+        if (data.success) {
+            const { user, accessToken: token } = data.payload;
+            authCtx.login(user, token);
+            history.push('/');
+        } else {
+            if (data.message === 'unauthorized') {
+                setValues({
+                    email: '',
+                    password: '',
+                    errorMsg: 'Unathorized user. Please try again'
+                });
+            }
+            M.updateTextFields();
+        }
     });
 
     const handleChange = (e) => {
@@ -54,30 +70,11 @@ const SigninForm = ({ history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            setIsFetching(true);
             const creds = {
                 email: form.email,
                 password: form.password
             };
-            login(creds)
-                .then((data) => {
-                    if (data.success) {
-                        const { user, accessToken: token } = data.payload;
-                        authCtx.login(user, token);
-                        history.push('/');
-                    } else {
-                        if (data.message === 'unauthorized') {
-                            setValues({
-                                email: '',
-                                password: '',
-                                errorMsg: 'Unathorized user. Please try again'
-                            });
-                        }
-                        M.updateTextFields();
-                        setIsFetching(false);
-                    }
-                })
-                .catch((err) => console.log(err));
+            doLogin(creds);
         }
     };
 
@@ -132,7 +129,7 @@ const SigninForm = ({ history }) => {
                             Cancel
                         </button>
                         <button className="waves-effect waves-light btn" type="submit">
-                            {`${!isFetching ? 'Sign In' : 'Signing In...'}`}
+                            {`${!isLoading ? 'Sign In' : 'Signing In...'}`}
                         </button>
                     </div>
                 </div>

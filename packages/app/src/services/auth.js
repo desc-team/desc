@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { BASE_URL } from './util';
 
-export const login = (creds) => {
+export function login(creds) {
     return fetch(`${BASE_URL}/api/auth/login`, {
         method: 'POST',
         credentials: 'include',
@@ -18,14 +18,14 @@ export const login = (creds) => {
             };
         }
     });
-};
+}
 
-export const logout = () => {
+export function logout() {
     return fetch(`${BASE_URL}/api/auth/logout`, {
         method: 'GET',
         credentials: 'include'
     }).then((response) => response.json());
-};
+}
 
 export const fetchSessionUser = () => {
     return fetch(`${BASE_URL}/api/users/me`, {
