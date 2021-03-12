@@ -1,6 +1,6 @@
 import { BASE_URL } from './util';
 
-export const signup = (userData) => {
+export function signup(userData) {
     return fetch(`${BASE_URL}/api/users`, {
         method: 'POST',
         credentials: 'include',
@@ -11,7 +11,7 @@ export const signup = (userData) => {
             return res.json();
         }
     });
-};
+}
 
 export const confirmEmail = (token) => {
     return fetch(`${BASE_URL}/api/users/confirmemail/${token}`, {

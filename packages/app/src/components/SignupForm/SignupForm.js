@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
 import TextField from '../Common/TextField';
-import { signup } from '../../services/users';
+import useSignup from '../../hooks/useSignup';
 
 const css = {
     formContainer: {
@@ -27,7 +27,12 @@ const SignupForm = ({ history, onRegister }) => {
         program: ''
     });
     const [error, setError] = useState(null);
-    const [isFetching, setIsFetching] = useState(false);
+
+    const { mutate: doSignup, isLoading } = useSignup((data) => {
+        if (data.success) {
+            onRegister();
+        }
+    });
 
     useEffect(() => {
         if (form.confirmPassword.length > 0 && form.password !== form.confirmPassword) {
@@ -64,7 +69,6 @@ const SignupForm = ({ history, onRegister }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            setIsFetching(true);
             const payload = {
                 firstName: form.firstName,
                 lastName: form.lastName,
@@ -72,15 +76,8 @@ const SignupForm = ({ history, onRegister }) => {
                 password: form.password,
                 program: form.program
             };
-            signup(payload)
-                .then((data) => {
-                    if (data.success) {
-                        onRegister();
-                    } else {
-                        setIsFetching(false);
-                    }
-                })
-                .catch((err) => console.error(err));
+
+            doSignup(payload);
         }
     };
 
@@ -179,7 +176,7 @@ const SignupForm = ({ history, onRegister }) => {
                             Cancel
                         </button>
                         <button className="waves-effect waves-light btn" type="submit">
-                            {`${!isFetching ? 'Sign Up' : 'Signing up...'}`}
+                            {`${!isLoading ? 'Sign Up' : 'Signing up...'}`}
                         </button>
                     </div>
                 </div>
