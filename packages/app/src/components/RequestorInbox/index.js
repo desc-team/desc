@@ -3,9 +3,8 @@ import M from 'materialize-css';
 import Spinner from '../Common/Spinner';
 import TextField from '../Common/TextField';
 import { useAuthContext } from '../../context/AuthContext';
-import { useFetchData } from '../../hooks';
-import { addNoteToItem } from '../../services/items';
-import { getValidToken } from '../../services/auth';
+import useItemsByUserId from '../../hooks/useItemsByUserId';
+import useAddNoteToItem from '../../hooks/useAddNoteToItem';
 
 const css = {
     listHeader: {
@@ -55,35 +54,27 @@ const NoteDetails = ({ note }) => {
 };
 
 const AddNoteForm = React.memo(({ itemId, onNoteAdd }) => {
-    const authContext = useAuthContext();
+    const { token, contextUser } = useAuthContext();
     const [note, setNote] = useState('');
+
+    const { mutate: addNote } = useAddNoteToItem((response) => {
+        if (response.success) {
+            onNoteAdd(itemId, response.payload.item);
+            setNote('');
+            M.updateTextFields();
+            M.toast({ html: 'Note added to request', classes: 'teal' });
+        }
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (note.length > 0) {
             const noteBody = {
-                authorId: authContext.contextUser.id,
+                authorId: contextUser.id,
                 body: note
             };
 
-            // TODO: refactor this out to its own custom hook that encapsulates the token check before making
-            // the API call to mutate the data
-            getValidToken(authContext.token)
-                .then((token) => {
-                    if (token !== authContext.token) {
-                        authContext.updateToken(token);
-                    }
-                    return token;
-                })
-                .then((token) => addNoteToItem(itemId, noteBody, token))
-                .then((res) => {
-                    if (res.success) {
-                        onNoteAdd(itemId, res.payload.item);
-                        setNote('');
-                        M.updateTextFields();
-                        M.toast({ html: 'Note added to request', classes: 'teal' });
-                    }
-                });
+            addNote({ itemId, noteBody, token });
         }
     };
 
@@ -187,15 +178,14 @@ const List = ({ items, filter }) => {
 
 const RequestorInbox = () => {
     const authContext = useAuthContext();
-    const { response, error, isFetching } = useFetchData(
-        `/api/items?submittedBy=${authContext.contextUser.id}`
-    );
-    const items = (response && response.payload.items) || [];
+
+    const { data, error, isLoading } = useItemsByUserId(authContext.contextUser.id);
+    const items = (data && data.payload.items) || [];
 
     useEffect(() => {
         M.Tabs.init(document.querySelectorAll('.tabs'), {});
         initCollapsibleElements();
-    }, [isFetching]);
+    }, [isLoading]);
 
     return (
         <div style={{ marginTop: '3rem' }}>
@@ -204,7 +194,7 @@ const RequestorInbox = () => {
                     <h6>{error}</h6>
                 </div>
             )}
-            {isFetching ? (
+            {isLoading ? (
                 <div style={{ margin: '6rem 0', display: 'flex', justifyContent: 'center' }}>
                     <Spinner />
                 </div>
