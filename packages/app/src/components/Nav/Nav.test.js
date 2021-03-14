@@ -1,6 +1,7 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter as Router } from 'react-router-dom';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import Nav from './Nav';
 import AuthContext from '../../context/AuthContext';
@@ -17,22 +18,27 @@ const contextUser = {
 };
 
 const token = 'eythisisthetokenoftheauthuser1234';
+const queryClient = new QueryClient();
 
 const renderWithRouterAndContext = () => {
     return render(
-        <AuthContext.Provider value={{ contextUser, token, logout: () => {} }}>
-            <Router>
-                <Nav />
-            </Router>
-        </AuthContext.Provider>
+        <QueryClientProvider client={queryClient}>
+            <AuthContext.Provider value={{ contextUser, token, logout: () => {} }}>
+                <Router>
+                    <Nav />
+                </Router>
+            </AuthContext.Provider>
+        </QueryClientProvider>
     );
 };
 
 const renderWithRouter = () => {
     return render(
-        <Router>
-            <Nav />
-        </Router>
+        <QueryClientProvider client={queryClient}>
+            <Router>
+                <Nav />
+            </Router>
+        </QueryClientProvider>
     );
 };
 
@@ -84,10 +90,13 @@ describe('NavBar', () => {
         expect(getByText('Logout')).toBeTruthy();
     });
 
-    it('calls the logout method from the auth service when Logout is clicked', () => {
+    it('calls the logout method from the auth service when Logout is clicked', async () => {
         Auth.logout = jest.fn().mockResolvedValue({ success: true, message: 'User logged out' });
         const { getByText } = renderWithRouterAndContext();
         user.click(getByText('Logout'));
-        expect(Auth.logout).toHaveBeenCalled();
+
+        await waitFor(() => {
+            expect(Auth.logout).toHaveBeenCalledTimes(1);
+        });
     });
 });

@@ -6,17 +6,20 @@ import UserDropdown from './UserDropdown';
 import { useAuthContext } from '../../context/AuthContext';
 import { logout } from '../../services/auth';
 import './Nav.css';
+import useLogout from '../../hooks/useLogout';
 
 const Nav = () => {
     const authCtx = useAuthContext();
     const isAuthed = authCtx.contextUser && authCtx.token;
 
+    const { mutate: doLogout } = useLogout((response) => {
+        if (response.success) {
+            authCtx.logout();
+        }
+    });
+
     const handleLogout = () => {
-        logout().then((data) => {
-            if (data.success) {
-                authCtx.logout();
-            }
-        });
+        doLogout();
     };
 
     return (
