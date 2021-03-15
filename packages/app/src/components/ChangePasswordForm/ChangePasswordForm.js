@@ -3,7 +3,7 @@ import M from 'materialize-css';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import TextField from '../Common/TextField';
-import { changePassword } from '../../services/users';
+import useChangePassword from '../../hooks/useChangePassword';
 
 const css = {
     formContainer: {
@@ -22,12 +22,28 @@ const ChangePasswordForm = () => {
     const { token } = useParams();
     const history = useHistory();
 
-    const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState(null);
 
     const [form, setForm] = useState({
         password: '',
         confirmPassword: ''
+    });
+
+    const { mutate: changePassword, isLoading } = useChangePassword((response) => {
+        if (response.success) {
+            setError(null);
+            M.toast({
+                html: 'Your password has been changed',
+                classes: 'teal',
+                displayLength: 3000,
+                completeCallback: () => {
+                    history.push('/signin');
+                }
+            });
+        } else {
+            setError('Something went wrong; password not changed');
+        }
+        setForm({ password: '', confirmPassword: '' });
     });
 
     useEffect(() => {
@@ -46,26 +62,11 @@ const ChangePasswordForm = () => {
         e.preventDefault();
 
         if (isFormValid()) {
-            setIsFetching(true);
-            changePassword(token, form.password)
-                .then((data) => {
-                    if (data.success) {
-                        setError(null);
-                        M.toast({
-                            html: 'Your password has been changed',
-                            classes: 'teal',
-                            displayLength: 3000,
-                            completeCallback: () => {
-                                history.push('/signin');
-                            }
-                        });
-                    } else {
-                        setError('Something went wrong; password not changed');
-                    }
-                    setForm({ password: '', confirmPassword: '' });
-                    setIsFetching(false);
-                })
-                .catch((err) => console.log(err));
+            const payload = {
+                token,
+                newPassword: form.password
+            };
+            changePassword(payload);
         } else {
             setError('Password is not provided. Try again');
         }
@@ -130,7 +131,7 @@ const ChangePasswordForm = () => {
                             type="submit"
                             data-testid="submit-btn"
                         >
-                            {`${!isFetching ? 'Change Password' : 'Changing Password...'}`}
+                            {`${!isLoading ? 'Change Password' : 'Changing Password...'}`}
                         </button>
                     </div>
                 </div>

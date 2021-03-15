@@ -36,7 +36,7 @@ export const forgotPassword = (email) => {
     });
 };
 
-export const changePassword = (token, newPassword) => {
+export const changePassword = ({ token, newPassword }) => {
     return fetch(`${BASE_URL}/api/users/changepassword/${token}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

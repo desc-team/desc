@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
@@ -9,13 +10,17 @@ jest.mock('../../services/users');
 
 const token = '40a2be43-8628-4c4e-a31c-af755e105330';
 
+const queryClient = new QueryClient();
+
 describe('ChangePassword Form', () => {
     afterEach(cleanup);
 
     it('renders an input for the new password', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
-                <ChangePasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ChangePasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
         expect(getByLabelText('Password')).toBeTruthy();
@@ -24,7 +29,9 @@ describe('ChangePassword Form', () => {
     it('renders an input to confirm new password', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
-                <ChangePasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ChangePasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
         expect(getByLabelText('Confirm Password')).toBeTruthy();
@@ -33,7 +40,9 @@ describe('ChangePassword Form', () => {
     it('does not display message if password fields match', async () => {
         const { getByLabelText, queryByText } = render(
             <MemoryRouter>
-                <ChangePasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ChangePasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
 
@@ -48,7 +57,9 @@ describe('ChangePassword Form', () => {
     it('displays a message when the password fields do not match', async () => {
         const { getByLabelText, getByText } = render(
             <MemoryRouter>
-                <ChangePasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ChangePasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
 
@@ -72,7 +83,9 @@ describe('ChangePassword Form', () => {
         const { container, getByLabelText, getByText, getByTestId } = render(
             <MemoryRouter initialEntries={[`/changepassword/${token}`]}>
                 <Route path="/changepassword/:token">
-                    <ChangePasswordForm />
+                    <QueryClientProvider client={queryClient}>
+                        <ChangePasswordForm />
+                    </QueryClientProvider>
                 </Route>
             </MemoryRouter>
         );
@@ -88,7 +101,10 @@ describe('ChangePassword Form', () => {
         });
 
         expect(UserDataService.changePassword).toHaveBeenCalledTimes(1);
-        expect(UserDataService.changePassword).toHaveBeenCalledWith(token, 'correctpassword');
+        expect(UserDataService.changePassword).toHaveBeenCalledWith({
+            token,
+            newPassword: 'correctpassword'
+        });
     });
 
     it('displays a message if the password is not changed', async () => {
@@ -103,7 +119,9 @@ describe('ChangePassword Form', () => {
         const { container, getByLabelText, getByText, getByTestId } = render(
             <MemoryRouter initialEntries={[`/changepassword/${token}`]}>
                 <Route path="/changepassword/:token">
-                    <ChangePasswordForm />
+                    <QueryClientProvider client={queryClient}>
+                        <ChangePasswordForm />
+                    </QueryClientProvider>
                 </Route>
             </MemoryRouter>
         );
@@ -119,6 +137,9 @@ describe('ChangePassword Form', () => {
         });
 
         expect(UserDataService.changePassword).toHaveBeenCalledTimes(1);
-        expect(UserDataService.changePassword).toHaveBeenCalledWith(token, 'correctpassword');
+        expect(UserDataService.changePassword).toHaveBeenCalledWith({
+            token,
+            newPassword: 'correctpassword'
+        });
     });
 });
