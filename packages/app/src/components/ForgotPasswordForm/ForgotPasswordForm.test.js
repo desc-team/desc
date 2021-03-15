@@ -1,5 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import ForgotPasswordForm from './ForgotPasswordForm';
@@ -7,13 +8,17 @@ import * as UserDataService from '../../services/users';
 
 jest.mock('../../services/users');
 
+const queryClient = new QueryClient();
+
 describe('Forgotpassword Form', () => {
     afterEach(cleanup);
 
     it('renders an input for email', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
-                <ForgotPasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ForgotPasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
         expect(getByLabelText('Your Email')).toBeTruthy();
@@ -30,7 +35,9 @@ describe('Forgotpassword Form', () => {
 
         const { getByLabelText, getByTestId, container } = render(
             <MemoryRouter>
-                <ForgotPasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ForgotPasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');
@@ -57,7 +64,9 @@ describe('Forgotpassword Form', () => {
 
         const { getByLabelText, getByTestId, container } = render(
             <MemoryRouter>
-                <ForgotPasswordForm />
+                <QueryClientProvider client={queryClient}>
+                    <ForgotPasswordForm />
+                </QueryClientProvider>
             </MemoryRouter>
         );
         const emailInput = getByLabelText('Your Email');

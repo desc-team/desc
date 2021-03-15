@@ -1,8 +1,8 @@
+import M from 'materialize-css';
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import M from 'materialize-css';
 import TextField from '../Common/TextField';
-import { forgotPassword } from '../../services/users';
+import useForgotPassword from '../../hooks/useForgotPassword';
 
 const css = {
     formContainer: {
@@ -33,31 +33,38 @@ const ForgotPasswordForm = () => {
     const textFieldRef = useRef();
 
     const [isRequestSent, setIsRequestSent] = useState(false);
-    const [email, setEmail] = useState('');
-    const [formValue, setFormValue] = useState('');
+    const [confirmedEmailAddress, setConfirmedEmailAddress] = useState('');
+    const [userEmailAddress, setUserEmailAddress] = useState('');
     const [error, setError] = useState('');
 
+    const { mutate: forgotPassword } = useForgotPassword(
+        (response) => {
+            if (response.success) {
+                setConfirmedEmailAddress(response.payload.email);
+                setIsRequestSent(true);
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
+        },
+        () => {
+            setError('Something went wrong. Please try again.');
+        }
+    );
+
     useEffect(() => {
-        setFormValue((v) => '');
+        setUserEmailAddress((v) => '');
         setTimeout(() => {
             M.updateTextFields();
             if (textFieldRef.current) {
                 textFieldRef.current.classList.remove('valid');
             }
         }, 250);
-    }, [email]);
+    }, [confirmedEmailAddress]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formValue.length > 0) {
-            forgotPassword(formValue).then((data) => {
-                if (data.success) {
-                    setEmail(data.payload.email);
-                    setIsRequestSent(true);
-                } else {
-                    setError('Something went wrong. Please try again.');
-                }
-            });
+        if (userEmailAddress.length > 0) {
+            forgotPassword(userEmailAddress);
         }
     };
 
@@ -66,7 +73,7 @@ const ForgotPasswordForm = () => {
     };
 
     const handleChange = (e) => {
-        setFormValue(e.target.value);
+        setUserEmailAddress(e.target.value);
     };
 
     return (
@@ -85,7 +92,7 @@ const ForgotPasswordForm = () => {
                             icon="email"
                             type="text"
                             name="email"
-                            value={formValue}
+                            value={userEmailAddress}
                             handleChange={handleChange}
                             validate
                         />
@@ -124,8 +131,8 @@ const ForgotPasswordForm = () => {
                     style={css.message}
                     data-testid="success-message"
                 >
-                    Thank you. An email has been sent to <em>{`${email}`}</em> with instructions to
-                    reset your password.
+                    Thank you. An email has been sent to <em>{`${confirmedEmailAddress}`}</em> with
+                    instructions to reset your password.
                 </p>
             )}
         </div>
