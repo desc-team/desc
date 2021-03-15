@@ -5,8 +5,7 @@ import TextField from '../Common/TextField';
 import Select from '../Common/Select';
 import { initialState, itemReducer } from './itemReducer';
 import * as ItemUtil from './itemsUtil';
-import { makeClientRequest } from '../../services/clientRequests';
-import { getValidToken } from '../../services/auth';
+import useClientRequest from '../../hooks/useClientRequest';
 
 const initSelect = () => {
     const elems = document.querySelectorAll('select');
@@ -160,13 +159,43 @@ const RequestedItem = ({ item, id, onDelete, showBottomBorder }) => {
 };
 
 const NewRequestForm = () => {
-    const authCtx = useAuthContext();
+    const { token, contextUser } = useAuthContext();
     const [form, setForm] = useState({
         clientId: '',
         location: 'default',
         remember: false,
-        requestorId: authCtx.contextUser.id,
+        requestorId: contextUser.id,
         items: []
+    });
+
+    const { mutate: makeRequest } = useClientRequest((response) => {
+        if (response.success) {
+            if (form.remember) {
+                setForm({
+                    ...form,
+                    items: []
+                });
+            } else {
+                setForm({
+                    ...form,
+                    clientId: '',
+                    location: '',
+                    items: []
+                });
+                document.querySelector('#location').value = 'default';
+            }
+            M.toast({ html: 'Request has been submitted', classes: 'teal' });
+            // navigate to home?
+        } else {
+            M.toast({
+                html: 'Oops.  Something went wrong submitting your request ',
+                classes: 'red lighten-1'
+            });
+            setForm({
+                ...form,
+                items: []
+            });
+        }
     });
 
     useEffect(() => {
@@ -239,48 +268,11 @@ const NewRequestForm = () => {
                 })
             };
 
-            // TODO: refactor this out to its own custom hook that encapsulates the token check before making
-            // the API call to mutate the data
-            getValidToken(authCtx.token)
-                .then((token) => {
-                    if (token !== authCtx.token) {
-                        authCtx.updateToken(token);
-                    }
-                    return token;
-                })
-                .then((token) => makeClientRequest(formData, token))
-                .then((data) => {
-                    if (data.success) {
-                        if (form.remember) {
-                            setForm({
-                                ...form,
-                                items: []
-                            });
-                        } else {
-                            setForm({
-                                ...form,
-                                clientId: '',
-                                location: '',
-                                items: []
-                            });
-                            document.querySelector('#location').value = 'default';
-                        }
-                        M.toast({ html: 'Request has been submitted', classes: 'teal' });
-                        // navigate to home?
-                    } else {
-                        M.toast({
-                            html: 'Oops.  Something went wrong submitting your request ',
-                            classes: 'red lighten-1'
-                        });
-                        setForm({
-                            ...form,
-                            items: []
-                        });
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            const payload = {
+                requestData: formData,
+                token
+            };
+            makeRequest(payload);
         }
     };
 
