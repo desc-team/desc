@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { confirmEmail } from '../services/users';
+import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import useConfirmEmail from '../hooks/useConfirmEmail';
 
 const css = {
     container: {
@@ -14,22 +14,18 @@ const css = {
     }
 };
 
-const ConfirmEmail = ({ match }) => {
-    const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
-    const [isConfirming, setIsConfirming] = useState(true);
+const ConfirmEmail = () => {
+    const { token } = useParams();
+
+    const { mutate: confirmEmail, isSuccess, isError } = useConfirmEmail();
 
     useEffect(() => {
-        confirmEmail(match.params.token).then((response) => {
-            if (response && response.success) {
-                setIsEmailConfirmed(true);
-            }
-            setIsConfirming(false);
-        });
-    }, [match.params.token]);
+        confirmEmail(token);
+    }, [token]);
 
     return (
         <div style={css.container}>
-            {isEmailConfirmed && !isConfirming && (
+            {isSuccess && (
                 <React.Fragment>
                     <h4 className="center-align teal-text text-darken-3">
                         Thank you for confirming your email
@@ -45,7 +41,7 @@ const ConfirmEmail = ({ match }) => {
                 </React.Fragment>
             )}
 
-            {!isEmailConfirmed && !isConfirming && (
+            {isError && (
                 <h5 className="center-align red-text text-darken-2">
                     Oops, looks like we were unable to confirm your email
                 </h5>
