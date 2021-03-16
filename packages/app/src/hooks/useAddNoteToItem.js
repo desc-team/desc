@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query';
+import { useAuthContext } from '../context/AuthContext';
 import { BASE_URL } from '../services/util';
 
 function addNoteToItem({ itemId, noteBody, token }) {
@@ -18,9 +19,19 @@ function addNoteToItem({ itemId, noteBody, token }) {
 }
 
 function useAddNoteToItem(onSuccessCb) {
-    return useMutation(addNoteToItem, {
+    const { token } = useAuthContext();
+    const mutation = useMutation(addNoteToItem, {
         onSuccess: onSuccessCb
     });
+
+    const addNote = (payload) => {
+        mutation.mutate({ ...payload, token });
+    };
+
+    return {
+        ...mutation,
+        addNote
+    };
 }
 
 export default useAddNoteToItem;

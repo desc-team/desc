@@ -159,7 +159,7 @@ const RequestedItem = ({ item, id, onDelete, showBottomBorder }) => {
 };
 
 const NewRequestForm = () => {
-    const { token, contextUser } = useAuthContext();
+    const { contextUser } = useAuthContext();
     const [form, setForm] = useState({
         clientId: '',
         location: 'default',
@@ -168,7 +168,7 @@ const NewRequestForm = () => {
         items: []
     });
 
-    const { mutate: makeRequest } = useClientRequest((response) => {
+    const { makeRequest } = useClientRequest((response) => {
         if (response.success) {
             if (form.remember) {
                 setForm({
@@ -268,11 +268,7 @@ const NewRequestForm = () => {
                 })
             };
 
-            const payload = {
-                requestData: formData,
-                token
-            };
-            makeRequest(payload);
+            makeRequest({ requestData: formData });
         }
     };
 

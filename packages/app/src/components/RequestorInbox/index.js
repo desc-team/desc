@@ -54,10 +54,10 @@ const NoteDetails = ({ note }) => {
 };
 
 const AddNoteForm = React.memo(({ itemId, onNoteAdd }) => {
-    const { token, contextUser } = useAuthContext();
+    const { contextUser } = useAuthContext();
     const [note, setNote] = useState('');
 
-    const { mutate: addNote } = useAddNoteToItem((response) => {
+    const { addNote } = useAddNoteToItem((response) => {
         if (response.success) {
             onNoteAdd(itemId, response.payload.item);
             setNote('');
@@ -74,7 +74,7 @@ const AddNoteForm = React.memo(({ itemId, onNoteAdd }) => {
                 body: note
             };
 
-            addNote({ itemId, noteBody, token });
+            addNote({ itemId, noteBody });
         }
     };
 
