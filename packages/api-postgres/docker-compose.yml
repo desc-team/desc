@@ -13,7 +13,7 @@ services:
 
     postgres:
         container_name: pdb
-        image: postgres:12-alpine
+        image: postgres:13-alpine
         restart: unless-stopped
         ports:
             - '5432:5432'
@@ -24,6 +24,7 @@ services:
             - sandbox
         volumes:
             - ./data/postgres:/var/lib/postgresql/data
+            - .:/home/desc/
 
     pgadmin:
         container_name: pgadmin
