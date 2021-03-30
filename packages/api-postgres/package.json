@@ -8,6 +8,7 @@
         "clean": "rm -rf dist coverage",
         "dev": "ts-node-dev --respawn src/index.ts",
         "lint": "eslint src/**/*.ts",
+        "start": "node dist/src/index.js",
         "test": "NODE_ENV=testing jest --color --runInBand",
         "test:e2e": "NODE_ENV=testingE2E yarn dev"
     },
