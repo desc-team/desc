@@ -3,6 +3,7 @@ import User from '../entity/User';
 import UserService from './UserService';
 import AuthUtils from '../auth/AuthUtils';
 import Mailer from '../mailer/Mailer';
+import { UpdatableUserFields } from '../common/types';
 
 class UserController {
     static createUser(req: Request, res: Response): Promise<Response> {
@@ -91,7 +92,7 @@ class UserController {
 
         // TODO: add better input validation to ensure the updated data has the required shape and/or
         // only includes the accepted properties
-        const data = req.body as { firstName: string; lastName: string; email: string };
+        const data = req.body as UpdatableUserFields;
 
         return UserService.updateUser(id, data)
             .then((updatedUser) => {
@@ -99,7 +100,7 @@ class UserController {
                     return res.json({
                         success: true,
                         message: 'user updated',
-                        payload: { user: updatedUser }
+                        payload: { user: updatedUser.toClientJSON() }
                     });
                 } else {
                     return res.json({

@@ -13,6 +13,22 @@ export function signup(userData) {
     });
 }
 
+export function updateUserData({ id, userData, token }) {
+    return fetch(`${BASE_URL}/api/users/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(userData)
+    }).then((res) => {
+        if (res.ok && res.status === 200) {
+            return res.json();
+        }
+    });
+}
+
 export const confirmEmail = (token) => {
     return fetch(`${BASE_URL}/api/users/confirmemail/${token}`, {
         method: 'PATCH',

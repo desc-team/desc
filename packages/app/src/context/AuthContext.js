@@ -36,9 +36,21 @@ function AuthProvider({ children }) {
         setToken(token);
     };
 
+    const updateContextUser = (user) => {
+        setContextUser(user);
+    };
+
     return (
         <AuthContext.Provider
-            value={{ contextUser, token, isFetchingToken, login, logout, updateToken }}
+            value={{
+                contextUser,
+                token,
+                isFetchingToken,
+                login,
+                logout,
+                updateToken,
+                updateContextUser
+            }}
         >
             {children}
         </AuthContext.Provider>

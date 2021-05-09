@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
-// import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import TextField from '../Common/TextField';
+import useUpdateUser from '../../hooks/useUpdateUser';
 import avatar from '../UserProfileDetails/default_avatar.png';
 
 const avatarBgColor = '#e0f1f2';
@@ -14,11 +15,25 @@ const css = {
     }
 };
 const EditProfile = ({ onUpdate, user }) => {
+    const { updateContextUser, contextUser } = useAuthContext();
+
     const [form, setValues] = useState({
         firstName: user.name.first,
         lastName: user.name.last,
         email: user.email,
         program: user.program
+    });
+
+    const { updateUser } = useUpdateUser((response) => {
+        if (response.success) {
+            onUpdate();
+            if (response.payload.user.id === contextUser.id) {
+                updateContextUser(response.payload.user);
+            }
+            M.toast({ html: 'Profile information udpated', classes: 'teal', displayLength: 2000 });
+        } else {
+            M.toast({ html: 'Oops. Something went wrong...', classes: 'red lighten-1' });
+        }
     });
 
     useEffect(() => {
@@ -35,7 +50,22 @@ const EditProfile = ({ onUpdate, user }) => {
     };
 
     function handleUpdate(evt) {
-        console.log({ form });
+        const data = Object.entries(form);
+        const updatedData = data
+            .filter((entry) => {
+                if (entry[0] === 'firstName') {
+                    return entry[1] !== user['name']['first'];
+                } else if (entry[0] === 'lastName') {
+                    return entry[1] !== user['name']['last'];
+                } else {
+                    return entry[1] !== user[entry[0]];
+                }
+            })
+            .reduce((acc, arr) => {
+                acc[arr[0]] = arr[1];
+                return acc;
+            }, {});
+        updateUser({ id: user.id, userData: updatedData });
     }
 
     function handleCancel() {

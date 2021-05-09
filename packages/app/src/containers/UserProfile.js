@@ -8,7 +8,6 @@ const UserProfile = () => {
     const [isEditMode, setIsEditMode] = useState(false);
 
     function handleEditClick(evt) {
-        console.log('Edit profile...');
         setIsEditMode(true);
     }
 
