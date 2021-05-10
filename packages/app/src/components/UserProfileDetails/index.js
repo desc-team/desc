@@ -3,25 +3,6 @@ import avatar from './default_avatar.png';
 
 const avatarBgColor = '#e0f1f2';
 
-const css = {
-    userProfileContainer: {
-        width: '960px',
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    userImage: {
-        marginRight: '4rem',
-        backgroundColor: avatarBgColor
-    },
-    userDetails: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    userRoles: {}
-};
-
 const programMap = {
     'housing first': 'Housing First',
     'integrated services': 'Integrated Services',
@@ -40,7 +21,7 @@ const rolesMap = {
 
 const UserRoles = ({ roles }) => {
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'block' }}>
             {roles.map((role, i) => (
                 <span
                     style={{ marginRight: '0.5rem', fontStyle: 'italic', fontSize: '1.125rem' }}
@@ -57,14 +38,18 @@ const UserProfileDetails = ({ user }) => {
             <div className="col s12 m6 l6">
                 <img
                     className="circle responsive-img"
-                    style={{ backgroundColor: avatarBgColor, display: 'block', margin: '0 auto' }}
+                    style={{
+                        backgroundColor: avatarBgColor,
+                        display: 'block',
+                        margin: '0 auto 2rem'
+                    }}
                     width="200"
                     height="200"
                     src={avatar}
                     alt="default user avatar"
                 />
             </div>
-            <div className="col s12 m6 l6">
+            <div className="col s12 m6 l6 center-on-small-only">
                 <h3
                     className="teal-text text-darken-2"
                     style={{ marginTop: '0' }}
@@ -72,7 +57,9 @@ const UserProfileDetails = ({ user }) => {
                 <h5 className="grey-text text-darken-2" style={{}}>
                     {programMap[user.program]}
                 </h5>
-                <UserRoles roles={user.roles} />
+                <div className="">
+                    <UserRoles roles={user.roles} />
+                </div>
                 <p
                     className="teal-text text-darken-2"
                     style={{ fontSize: '1.125rem', marginTop: '0.5rem' }}
