@@ -50,14 +50,14 @@ describe('NavBar', () => {
         expect(getByText(/DESC/)).toBeTruthy();
     });
 
-    it('renders a Sign Up link', () => {
-        const { getByText } = renderWithRouter();
-        expect(getByText('Sign Up')).toBeTruthy();
+    it('renders two Sign Up links (desktop/mobile)', () => {
+        const { getAllByText } = renderWithRouter();
+        expect(getAllByText('Sign Up')).toHaveLength(2);
     });
 
-    it('renders a Sign In link', () => {
-        const { getByText } = renderWithRouter();
-        expect(getByText('Sign In')).toBeTruthy();
+    it('renders two Sign In links (desktop/mobile)', () => {
+        const { getAllByText } = renderWithRouter();
+        expect(getAllByText('Sign In')).toHaveLength(2);
     });
 
     it('sign in link is not present if user is authenticated', () => {
@@ -75,25 +75,26 @@ describe('NavBar', () => {
         expect(getByText(`${contextUser.name.first} ${contextUser.name.last}`)).toBeTruthy();
     });
 
-    it('renders a link to create requests  when logged in', () => {
-        const { getByText } = renderWithRouterAndContext();
-        expect(getByText('Create Request')).toBeTruthy();
+    it('renders two links to create requests when logged in (desktop/mobile)', () => {
+        const { getAllByText } = renderWithRouterAndContext();
+        expect(getAllByText('Create Request')).toHaveLength(2);
     });
 
-    it('renders a link to view requests  when logged in', () => {
-        const { getByText } = renderWithRouterAndContext();
-        expect(getByText('View Requests')).toBeTruthy();
+    it('renders two links to view requests when logged in (desktop/mobile)', () => {
+        const { getAllByText } = renderWithRouterAndContext();
+        expect(getAllByText('View Requests')).toHaveLength(2);
     });
 
-    it('renders a dropdown with a logout option when logged in', () => {
-        const { getByText } = renderWithRouterAndContext();
-        expect(getByText('Logout')).toBeTruthy();
+    it('renders a dropdown with two logout options when logged in (desktop/mobile)', () => {
+        const { getAllByText } = renderWithRouterAndContext();
+        expect(getAllByText('Logout')).toHaveLength(2);
     });
 
     it('calls the logout method from the auth service when Logout is clicked', async () => {
         Auth.logout = jest.fn().mockResolvedValue({ success: true, message: 'User logged out' });
-        const { getByText } = renderWithRouterAndContext();
-        user.click(getByText('Logout'));
+        const { getAllByText } = renderWithRouterAndContext();
+        const desktopLogout = getAllByText('Logout')[0];
+        user.click(desktopLogout);
 
         await waitFor(() => {
             expect(Auth.logout).toHaveBeenCalledTimes(1);
