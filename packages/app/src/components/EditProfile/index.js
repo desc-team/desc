@@ -53,19 +53,27 @@ const EditProfile = ({ onUpdate, user }) => {
         const data = Object.entries(form);
         const updatedData = data
             .filter((entry) => {
-                if (entry[0] === 'firstName') {
-                    return entry[1] !== user['name']['first'];
-                } else if (entry[0] === 'lastName') {
-                    return entry[1] !== user['name']['last'];
+                const [key, value] = entry;
+                if (key === 'firstName') {
+                    return value !== user['name']['first'];
+                } else if (key === 'lastName') {
+                    return value !== user['name']['last'];
                 } else {
-                    return entry[1] !== user[entry[0]];
+                    return value !== user[key];
                 }
             })
             .reduce((acc, arr) => {
-                acc[arr[0]] = arr[1];
+                const [key, val] = arr;
+                acc[key] = val;
                 return acc;
             }, {});
-        updateUser({ id: user.id, userData: updatedData });
+
+        if (Object.keys(updatedData).length === 0) {
+            M.toast({ html: 'No information was changed', classes: 'teal', displayLength: 2000 });
+            onUpdate();
+        } else {
+            updateUser({ id: user.id, userData: updatedData });
+        }
     }
 
     function handleCancel() {
