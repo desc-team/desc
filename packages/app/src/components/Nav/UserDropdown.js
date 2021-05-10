@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import M from 'materialize-css';
 
-const UserDropdwon = ({ user, handleLogout }) => {
+const UserDropdwon = ({ user, handleLogout, targetName }) => {
     useEffect(() => {
         const elems = document.querySelectorAll('.dropdown-trigger');
         M.Dropdown.init(elems, {
@@ -13,7 +13,7 @@ const UserDropdwon = ({ user, handleLogout }) => {
     return (
         <>
             <li className="profile-menu">
-                <a href="#!" className="dropdown-trigger" data-target="profile">
+                <a href="#!" className="dropdown-trigger" data-target={targetName}>
                     <i style={{ marginLeft: '10px' }} className="small material-icons prefix">
                         account_circle
                     </i>
@@ -24,7 +24,7 @@ const UserDropdwon = ({ user, handleLogout }) => {
                 </a>
             </li>
             <div>
-                <ul id="profile" className="dropdown-content">
+                <ul id={targetName} className="dropdown-content">
                     <li>
                         <Link to="/profile">Profile</Link>
                     </li>

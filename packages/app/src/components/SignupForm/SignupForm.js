@@ -90,7 +90,7 @@ const SignupForm = ({ history, onRegister }) => {
             <h4 className="center-align teal-text text-darken-3">Register for Account</h4>
             <form onSubmit={handleSubmit}>
                 <div className="row">
-                    <div className="col s6">
+                    <div className="col s12 m6">
                         <TextField
                             label="First Name"
                             icon="account_circle"
@@ -100,7 +100,17 @@ const SignupForm = ({ history, onRegister }) => {
                             handleChange={handleChange}
                         />
                     </div>
-                    <div className="col s6">
+                    <div className="col s12 m6 hide-on-med-and-up">
+                        <TextField
+                            label="Last Name"
+                            icon="account_circle"
+                            type="text"
+                            name="lastName"
+                            value={form.lastName}
+                            handleChange={handleChange}
+                        />
+                    </div>
+                    <div className="col s12 m6 hide-on-small-only">
                         <TextField
                             label="Last Name"
                             type="text"

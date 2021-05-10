@@ -280,7 +280,7 @@ const NewRequestForm = () => {
         >
             <h5 className="center-align teal-text text-darken-3">New Request</h5>
             <div className="row">
-                <div className="col s6">
+                <div className="col s12 m6">
                     <TextField
                         label="Client ID"
                         type="text"
@@ -289,7 +289,7 @@ const NewRequestForm = () => {
                         handleChange={handleChange}
                     />
                 </div>
-                <div className="input-field col s6">
+                <div className="input-field col s12 m6">
                     <i className="small material-icons prefix">domain</i>
                     <select defaultValue="default" id="location" onChange={handleChange}>
                         <option value="default" disabled>
