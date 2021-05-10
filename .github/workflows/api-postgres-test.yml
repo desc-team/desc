@@ -3,13 +3,13 @@ name: API Postgres tests
 on:
     push:
         branches:
-            - master
+            - main
         paths:
             - 'packages/api-postgres/**'
 
     pull_request:
         branches:
-            - master
+            - main
             - 'feature/**'
         paths:
             - 'packages/api-postgres/**'
