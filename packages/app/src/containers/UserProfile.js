@@ -14,7 +14,7 @@ const UserProfile = () => {
     return (
         <React.Fragment>
             <div className="row" style={{ marginTop: '3rem' }}>
-                <div className="col s12 offset-m6" style={{ marginBottom: '2rem' }}>
+                <div className="col s12 offset-m6">
                     <button
                         className="waves-effect waves-teal btn-flat"
                         onClick={handleEditClick}
@@ -23,18 +23,12 @@ const UserProfile = () => {
                         <i className="material-icons left">edit</i>Edit Profile
                     </button>
                 </div>
-
-                <div className="col s12">
-                    {!isEditMode ? (
-                        <UserProfileDetails user={authCtx.contextUser} />
-                    ) : (
-                        <EditProfile
-                            user={authCtx.contextUser}
-                            onUpdate={() => setIsEditMode(false)}
-                        />
-                    )}
-                </div>
             </div>
+            {!isEditMode ? (
+                <UserProfileDetails user={authCtx.contextUser} />
+            ) : (
+                <EditProfile user={authCtx.contextUser} onUpdate={() => setIsEditMode(false)} />
+            )}
         </React.Fragment>
     );
 };

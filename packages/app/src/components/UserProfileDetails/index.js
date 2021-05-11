@@ -21,7 +21,7 @@ const rolesMap = {
 
 const UserRoles = ({ roles }) => {
     return (
-        <div style={{ display: 'block' }}>
+        <div>
             {roles.map((role, i) => (
                 <span
                     style={{ marginRight: '0.5rem', fontStyle: 'italic', fontSize: '1.125rem' }}
@@ -35,7 +35,7 @@ const UserRoles = ({ roles }) => {
 const UserProfileDetails = ({ user }) => {
     return (
         <div className="row">
-            <div className="col s12 m6 l6">
+            <div className="col s12 m6">
                 <img
                     className="circle responsive-img"
                     style={{
@@ -49,7 +49,7 @@ const UserProfileDetails = ({ user }) => {
                     alt="default user avatar"
                 />
             </div>
-            <div className="col s12 m6 l6 center-on-small-only">
+            <div className="col s12 m6 center-on-small-only">
                 <h3
                     className="teal-text text-darken-2"
                     style={{ marginTop: '0' }}
@@ -57,9 +57,7 @@ const UserProfileDetails = ({ user }) => {
                 <h5 className="grey-text text-darken-2" style={{}}>
                     {programMap[user.program]}
                 </h5>
-                <div className="">
-                    <UserRoles roles={user.roles} />
-                </div>
+                <UserRoles roles={user.roles} />
                 <p
                     className="teal-text text-darken-2"
                     style={{ fontSize: '1.125rem', marginTop: '0.5rem' }}
