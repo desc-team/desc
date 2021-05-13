@@ -13,7 +13,7 @@ import UserProfile from './containers/UserProfile';
 import Inbox from './containers/Inbox';
 import RequestCreationPage from './components/RequestCreation/RequestCreationPage';
 import Request from './containers/Request';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 import ConfirmEmail from './containers/ConfirmEmail';
 import ForgotPassword from './containers/ForgotPassword';
 import ChangePassword from './containers/ChangePassword';
