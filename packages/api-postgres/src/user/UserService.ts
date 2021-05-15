@@ -66,6 +66,14 @@ export default class UserService {
         return user;
     }
 
+    static async setIsActive(id: string, isActive: boolean): Promise<User | undefined> {
+        const user = await UserService.getUserById(id);
+        if (user) {
+            user.isActive = isActive;
+        }
+        return user;
+    }
+
     static async confirmEmail(token: string): Promise<User | undefined> {
         const user = await User.findOne({ where: { emailVerificationToken: token } });
         return UserService.updateUser(user?.id as string, {

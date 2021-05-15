@@ -156,6 +156,49 @@ describe('User service integration tests', () => {
         });
     });
 
+    describe('setIsActive method', () => {
+        let userIdToTest: string;
+
+        beforeEach(async () => {
+            await UserService.createUser({
+                firstName: 'Barry',
+                lastName: 'Allen',
+                email: 'barry@starlabs.com',
+                password: 'test1234'
+            });
+            const { firstName, lastName, email, password, program } = testUser;
+            const user = await UserService.createUser({
+                firstName,
+                lastName,
+                email,
+                password,
+                program
+            });
+            userIdToTest = user.id;
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        it('returns undefined if user cannot be found with given id', async () => {
+            const result = await UserService.deleteUser('4157b081-e365-4984-aeac-c31aa255a474');
+            expect(result).toBeUndefined();
+        });
+
+        it(`deactivates the user with the given id`, async () => {
+            const result = await UserService.setIsActive(userIdToTest, false);
+            expect(result?.id).toEqual(userIdToTest);
+            expect(result?.isActive).toBe(false);
+        });
+
+        it(`activates the user with the given id`, async () => {
+            const result = await UserService.setIsActive(userIdToTest, true);
+            expect(result?.id).toEqual(userIdToTest);
+            expect(result?.isActive).toBe(true);
+        });
+    });
+
     describe('confirmEmail method', () => {
         let emailToken: string;
 

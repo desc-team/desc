@@ -64,6 +64,9 @@ export default class User extends BaseEntity {
     @Column({ nullable: true })
     lastLoginAt: Date;
 
+    @Column({ default: true })
+    isActive: boolean;
+
     @CreateDateColumn()
     createdAt: Date;
 
