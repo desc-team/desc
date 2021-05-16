@@ -62,6 +62,22 @@ class TestClient extends BaseTestClient {
             .set('Authorization', `Bearer ${this.accessToken}`);
     }
 
+    public deactivateUser(id: string): Test {
+        return request(this.app)
+            .post(`/api/users/${id}/deactivate`)
+            .set('Content-Type', 'application/json')
+            .set('Cookie', [`qid=${this.refreshToken}`])
+            .set('Authorization', `Bearer ${this.accessToken}`);
+    }
+
+    public activateUser(id: string): Test {
+        return request(this.app)
+            .post(`/api/users/${id}/activate`)
+            .set('Content-Type', 'application/json')
+            .set('Cookie', [`qid=${this.refreshToken}`])
+            .set('Authorization', `Bearer ${this.accessToken}`);
+    }
+
     public loginUser(email: string, password: string): Test {
         return request(this.app)
             .post('/api/auth/login')
