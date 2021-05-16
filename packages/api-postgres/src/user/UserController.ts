@@ -152,6 +152,66 @@ class UserController {
             });
     }
 
+    static deactivateUser(req: Request, res: Response): Promise<Response> {
+        const id = req.params.id;
+        return UserService.setIsActive(id, false)
+            .then((deactivatedUser) => {
+                if (deactivatedUser) {
+                    return res.json({
+                        success: true,
+                        message: 'user deactivated',
+                        payload: { user: deactivatedUser }
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        message: 'user not found',
+                        payload: { user: null }
+                    });
+                }
+            })
+            .catch((err) => {
+                return res.json({
+                    success: false,
+                    message: 'error deactivating user',
+                    payload: {
+                        error: err.message,
+                        user: null
+                    }
+                });
+            });
+    }
+
+    static activateUser(req: Request, res: Response): Promise<Response> {
+        const id = req.params.id;
+        return UserService.setIsActive(id, true)
+            .then((activatedUser) => {
+                if (activatedUser) {
+                    return res.json({
+                        success: true,
+                        message: 'user activated',
+                        payload: { user: activatedUser }
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        message: 'user not found',
+                        payload: { user: null }
+                    });
+                }
+            })
+            .catch((err) => {
+                return res.json({
+                    success: false,
+                    message: 'error activating user',
+                    payload: {
+                        error: err.message,
+                        user: null
+                    }
+                });
+            });
+    }
+
     static confirmEmail(req: Request, res: Response): Promise<Response> {
         const emailToken = req.params.token;
         return UserService.confirmEmail(emailToken)
