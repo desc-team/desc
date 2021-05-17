@@ -429,10 +429,97 @@ describe('User route acceptance tests', () => {
     });
 
     describe('/api/users/:id/activate route', () => {
+        const unknownId = '9ff6515e-814a-4d1c-bc27-9a768c4aa242';
+        const adminEmail = 'admin@desc.org';
+        const requestor1Email = 'oliver@desc.org';
+        const requestor2Email = 'barry@desc.org';
+        const password = '123456';
+
+        let requestorId1: string;
+        let requestorId2: string;
+        let client: TestClient;
+
+        beforeAll(() => {
+            client = new TestClient();
+        });
+
+        afterEach(async () => {
+            await TestUtils.dropUsers();
+        });
+
+        beforeEach(async () => {
+            await TestUtils.createAdminTestUser({
+                firstName: 'Admin',
+                lastName: 'User',
+                email: adminEmail,
+                password,
+                program: Program.SURVIVAL
+            });
+
+            const user1 = await TestUtils.createTestUser({
+                firstName: 'Oliver',
+                lastName: 'Queen',
+                email: requestor1Email,
+                password,
+                program: Program.SURVIVAL
+            });
+            requestorId1 = user1.id;
+
+            const user2 = await TestUtils.createTestUser({
+                firstName: 'Barry',
+                lastName: 'Allen',
+                email: requestor2Email,
+                password,
+                program: Program.HOUSING
+            });
+            requestorId2 = user2.id;
+        });
+
         describe('POST request method', () => {
-            it.todo('activates an inactive user');
-            it.todo('returns a null user in the payload if the user id does not exist');
-            it.todo('returns an error if a non-admin attempts to activate another user');
+            it('activates an inactive user', async () => {
+                await client.doLogin(adminEmail, password);
+                await client.deactivateUser(requestorId1);
+                const response = await client.activateUser(requestorId1);
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: true,
+                        message: 'user activated',
+                        payload: expect.objectContaining({
+                            user: expect.objectContaining({
+                                isActive: true
+                            })
+                        })
+                    })
+                );
+            });
+
+            it('returns a null user in the payload if the user id does not exist', async () => {
+                await client.doLogin(adminEmail, password);
+                const response = await client.deactivateUser(unknownId);
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: 'user not found',
+                        payload: expect.objectContaining({
+                            user: null
+                        })
+                    })
+                );
+            });
+
+            it('returns an error if a non-admin attempts to activate another user', async () => {
+                await client.doLogin(requestor1Email, password);
+                const response = await client.activateUser(requestorId2);
+                expect(response.body).toEqual(
+                    expect.objectContaining({
+                        success: false,
+                        message: expect.stringMatching(/^Error/),
+                        payload: expect.objectContaining({
+                            error: expect.stringMatching(/insufficient access/i)
+                        })
+                    })
+                );
+            });
         });
     });
 
