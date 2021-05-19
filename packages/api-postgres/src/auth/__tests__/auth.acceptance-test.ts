@@ -16,16 +16,18 @@ const expectedUserShape = {
 
 describe('Auth route acceptance tests', () => {
     let client: TestClient;
+    let requestorId: string;
     beforeAll(async () => {
         await createPostgresConnection();
         client = new TestClient();
-        await TestUtils.createTestUser({
+        const user = await TestUtils.createTestUser({
             firstName: 'Oliver',
             lastName: 'Queen',
             email: 'oliver@qc.com',
             password: '123456',
             program: Program.SURVIVAL
         });
+        requestorId = user.id;
     });
 
     afterAll(async () => {
@@ -57,6 +59,24 @@ describe('Auth route acceptance tests', () => {
 
         it('sends back status 401 for an unauthorized user', async () => {
             const response = await client.loginUser('oliver@qc.com', '654321');
+
+            expect(response.status).toBe(401);
+            expect(response.body).toStrictEqual({});
+        });
+
+        it('sends back status 401 for a user that is inactive', async () => {
+            await TestUtils.createAdminTestUser({
+                firstName: 'Admin',
+                lastName: 'User',
+                email: 'admin@desc.org',
+                password: '123456',
+                program: Program.EMPLOYMENT
+            });
+            await client.doLogin('admin@desc.org', '123456');
+            await client.deactivateUser(requestorId);
+            await client.logout();
+
+            const response = await client.loginUser('oliver@qc.com', '123456');
 
             expect(response.status).toBe(401);
             expect(response.body).toStrictEqual({});

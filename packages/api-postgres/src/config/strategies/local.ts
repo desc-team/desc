@@ -20,8 +20,13 @@ const verifyCb: PassportLocal.VerifyFunction = async (
     if (!user.verifyPassword(password)) {
         return done(null, false, { message: 'Bad user credentials provided' });
     }
+
+    if (!user.isActive) {
+        return done(null, false, { message: 'User is no longer active' });
+    }
+
     user.lastLoginAt = new Date();
-    return user.save().then(updatedUser => done(null, updatedUser));
+    return user.save().then((updatedUser) => done(null, updatedUser));
 };
 
 export default new LocalStrategy(opts, verifyCb);
