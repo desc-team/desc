@@ -113,7 +113,7 @@ class TestClient extends BaseTestClient {
             .send({ newPassword });
     }
 
-    public createItem(itemData: any): Test {
+    public createItem(itemData: Record<string, any>): Test {
         return request(this.app)
             .post('/api/items')
             .set('Cookie', [`qid=${this.refreshToken}`])
@@ -185,7 +185,7 @@ class TestClient extends BaseTestClient {
             .set('Authorization', `Bearer ${this.accessToken}`);
     }
 
-    public createClientRequest(requestData: any): Test {
+    public createClientRequest(requestData: Record<string, any>): Test {
         return request(this.app)
             .post('/api/clientrequests')
             .set('Cookie', [`qid=${this.refreshToken}`])
