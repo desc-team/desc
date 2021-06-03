@@ -80,7 +80,7 @@ export const availableShirtOrCoatSizes = [
     'XXL (18-20/48)',
     'XXXL (22-24-50)'
 ] as const;
-type ShirtOrCoatSizes = typeof availableShirtOrCoatSizes[number];
+export type ShirtOrCoatSizes = typeof availableShirtOrCoatSizes[number];
 
 export const availablePantSizes = [
     'XS (25-26/28)',
@@ -91,7 +91,7 @@ export const availablePantSizes = [
     'XXL (42-46/38)',
     'XXXL (47+/40+)'
 ] as const;
-type PantSizes = typeof availablePantSizes[number];
+export type PantSizes = typeof availablePantSizes[number];
 
 export const availableShoeSizes = [
     "Women's 4",
@@ -133,10 +133,10 @@ export const availableShoeSizes = [
     "Men's 15.5",
     "Men's 16"
 ] as const;
-type ShoeSizes = typeof availableShoeSizes[number];
+export type ShoeSizes = typeof availableShoeSizes[number];
 
 export const availableSockOrUnderwearSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'] as const;
-type SockOrUnderwearSizes = typeof availableSockOrUnderwearSizes[number];
+export type SockOrUnderwearSizes = typeof availableSockOrUnderwearSizes[number];
 
 export const availableBraSizes = [
     'S (32-34, A-B)',
@@ -145,10 +145,10 @@ export const availableBraSizes = [
     'XL (40-43 D-E)',
     'XXXL (43+ D+)'
 ] as const;
-type BraSizes = typeof availableSockOrUnderwearSizes[number];
+export type BraSizes = typeof availableSockOrUnderwearSizes[number];
 
 export const availableGloveSizes = ['S', 'M', 'L'] as const;
-type GloveSizes = typeof availableGloveSizes[number];
+export type GloveSizes = typeof availableGloveSizes[number];
 
 // Clothing Items
 export const availableClothingItems = [
@@ -163,6 +163,7 @@ export const availableClothingItems = [
     'hats',
     'other'
 ] as const;
+export type ClothingItems = typeof availableClothingItems[number];
 
 interface ClothingShirtOrCoatFields extends BaseItemFields {
     category: ItemCategory.CLOTHING;

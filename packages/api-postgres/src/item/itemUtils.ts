@@ -11,13 +11,33 @@ import {
     availableShoeSizes,
     availableBraSizes,
     availableClothingItems,
-    availableGloveSizes
+    availableGloveSizes,
+    EngagementItems,
+    ClothingItems,
+    HouseholdItems,
+    PersonalHygieneItems,
+    PetItems,
+    TicketItems,
+    OtherItems,
+    ShirtOrCoatSizes,
+    PantSizes,
+    SockOrUnderwearSizes,
+    ShoeSizes,
+    BraSizes,
+    GloveSizes
 } from '../common/types';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
-export function normalizeData(payload: any): any {
-    const data: any = {};
+function isItemValid<T extends string>(item: string, items: any): item is T {
+    return items.includes(item as T);
+}
+
+// add an alias
+const isSizeValid = isItemValid;
+
+export function normalizeData(payload: Record<string, any>): any {
+    const data: Record<string, any> = {};
 
     for (const key in payload) {
         if (typeof payload[key] === 'string' && fieldsToNormalize.includes(key)) {
@@ -29,41 +49,41 @@ export function normalizeData(payload: any): any {
     return data;
 }
 
-export function isValidItemForCategory(category: string, item: any): boolean {
+export function isValidItemForCategory(category: string, item: string): boolean {
     let result = false;
     switch (category) {
         case 'clothing':
-            if (availableClothingItems.includes(item)) {
+            if (isItemValid<ClothingItems>(item, availableClothingItems)) {
                 result = true;
             }
             break;
         case 'engagement':
-            if (availableEngagementItems.includes(item)) {
+            if (isItemValid<EngagementItems>(item, availableEngagementItems)) {
                 result = true;
             }
             break;
         case 'household':
-            if (availableHouseholdItems.includes(item)) {
+            if (isItemValid<HouseholdItems>(item, availableHouseholdItems)) {
                 result = true;
             }
             break;
         case 'personal hygiene':
-            if (availablePersonalHygieneItems.includes(item)) {
+            if (isItemValid<PersonalHygieneItems>(item, availablePersonalHygieneItems)) {
                 result = true;
             }
             break;
         case 'pet':
-            if (availablePetItems.includes(item)) {
+            if (isItemValid<PetItems>(item, availablePetItems)) {
                 result = true;
             }
             break;
         case 'ticket':
-            if (availableTicketItems.includes(item)) {
+            if (isItemValid<TicketItems>(item, availableTicketItems)) {
                 result = true;
             }
             break;
         case 'other':
-            if (availableOtherItems.includes(item)) {
+            if (isItemValid<OtherItems>(item, availableOtherItems)) {
                 result = true;
             }
             break;
@@ -73,43 +93,43 @@ export function isValidItemForCategory(category: string, item: any): boolean {
     return result;
 }
 
-export function isValidSizeForItem(itemName: string, size: any): boolean {
+export function isValidSizeForItem(itemName: string, size: string): boolean {
     let result = false;
     switch (itemName) {
         case 'shirt':
         case 'coat':
-            if (availableShirtOrCoatSizes.includes(size)) {
+            if (isSizeValid<ShirtOrCoatSizes>(size, availableShirtOrCoatSizes)) {
                 result = true;
             }
             break;
 
         case 'pants':
-            if (availablePantSizes.includes(size)) {
+            if (isSizeValid<PantSizes>(size, availablePantSizes)) {
                 result = true;
             }
             break;
 
         case 'shoes':
-            if (availableShoeSizes.includes(size)) {
+            if (isSizeValid<ShoeSizes>(size, availableShoeSizes)) {
                 result = true;
             }
             break;
 
         case 'socks':
         case 'underwear':
-            if (availableSockOrUnderwearSizes.includes(size)) {
+            if (isSizeValid<SockOrUnderwearSizes>(size, availableSockOrUnderwearSizes)) {
                 result = true;
             }
             break;
 
         case 'bra':
-            if (availableBraSizes.includes(size)) {
+            if (isSizeValid<BraSizes>(size, availableBraSizes)) {
                 result = true;
             }
             break;
 
         case 'gloves':
-            if (availableGloveSizes.includes(size)) {
+            if (isSizeValid<GloveSizes>(size, availableGloveSizes)) {
                 result = true;
             }
             break;
