@@ -31,7 +31,7 @@ const Nav = () => {
         <>
             <nav className="nav-wrapper teal">
                 <div className="container">
-                    <a href="#" data-target="mobile" className="sidenav-trigger">
+                    <a href="#!" data-target="mobile" className="sidenav-trigger">
                         <i className="material-icons">menu</i>
                     </a>
                     <Link to="/" className="brand-logo">

@@ -10,7 +10,7 @@ const SHIRT_OR_COAT_SIZES = [
 
 const SOCK_OR_UNDERWEAR_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
-export default {
+const availableItems = {
     Clothing: {
         Shirt: {
             sizes: SHIRT_OR_COAT_SIZES
@@ -138,3 +138,5 @@ export default {
         Other: {}
     }
 };
+
+export default availableItems;
