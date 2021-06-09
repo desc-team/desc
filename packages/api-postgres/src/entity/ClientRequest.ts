@@ -24,11 +24,7 @@ export default class ClientRequest extends BaseEntity {
     @JoinColumn()
     submittedBy: User;
 
-    @OneToMany(
-        () => Item,
-        item => item.clientRequest,
-        { cascade: true }
-    )
+    @OneToMany(() => Item, (item) => item.clientRequest, { cascade: true })
     @JoinColumn()
     items: Item[];
 

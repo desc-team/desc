@@ -4,7 +4,7 @@ import UserService from '../user/UserService';
 import { PassportStatic } from 'passport';
 
 /* eslint-disable @typescript-eslint/no-namespace */
-declare global  {
+declare global {
     namespace Express {
         interface User {
             id: string;
@@ -20,12 +20,12 @@ export const passportConfig = (passport: PassportStatic): void => {
 
     passport.deserializeUser((id: string, done: (err: any, user?: User) => void) => {
         return UserService.getUserById(id)
-            .then(user => {
+            .then((user) => {
                 if (user) {
                     return done(null, user);
                 }
             })
-            .catch(err => done(err));
+            .catch((err) => done(err));
     });
     passport.use('local', LocalStrategy);
 };

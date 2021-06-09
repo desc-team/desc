@@ -39,35 +39,19 @@ class TestUtilities {
     }
 
     public static async dropItems(): Promise<void> {
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Item)
-            .execute();
+        await getConnection().createQueryBuilder().delete().from(Item).execute();
     }
 
     public static async dropUsers(): Promise<void> {
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(User)
-            .execute();
+        await getConnection().createQueryBuilder().delete().from(User).execute();
     }
 
     public static async dropNotes(): Promise<void> {
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(Note)
-            .execute();
+        await getConnection().createQueryBuilder().delete().from(Note).execute();
     }
 
     public static async dropClientRequests(): Promise<void> {
-        await getConnection()
-            .createQueryBuilder()
-            .delete()
-            .from(ClientRequest)
-            .execute();
+        await getConnection().createQueryBuilder().delete().from(ClientRequest).execute();
     }
 }
 

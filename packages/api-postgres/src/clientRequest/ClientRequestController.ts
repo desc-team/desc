@@ -5,7 +5,7 @@ class ClientRequestController {
     static createClientRequest(req: Request, res: Response): Promise<Response> {
         const { clientId, requestorId, items } = req.body;
         return ClientRequestService.createClientRequest({ clientId, requestorId, items })
-            .then(cr => {
+            .then((cr) => {
                 // need to remove the reference to this client request in the items since it causes a circular reference
                 // and JSON does not handle it
                 if (cr.items && cr.items.length > 0) {
@@ -27,7 +27,7 @@ class ClientRequestController {
                     }
                 });
             })
-            .catch(err => {
+            .catch((err) => {
                 return res.json({
                     success: false,
                     message: 'error creating client request',
@@ -41,7 +41,7 @@ class ClientRequestController {
 
     static getAllClientRequests(_: Request, res: Response): Promise<Response> {
         return ClientRequestService.getAllClientRequests()
-            .then(requests => {
+            .then((requests) => {
                 return res.json({
                     success: true,
                     message: 'client requests fetched',
@@ -50,7 +50,7 @@ class ClientRequestController {
                     }
                 });
             })
-            .catch(err => {
+            .catch((err) => {
                 return res.json({
                     success: false,
                     message: 'error fetching client requests',
@@ -65,7 +65,7 @@ class ClientRequestController {
     static getClientRequest(req: Request, res: Response): Promise<Response> {
         const id = req.params.id;
         return ClientRequestService.getClientRequestById(id)
-            .then(cr => {
+            .then((cr) => {
                 if (cr) {
                     return res.json({
                         success: true,
@@ -84,7 +84,7 @@ class ClientRequestController {
                     });
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 return res.json({
                     success: false,
                     message: 'error fetching client request',
