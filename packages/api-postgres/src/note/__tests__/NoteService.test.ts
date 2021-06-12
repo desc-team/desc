@@ -1,9 +1,8 @@
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import UserService from '../../user/UserService';
-import { Program } from '../../common/types';
+import { ItemCategory, HouseLocation, Program } from '../../common/types/enums';
 import TestUtils from '../../testUtils/TestUtilities';
 import ItemService from '../../item/ItemService';
-import { ItemCategory, HouseLocation } from '../../common/types';
 import NoteService from '../NoteService';
 
 describe('Note service', () => {

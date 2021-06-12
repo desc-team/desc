@@ -3,7 +3,7 @@ import User from '../entity/User';
 import Item from '../entity/Item';
 import Note from '../entity/Note';
 import ClientRequest from '../entity/ClientRequest';
-import { Program } from '../common/types';
+import { Program } from '../common/types/enums';
 import UserService from '../user/UserService';
 
 class TestUtilities {

@@ -3,7 +3,7 @@ import User from '../entity/User';
 import UserService from './UserService';
 import AuthUtils from '../auth/AuthUtils';
 import Mailer from '../mailer/Mailer';
-import { UpdatableUserFields } from '../common/types';
+import { UpdatableUserFields } from '../common/types/types';
 
 class UserController {
     static createUser(req: Request, res: Response): Promise<Response> {

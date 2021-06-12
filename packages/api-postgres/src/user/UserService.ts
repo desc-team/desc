@@ -2,7 +2,8 @@ import bcrypt from 'bcryptjs';
 import { v4 } from 'uuid';
 import User from '../entity/User';
 import { getRepository } from 'typeorm';
-import { UserFields, UpdatableUserFields, UserRole } from '../common/types';
+import { UserFields, UpdatableUserFields } from '../common/types/types';
+import { UserRole } from '../common/types/enums';
 import DateUtils from '../common/DateUtils';
 
 export default class UserService {

@@ -1,7 +1,13 @@
 import ItemService from '../ItemService';
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import User from '../../entity/User';
-import { ItemCategory, ItemPriority, ItemStatus, HouseLocation, Program } from '../../common/types';
+import {
+    ItemCategory,
+    ItemPriority,
+    ItemStatus,
+    HouseLocation,
+    Program
+} from '../../common/types/enums';
 import UserService from '../../user/UserService';
 import TestUtils from '../../testUtils/TestUtilities';
 import NoteService from '../../note/NoteService';

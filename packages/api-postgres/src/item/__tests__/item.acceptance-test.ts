@@ -1,8 +1,7 @@
 import TestClient from '../../testUtils/TestClient';
 import TestUtils from '../../testUtils/TestUtilities';
-import { Program } from '../../common/types';
+import { ItemPriority, ItemStatus, ItemCategory, Program } from '../../common/types/enums';
 import { createPostgresConnection, closeConnection } from '../../config/database';
-import { ItemPriority, ItemStatus, ItemCategory } from '../../common/types';
 
 describe('Item route acceptance tests', () => {
     let requestor1Id: string;

@@ -2,7 +2,7 @@ import UserService from '../UserService';
 import User from '../../entity/User';
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import TestUtils from '../../testUtils/TestUtilities';
-import { Program } from '../../common/types';
+import { Program } from '../../common/types/enums';
 import DateUtils from '../../common/DateUtils';
 
 const testUser = {

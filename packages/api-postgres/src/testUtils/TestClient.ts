@@ -1,5 +1,6 @@
 import request, { Test } from 'supertest';
-import { UpdatableItemFields, Program } from '../common/types';
+import { UpdatableItemFields } from '../common/types/types';
+import { Program } from '../common/types/enums';
 import BaseTestClient from './BaseTestClient';
 
 class TestClient extends BaseTestClient {

@@ -12,7 +12,7 @@ import {
 import ClientRequest from './ClientRequest';
 import Note from './Note';
 import User from './User';
-import { ItemCategory, ItemPriority, ItemStatus, HouseLocation } from '../common/types';
+import { ItemCategory, ItemPriority, ItemStatus, HouseLocation } from '../common/types/enums';
 
 @Entity()
 export default class Item extends BaseEntity {

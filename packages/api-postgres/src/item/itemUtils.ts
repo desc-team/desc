@@ -25,7 +25,7 @@ import {
     ShoeSizes,
     BraSizes,
     GloveSizes
-} from '../common/types';
+} from '../common/types/types';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
