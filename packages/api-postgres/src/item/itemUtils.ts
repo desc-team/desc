@@ -1,30 +1,32 @@
 import {
+    availableBraSizes,
+    availableGloveSizes,
+    availablePantSizes,
+    availableShirtOrCoatSizes,
+    availableShoeSizes,
+    availableSockOrUnderwearSizes,
+    BraSizes,
+    GloveSizes,
+    PantSizes,
+    ShirtOrCoatSizes,
+    ShoeSizes,
+    SockOrUnderwearSizes
+} from '../common/types/clothingItemSizes';
+import {
+    availableClothingItems,
     availableEngagementItems,
     availableHouseholdItems,
+    availableOtherItems,
     availablePersonalHygieneItems,
     availablePetItems,
     availableTicketItems,
-    availableOtherItems,
-    availableShirtOrCoatSizes,
-    availableSockOrUnderwearSizes,
-    availablePantSizes,
-    availableShoeSizes,
-    availableBraSizes,
-    availableClothingItems,
-    availableGloveSizes,
-    EngagementItems,
     ClothingItems,
+    EngagementItems,
     HouseholdItems,
+    OtherItems,
     PersonalHygieneItems,
     PetItems,
-    TicketItems,
-    OtherItems,
-    ShirtOrCoatSizes,
-    PantSizes,
-    SockOrUnderwearSizes,
-    ShoeSizes,
-    BraSizes,
-    GloveSizes
+    TicketItems
 } from '../common/types/types';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
