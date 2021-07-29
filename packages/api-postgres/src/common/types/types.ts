@@ -1,11 +1,12 @@
 import {
-    BraSizes,
-    GloveSizes,
-    PantSizes,
-    ShirtOrCoatSizes,
-    ShoeSizes,
-    SockOrUnderwearSizes
-} from './clothingItemSizes';
+    ClothingBraFields,
+    ClothingGlovesFields,
+    ClothingPantFields,
+    ClothingShirtOrCoatFields,
+    ClothingShoeFields,
+    ClothingSockOrUnderwearFields
+} from './clothingItems';
+
 import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
 
 export interface UserFields {
@@ -21,57 +22,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Clothing Items
-export const availableClothingItems = [
-    'shirt',
-    'coat',
-    'pants',
-    'shoes',
-    'socks',
-    'underwear',
-    'bra',
-    'scarf',
-    'hats',
-    'other'
-] as const;
-export type ClothingItems = typeof availableClothingItems[number];
-
-interface ClothingShirtOrCoatFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'shirt' | 'coat';
-    size: ShirtOrCoatSizes;
-}
-
-interface ClothingPantFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'pants';
-    size: PantSizes;
-}
-
-interface ClothingShoeFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'shoes';
-    size: ShoeSizes;
-}
-
-interface ClothingSockOrUnderwearFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'socks' | 'underwear';
-    size: SockOrUnderwearSizes;
-}
-
-interface ClothingBraFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'bra';
-    size: BraSizes;
-}
-
-interface ClothingGlovesFields extends BaseItemFields {
-    category: ItemCategory.CLOTHING;
-    name: 'gloves';
-    size: GloveSizes;
-}
 
 // Engagement Items
 export const availableEngagementItems = ['games', 'artwork', 'candy/treats', 'other'] as const;
@@ -148,7 +98,7 @@ export interface NoteFields {
     itemId?: string;
 }
 
-interface BaseItemFields {
+export interface BaseItemFields {
     clientId: string;
     requestorId: string;
     location: HouseLocation;
