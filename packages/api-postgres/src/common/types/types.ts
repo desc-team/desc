@@ -8,6 +8,7 @@ import {
 } from './clothingItems';
 import { HouseholdItemFields } from './householdItems';
 import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
+import { EngagementItemFields } from './engagementItems';
 
 export interface UserFields {
     firstName: string;
@@ -22,14 +23,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Engagement Items
-export const availableEngagementItems = ['games', 'artwork', 'candy/treats', 'other'] as const;
-export type EngagementItems = typeof availableEngagementItems[number];
-interface EngagementItemFields extends BaseItemFields {
-    category: ItemCategory.ENGAGEMENT;
-    name: EngagementItems;
-}
 
 // Personal Hygiene Items
 export const availablePersonalHygieneItems = [

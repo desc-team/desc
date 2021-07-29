@@ -14,18 +14,17 @@ import {
 } from '../common/types/clothingItemSizes';
 import { availableClothingItems, ClothingItems } from '../common/types/clothingItems';
 import {
-    availableEngagementItems,
     availableOtherItems,
     availablePersonalHygieneItems,
     availablePetItems,
     availableTicketItems,
-    EngagementItems,
     OtherItems,
     PersonalHygieneItems,
     PetItems,
     TicketItems
 } from '../common/types/types';
 import { availableHouseholdItems, HouseholdItems } from '../common/types/householdItems';
+import { availableEngagementItems, EngagementItems } from '../common/types/engagementItems';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
