@@ -6,7 +6,7 @@ import {
     ClothingShoeFields,
     ClothingSockOrUnderwearFields
 } from './clothingItems';
-
+import { HouseholdItemFields } from './householdItems';
 import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
 
 export interface UserFields {
@@ -29,23 +29,6 @@ export type EngagementItems = typeof availableEngagementItems[number];
 interface EngagementItemFields extends BaseItemFields {
     category: ItemCategory.ENGAGEMENT;
     name: EngagementItems;
-}
-
-// Household Items
-export const availableHouseholdItems = [
-    'bedding',
-    'pillows',
-    'plates',
-    'cutlery',
-    'pots and pans',
-    'napkins/paper towels',
-    'shower curtain',
-    'other'
-] as const;
-export type HouseholdItems = typeof availableHouseholdItems[number];
-interface HouseholdItemFields extends BaseItemFields {
-    category: ItemCategory.HOUSEHOLD;
-    name: HouseholdItems;
 }
 
 // Personal Hygiene Items

@@ -12,22 +12,20 @@ import {
     ShoeSizes,
     SockOrUnderwearSizes
 } from '../common/types/clothingItemSizes';
+import { availableClothingItems, ClothingItems } from '../common/types/clothingItems';
 import {
-    availableClothingItems,
     availableEngagementItems,
-    availableHouseholdItems,
     availableOtherItems,
     availablePersonalHygieneItems,
     availablePetItems,
     availableTicketItems,
-    ClothingItems,
     EngagementItems,
-    HouseholdItems,
     OtherItems,
     PersonalHygieneItems,
     PetItems,
     TicketItems
 } from '../common/types/types';
+import { availableHouseholdItems, HouseholdItems } from '../common/types/householdItems';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
