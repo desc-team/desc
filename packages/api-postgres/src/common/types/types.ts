@@ -10,6 +10,7 @@ import { HouseholdItemFields } from './householdItems';
 import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
 import { EngagementItemFields } from './engagementItems';
 import { PersonalHygieneFields } from './personalHygieneItems';
+import { PetFields } from './petItems';
 
 export interface UserFields {
     firstName: string;
@@ -24,14 +25,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Pet Items
-export const availablePetItems = ['other'] as const;
-export type PetItems = typeof availablePetItems[number];
-interface PetFields extends BaseItemFields {
-    category: ItemCategory.PET;
-    name: PetItems;
-}
 
 // Ticket Items
 export const availableTicketItems = ['other'] as const;

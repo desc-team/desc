@@ -15,10 +15,8 @@ import {
 import { availableClothingItems, ClothingItems } from '../common/types/clothingItems';
 import {
     availableOtherItems,
-    availablePetItems,
     availableTicketItems,
     OtherItems,
-    PetItems,
     TicketItems
 } from '../common/types/types';
 import { availableHouseholdItems, HouseholdItems } from '../common/types/householdItems';
@@ -27,6 +25,7 @@ import {
     availablePersonalHygieneItems,
     PersonalHygieneItems
 } from '../common/types/personalHygieneItems';
+import { availablePetItems, PetItems } from '../common/types/petItems';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 
