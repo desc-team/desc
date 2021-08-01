@@ -9,6 +9,7 @@ import {
 import { HouseholdItemFields } from './householdItems';
 import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
 import { EngagementItemFields } from './engagementItems';
+import { PersonalHygieneFields } from './personalHygieneItems';
 
 export interface UserFields {
     firstName: string;
@@ -23,26 +24,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Personal Hygiene Items
-export const availablePersonalHygieneItems = [
-    'soap',
-    'shampoo',
-    'conditioner',
-    'brush/comb',
-    'toothbrush',
-    'toothpaste',
-    'floss',
-    'feminine pad',
-    'tampons',
-    'toilet paper',
-    'other'
-] as const;
-export type PersonalHygieneItems = typeof availablePersonalHygieneItems[number];
-interface PersonalHygieneFields extends BaseItemFields {
-    category: ItemCategory.PERSONAL_HYGIENE;
-    name: PersonalHygieneItems;
-}
 
 // Pet Items
 export const availablePetItems = ['other'] as const;
