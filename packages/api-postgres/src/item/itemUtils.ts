@@ -13,12 +13,7 @@ import {
     SockOrUnderwearSizes
 } from '../common/types/clothingItemSizes';
 import { availableClothingItems, ClothingItems } from '../common/types/clothingItems';
-import {
-    availableOtherItems,
-    availableTicketItems,
-    OtherItems,
-    TicketItems
-} from '../common/types/types';
+import { availableOtherItems, OtherItems } from '../common/types/types';
 import { availableHouseholdItems, HouseholdItems } from '../common/types/householdItems';
 import { availableEngagementItems, EngagementItems } from '../common/types/engagementItems';
 import {
@@ -26,6 +21,7 @@ import {
     PersonalHygieneItems
 } from '../common/types/personalHygieneItems';
 import { availablePetItems, PetItems } from '../common/types/petItems';
+import { availableTicketItems, TicketItems } from '../common/types/ticketItems';
 
 const fieldsToNormalize = ['category', 'name', 'location', 'priority', 'status'];
 

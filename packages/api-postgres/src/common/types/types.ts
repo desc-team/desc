@@ -11,6 +11,7 @@ import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRol
 import { EngagementItemFields } from './engagementItems';
 import { PersonalHygieneFields } from './personalHygieneItems';
 import { PetFields } from './petItems';
+import { TicketFields } from './ticketItems';
 
 export interface UserFields {
     firstName: string;
@@ -25,14 +26,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Ticket Items
-export const availableTicketItems = ['other'] as const;
-export type TicketItems = typeof availableTicketItems[number];
-interface TicketFields extends BaseItemFields {
-    category: ItemCategory.TICKET;
-    name: TicketItems;
-}
 
 // Other
 export const availableOtherItems = ['other'] as const;
