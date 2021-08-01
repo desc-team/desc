@@ -14,12 +14,6 @@ import { PetFields } from './petItems';
 import { TicketFields } from './ticketItems';
 import { OtherFields } from './otherItems';
 
-export interface NoteFields {
-    body: string;
-    userId?: string;
-    itemId?: string;
-}
-
 export interface BaseItemFields {
     clientId: string;
     requestorId: string;
