@@ -7,26 +7,12 @@ import {
     ClothingSockOrUnderwearFields
 } from './clothingItems';
 import { HouseholdItemFields } from './householdItems';
-import { HouseLocation, ItemPriority, ItemStatus, Program, UserRole } from './enums';
+import { HouseLocation, ItemPriority, ItemStatus } from './enums';
 import { EngagementItemFields } from './engagementItems';
 import { PersonalHygieneFields } from './personalHygieneItems';
 import { PetFields } from './petItems';
 import { TicketFields } from './ticketItems';
 import { OtherFields } from './otherItems';
-
-export interface UserFields {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    program?: Program;
-    roles?: UserRole[];
-    isEmailVerified?: boolean;
-    emailVerificationToken?: string;
-    isActive?: boolean;
-}
-
-export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
 
 export interface NoteFields {
     body: string;
