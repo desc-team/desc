@@ -2,7 +2,7 @@ import TestClient from '../../testUtils/TestClient';
 import TestUtils from '../../testUtils/TestUtilities';
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import { ItemCategory, HouseLocation, Program } from '../../common/types/enums';
-import { ItemFields } from '../../common/types/types';
+import { ItemFields } from '../../common/types/items';
 
 describe('ClientRequest route acceptance tests', () => {
     const clientId = '123456789';

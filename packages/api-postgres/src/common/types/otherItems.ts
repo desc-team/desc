@@ -1,5 +1,5 @@
 import { ItemCategory } from './enums';
-import { BaseItemFields } from './types';
+import { BaseItemFields } from './items';
 
 // Other
 export const availableOtherItems = ['other'] as const;

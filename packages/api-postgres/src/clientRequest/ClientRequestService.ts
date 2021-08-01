@@ -1,5 +1,5 @@
 import ClientRequest from '../entity/ClientRequest';
-import { ItemFields } from '../common/types/types';
+import { ItemFields } from '../common/types/items';
 import UserService from '../user/UserService';
 import ItemService from '../item/ItemService';
 import Item from '../entity/Item';

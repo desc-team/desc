@@ -1,5 +1,5 @@
 import { ItemCategory } from './enums';
-import { BaseItemFields } from './types';
+import { BaseItemFields } from './items';
 
 // Ticket Items
 export const availableTicketItems = ['other'] as const;

@@ -7,7 +7,7 @@ import {
     SockOrUnderwearSizes
 } from './clothingItemSizes';
 import { ItemCategory } from './enums';
-import { BaseItemFields } from './types';
+import { BaseItemFields } from './items';
 
 export const availableClothingItems = [
     'shirt',

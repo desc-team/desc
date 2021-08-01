@@ -1,6 +1,6 @@
 import { createPostgresConnection, closeConnection } from '../../config/database';
 import User from '../../entity/User';
-import { ItemFields } from '../../common/types/types';
+import { ItemFields } from '../../common/types/items';
 import { ItemCategory, HouseLocation, Program } from '../../common/types/enums';
 import UserService from '../../user/UserService';
 import ClientRequestService from '../ClientRequestService';
