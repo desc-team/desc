@@ -7,11 +7,12 @@ import {
     ClothingSockOrUnderwearFields
 } from './clothingItems';
 import { HouseholdItemFields } from './householdItems';
-import { HouseLocation, ItemCategory, ItemPriority, ItemStatus, Program, UserRole } from './enums';
+import { HouseLocation, ItemPriority, ItemStatus, Program, UserRole } from './enums';
 import { EngagementItemFields } from './engagementItems';
 import { PersonalHygieneFields } from './personalHygieneItems';
 import { PetFields } from './petItems';
 import { TicketFields } from './ticketItems';
+import { OtherFields } from './otherItems';
 
 export interface UserFields {
     firstName: string;
@@ -26,14 +27,6 @@ export interface UserFields {
 }
 
 export type UpdatableUserFields = Partial<Omit<UserFields, 'password' | 'roles'>>;
-
-// Other
-export const availableOtherItems = ['other'] as const;
-export type OtherItems = typeof availableOtherItems[number];
-interface OtherFields extends BaseItemFields {
-    category: ItemCategory.OTHER;
-    name: OtherItems;
-}
 
 export interface NoteFields {
     body: string;
