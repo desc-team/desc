@@ -3,7 +3,7 @@
     "name": "desc",
     "workspaces": {
         "packages": [
-            "packages/api-mongo",
+            "packages/api",
             "packages/api-postgres",
             "packages/app",
             "packages/e2e"
@@ -17,8 +17,8 @@
         "bootstrap": "lerna bootstrap",
         "clean": "lerna clean",
         "dev": "lerna run dev --stream --scope @desc/api-postgres --scope @desc/app",
-        "dev:v1": "lerna run dev --stream --scope @desc/api-mongo --scope @desc/app",
-        "dev:api-m": "lerna run dev --stream --scope @desc/api-momgo",
+        "dev:v1": "lerna run dev --stream --scope @desc/api --scope @desc/app",
+        "dev:api": "lerna run dev --stream --scope @desc/api",
         "dev:api-p": "lerna run dev --stream --scope @desc/api-postgres",
         "dev:app": "lerna run start --stream --scope @desc/app",
         "lint:all": "lerna run lint --stream --scope @desc/api-postgres --scope @desc/app",
