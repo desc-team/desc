@@ -2,9 +2,11 @@ import Item from '../entity/Item';
 import { ItemFields, UpdatableItemFields } from '../common/types/items';
 import UserService from '../user/UserService';
 import NoteService from '../note/NoteService';
+import { getEntityManager } from '../common/entityUtils';
 
 export default class ItemService {
     static async createItem(itemData: ItemFields): Promise<Item> {
+        const em = getEntityManager();
         const {
             clientId,
             category,
@@ -23,7 +25,7 @@ export default class ItemService {
             throw new Error('Invalid requestor');
         }
 
-        const item = Item.create({
+        const item = em.create(Item, {
             clientId,
             category,
             name,
@@ -42,31 +44,31 @@ export default class ItemService {
             item.notes = [tempNote];
         }
 
-        return item.save();
+        return em.save(item);
     }
 
     static getAllItems(query = {}): Promise<Item[]> {
-        return Item.find({
+        return getEntityManager().find(Item, {
             where: query,
             relations: ['submittedBy', 'notes', 'notes.submittedBy']
         });
     }
 
     static getItemById(id: string): Promise<Item | undefined> {
-        return Item.findOne({
+        return getEntityManager().findOne(Item, {
             where: { id },
             relations: ['submittedBy', 'notes', 'notes.submittedBy']
         });
     }
 
     static async updateItem(id: string, data: UpdatableItemFields): Promise<Item | undefined> {
-        await Item.update({ id }, data);
+        await getEntityManager().update(Item, { id }, data);
         return ItemService.getItemById(id);
     }
 
     static async deleteItem(id: string): Promise<Item | undefined> {
         const item = await ItemService.getItemById(id);
-        await Item.delete({ id });
+        await getEntityManager().delete(Item, { id });
         return item;
     }
 
@@ -91,7 +93,7 @@ export default class ItemService {
         note.submittedBy = author;
         note.item = item;
         item.notes = [...item.notes, note];
-        await item.save();
+        await getEntityManager().save(item);
 
         return ItemService.getItemById(itemId);
     }

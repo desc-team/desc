@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { createConnection, getConnection, getConnectionOptions } from 'typeorm';
+import { Connection, createConnection, getConnection } from 'typeorm';
 import config from './config';
 
 const envDbNameMap: Map<string, string> = new Map();
@@ -7,21 +7,24 @@ envDbNameMap.set('development', 'desc-dev');
 envDbNameMap.set('testing', 'desc-test');
 envDbNameMap.set('testingE2E', 'desc-test');
 
-const dbName: string = envDbNameMap.get(config.env) as string;
+const connectionName: string = envDbNameMap.get(config.env) as string;
 
-export const createPostgresConnection = async (): Promise<void> => {
+export async function createPostgresConnection(): Promise<void> {
     try {
         if (config.env != 'production') {
-            const connectionOptions = await getConnectionOptions(dbName);
-            await createConnection({ ...connectionOptions, name: 'default' });
+            await createConnection(connectionName);
         }
         // else connect to heroku hosted postres
         // instance assigned to env var DATABASE_URL
     } catch (e) {
         console.error(e);
     }
-};
+}
 
-export const closeConnection = (): Promise<void> => {
-    return getConnection().close();
-};
+export function closeConnection(): Promise<void> {
+    return getConnection(connectionName).close();
+}
+
+export function getDbConnection(): Connection {
+    return getConnection(connectionName);
+}

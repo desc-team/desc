@@ -1,10 +1,10 @@
-import { getConnection } from 'typeorm';
 import User from '../entity/User';
 import Item from '../entity/Item';
 import Note from '../entity/Note';
 import ClientRequest from '../entity/ClientRequest';
 import { Program } from '../common/types/enums';
 import UserService from '../user/UserService';
+import { getDbConnection } from '../config/database';
 
 class TestUtilities {
     public static createTestUser(userData: {
@@ -30,7 +30,7 @@ class TestUtilities {
     }
 
     public static async deleteUserByEmail(email: string): Promise<void> {
-        await getConnection()
+        await getDbConnection()
             .createQueryBuilder()
             .delete()
             .from(User)
@@ -39,19 +39,19 @@ class TestUtilities {
     }
 
     public static async dropItems(): Promise<void> {
-        await getConnection().createQueryBuilder().delete().from(Item).execute();
+        await getDbConnection().createQueryBuilder().delete().from(Item).execute();
     }
 
     public static async dropUsers(): Promise<void> {
-        await getConnection().createQueryBuilder().delete().from(User).execute();
+        await getDbConnection().createQueryBuilder().delete().from(User).execute();
     }
 
     public static async dropNotes(): Promise<void> {
-        await getConnection().createQueryBuilder().delete().from(Note).execute();
+        await getDbConnection().createQueryBuilder().delete().from(Note).execute();
     }
 
     public static async dropClientRequests(): Promise<void> {
-        await getConnection().createQueryBuilder().delete().from(ClientRequest).execute();
+        await getDbConnection().createQueryBuilder().delete().from(ClientRequest).execute();
     }
 }
 

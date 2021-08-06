@@ -3,6 +3,7 @@ import { ItemFields } from '../common/types/items';
 import UserService from '../user/UserService';
 import ItemService from '../item/ItemService';
 import Item from '../entity/Item';
+import { getEntityManager } from '../common/entityUtils';
 
 interface ClientRequestData {
     clientId: string;
@@ -11,6 +12,7 @@ interface ClientRequestData {
 }
 export default class ClientRequestService {
     static async createClientRequest(data: ClientRequestData): Promise<ClientRequest> {
+        const em = getEntityManager();
         const { clientId, requestorId, items } = data;
         const clientRequest = new ClientRequest();
         clientRequest.clientId = clientId;
@@ -22,7 +24,7 @@ export default class ClientRequestService {
         clientRequest.submittedBy = requestor;
 
         if (!items) {
-            return clientRequest.save();
+            return em.save(clientRequest);
         }
 
         if (Array.isArray(items)) {
@@ -40,15 +42,15 @@ export default class ClientRequestService {
             clientRequest.items = [tempItem];
         }
 
-        return clientRequest.save();
+        return em.save(clientRequest);
     }
 
     static async getAllClientRequests(): Promise<ClientRequest[]> {
-        return ClientRequest.find({ relations: ['submittedBy', 'items'] });
+        return getEntityManager().find(ClientRequest, { relations: ['submittedBy', 'items'] });
     }
 
     static getClientRequestById(id: string): Promise<ClientRequest | undefined> {
-        return ClientRequest.findOne({
+        return getEntityManager().findOne(ClientRequest, {
             where: { id },
             relations: ['submittedBy', 'items']
         });

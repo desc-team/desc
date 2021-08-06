@@ -2,11 +2,13 @@ import Note from '../entity/Note';
 import UserService from '../user/UserService';
 import ItemService from '../item/ItemService';
 import { NoteFields } from '../common/types/notes';
+import { getEntityManager } from '../common/entityUtils';
 
 export default class NoteService {
     static async createNote(noteData: NoteFields): Promise<Note | undefined> {
+        const em = getEntityManager();
         const { body, userId, itemId } = noteData;
-        const note = Note.create({ body });
+        const note = em.create(Note, { body });
 
         if (userId && itemId) {
             const user = await UserService.getUserById(userId);
@@ -23,30 +25,36 @@ export default class NoteService {
             note.item = item;
         }
 
-        return note.save();
+        return em.save(note);
     }
 
     static createNoteForItem(noteData: NoteFields): Note {
         const { body } = noteData;
-        const note = Note.create({ body });
+        const note = getEntityManager().create(Note, { body });
         return note;
     }
 
     static getAllNotes(): Promise<Note[]> {
-        return Note.find({ relations: ['submittedBy', 'item'] });
+        return getEntityManager().find(Note, { relations: ['submittedBy', 'item'] });
     }
 
     static getNoteById(id: string): Promise<Note | undefined> {
-        return Note.findOne({ where: { id }, relations: ['submittedBy', 'item'] });
+        return getEntityManager().findOne(Note, {
+            where: { id },
+            relations: ['submittedBy', 'item']
+        });
     }
 
     static getNoteForItem(itemId: string): Promise<Note[]> {
-        return Note.find({ where: { item: itemId }, relations: ['submittedBy', 'item'] });
+        return getEntityManager().find(Note, {
+            where: { item: itemId },
+            relations: ['submittedBy', 'item']
+        });
     }
 
     static async deleteNote(id: string): Promise<Note | undefined> {
         const note = await NoteService.getNoteById(id);
-        await Note.delete({ id });
+        await getEntityManager().delete(Note, { id });
         return note;
     }
 }
