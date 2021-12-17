@@ -1,18 +1,18 @@
-name: API Postgres tests
+name: API tests
 
 on:
     push:
         branches:
             - main
         paths:
-            - 'packages/api-postgres/**'
+            - 'packages/api/**'
 
     pull_request:
         branches:
             - main
             - 'feature/**'
         paths:
-            - 'packages/api-postgres/**'
+            - 'packages/api/**'
 
 jobs:
     runner-job:
@@ -40,7 +40,7 @@ jobs:
 
             - name: Set up test database
               run: |
-                  docker exec -i $(docker container ls -aq) bash < ./packages/api-postgres/scripts/db-setup.sh
+                  docker exec -i $(docker container ls -aq) bash < ./packages/api/scripts/db-setup.sh
 
             - name: Install node
               uses: actions/setup-node@v1

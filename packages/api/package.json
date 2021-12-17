@@ -1,5 +1,5 @@
 {
-    "name": "@desc/api-postgres",
+    "name": "@desc/api",
     "version": "0.1.0",
     "description": "RESTful json API for the DESC project written in typescript and backed by a postgres data store",
     "main": "index.js",

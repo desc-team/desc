@@ -3,7 +3,7 @@
     "name": "desc",
     "workspaces": {
         "packages": [
-            "packages/api-postgres",
+            "packages/api",
             "packages/app",
             "packages/e2e"
         ],
@@ -15,14 +15,14 @@
     "scripts": {
         "bootstrap": "lerna bootstrap",
         "clean": "lerna clean",
-        "dev": "lerna run dev --stream --scope @desc/api-postgres --scope @desc/app",
-        "dev:api-postgres": "lerna run dev --stream --scope @desc/api-postgres",
+        "dev": "lerna run dev --stream --scope @desc/api--scope @desc/app",
+        "dev:api": "lerna run dev --stream --scope @desc/api",
         "dev:app": "lerna run start --stream --scope @desc/app",
-        "lint:all": "lerna run lint --stream --scope @desc/api-postgres --scope @desc/app",
-        "lint:api": "lerna run lint --stream --scope @desc/api-postgres",
+        "lint:all": "lerna run lint --stream --scope @desc/api --scope @desc/app",
+        "lint:api": "lerna run lint --stream --scope @desc/api",
         "lint:app": "lerna run lint --stream --scope @desc/app",
         "postinstall": "yarn bootstrap",
-        "test:api": "lerna run test --stream --scope @desc/api-postgres",
+        "test:api": "lerna run test --stream --scope @desc/api",
         "test:app:all": "lerna run test --stream --scope @desc/app -- --colors --watchAll=false",
         "test:app:watch": "lerna run test --stream --scope @desc/app -- --colors",
         "test:e2e": "lerna run test:e2e --stream",
