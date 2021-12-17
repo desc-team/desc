@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { v4 } from 'uuid';
 import User from '../entity/User';
-import { getRepository } from 'typeorm';
 import { UserFields, UpdatableUserFields } from '../common/types/user';
 import { UserRole } from '../common/types/enums';
 import DateUtils from '../common/DateUtils';
@@ -117,7 +116,7 @@ export default class UserService {
     }
 
     private static async getUserCount(): Promise<number> {
-        const count = await getRepository(User).createQueryBuilder('user').getCount();
+        const count = await getEntityManager().count(User);
         return count;
     }
 }

@@ -28,34 +28,22 @@ describe('User Signin', () => {
 
     it('shows error if user is unauthorized', () => {
         cy.visit('http://localhost:4200/signin');
-        cy.get('#email')
-            .focus()
-            .type('random@desc.org');
+        cy.get('#email').focus().type('random@desc.org');
 
-        cy.get('#password')
-            .focus()
-            .type('randompassword1234');
+        cy.get('#password').focus().type('randompassword1234');
 
-        cy.get('button')
-            .contains('Sign In')
-            .click();
+        cy.get('button').contains('Sign In').click();
 
         cy.get('form .red-text').should('contain', 'Unathorized user.');
     });
 
     it('successfully logs in an existing user', () => {
         cy.visit('http://localhost:4200/signin');
-        cy.get('#email')
-            .focus()
-            .type(user.email);
+        cy.get('#email').focus().type(user.email);
 
-        cy.get('#password')
-            .focus()
-            .type(user.password);
+        cy.get('#password').focus().type(user.password);
 
-        cy.get('button')
-            .contains('Sign In')
-            .click();
+        cy.get('button').contains('Sign In').click();
 
         cy.url().should('eq', 'http://localhost:4200/');
 
@@ -72,11 +60,9 @@ describe('User Signin', () => {
         cy.visit('http://localhost:4200/');
 
         cy.get('.profile-menu > a').click();
-        cy.get('.profile-menu a')
-            .contains('Logout')
-            .click();
+        cy.get('.profile-menu a').contains('Logout').click();
         cy.url().should('eq', 'http://localhost:4200/');
-        cy.get('h3').should('contain', 'Home Page');
-        cy.get('h3').not('contain', user.firstName);
+        cy.get('h1').should('contain', 'Welcome to the DESC Portal');
+        cy.findByRole('heading', { name: user.firstName }).should('not.exist');
     });
 });

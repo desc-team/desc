@@ -11,12 +11,12 @@
     "author": "Jason Jones",
     "license": "MIT",
     "devDependencies": {
-        "cypress": "6.6.0"
+        "@testing-library/cypress": "8.0.2",
+        "cypress": "9.1.1"
     },
     "dependencies": {
-        "debug": "^4.1.1",
-        "dotenv": "8.2.0",
-        "mongoose": "5.11.19",
-        "pg": "8.5.1"
+        "debug": "4.3.3",
+        "dotenv": "10.0.0",
+        "pg": "8.7.1"
     }
 }
