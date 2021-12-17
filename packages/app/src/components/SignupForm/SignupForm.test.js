@@ -22,9 +22,14 @@ describe('SignupForm', () => {
         expect(getByLabelText('First Name')).toBeTruthy();
     });
 
-    it('renders an input for last name', () => {
-        const { getByLabelText } = render(getComponentUnderTest());
-        expect(getByLabelText('Last Name')).toBeTruthy();
+    it('renders an input for last name on desktop', () => {
+        const { getByTestId } = render(getComponentUnderTest());
+        expect(getByTestId('last-name-desktop')).toBeTruthy();
+    });
+
+    it('renders an input for last name on mobile', () => {
+        const { getByTestId } = render(getComponentUnderTest());
+        expect(getByTestId('last-name-mobile')).toBeTruthy();
     });
 
     it('renders an input for email', () => {

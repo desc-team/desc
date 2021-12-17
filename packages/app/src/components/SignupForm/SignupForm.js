@@ -20,7 +20,8 @@ const css = {
 const SignupForm = ({ history, onRegister }) => {
     const [form, setValues] = useState({
         firstName: '',
-        lastName: '',
+        lastNameDesktop: '',
+        lastNameMobile: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -58,7 +59,7 @@ const SignupForm = ({ history, onRegister }) => {
     const isFormValid = () => {
         return (
             form.firstName.length > 0 &&
-            form.lastName.length > 0 &&
+            (form.lastNameDesktop.length > 0 || form.lastNameMobile > 0) &&
             form.email.length > 0 &&
             form.password.length > 0 &&
             form.program.length > 0 &&
@@ -71,7 +72,7 @@ const SignupForm = ({ history, onRegister }) => {
         if (isFormValid()) {
             const payload = {
                 firstName: form.firstName,
-                lastName: form.lastName,
+                lastName: form.lastNameDesktop || form.lastNameMobile,
                 email: form.email,
                 password: form.password,
                 program: form.program
@@ -102,19 +103,21 @@ const SignupForm = ({ history, onRegister }) => {
                     </div>
                     <div className="col s12 m6 hide-on-med-and-up">
                         <TextField
+                            data-testid="last-name-mobile"
                             label="Last Name"
                             icon="account_circle"
                             type="text"
-                            name="lastName"
+                            name="lastNameMobile"
                             value={form.lastName}
                             handleChange={handleChange}
                         />
                     </div>
                     <div className="col s12 m6 hide-on-small-only">
                         <TextField
+                            data-testid="last-name-desktop"
                             label="Last Name"
                             type="text"
-                            name="lastName"
+                            name="lastNameDesktop"
                             value={form.lastName}
                             handleChange={handleChange}
                         />

@@ -21,7 +21,7 @@ const ConfirmEmail = () => {
 
     useEffect(() => {
         confirmEmail(token);
-    }, [token]);
+    }, [token, confirmEmail]);
 
     return (
         <div style={css.container}>

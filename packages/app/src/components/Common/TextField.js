@@ -1,13 +1,14 @@
 import React, { forwardRef } from 'react';
 
 const TextField = (
-    { type, name, label, validate, value, error, icon, disabled, handleChange },
+    { type, name, label, validate, value, error, icon, disabled, handleChange, ...props },
     ref
 ) => {
     return (
         <div className="input-field">
             {icon && <i className="small material-icons prefix">{icon}</i>}
             <input
+                {...props}
                 ref={ref}
                 className={validate ? 'validate' : ''}
                 type={type}
