@@ -20,6 +20,10 @@ module.exports = {
     },
     overrides: [
         {
+            files: ['packages/app/**/*.js'],
+            extends: ['react-app']
+        },
+        {
             files: ['**/*.ts'],
             extends: [
                 'plugin:@typescript-eslint/eslint-recommended',

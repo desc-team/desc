@@ -31,9 +31,6 @@
         "@testing-library/user-event": "13.5.0",
         "jest": "26.6.0"
     },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
     "browserslist": {
         "production": [
             ">0.2%",

@@ -37,16 +37,14 @@ app.use('/api/users', UserRouter.getRouter());
 app.use('/api/items', ItemRouter.getRouter());
 app.use('/api/clientrequests', ClientRequestRouter.getRouter());
 
-app.use(
-    (err: Error, _: Request, res: Response, __: NextFunction): Response => {
-        return res.json({
-            success: false,
-            message: 'Error: unable to complete request',
-            payload: {
-                error: err.message
-            }
-        });
-    }
-);
+app.use((err: Error, _: Request, res: Response, __: NextFunction): Response => {
+    return res.json({
+        success: false,
+        message: 'Error: unable to complete request',
+        payload: {
+            error: err.message
+        }
+    });
+});
 
 export default app;
