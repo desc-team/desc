@@ -1,14 +1,14 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import SigninForm from '../components/SigninForm/SigninForm';
 import { useAuthContext } from '../context/AuthContext';
 
-const Signin = (props) => {
+const Signin = () => {
     const authCtx = useAuthContext();
     if (authCtx.contextUser) {
-        return <Redirect to="/" />;
+        return <Navigate to="/" />;
     }
-    return <SigninForm {...props} />;
+    return <SigninForm />;
 };
 
 export default Signin;

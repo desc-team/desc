@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -33,30 +33,49 @@ function App() {
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
                     <AuthProvider>
-                        <Layout>
-                            <Switch>
-                                <Route exact path="/" component={Home} />
-                                <Route exact path="/signup" component={Signup} />
-                                <Route exact path="/signin" component={Signin} />
-                                <Route exact path="/forgotpassword" component={ForgotPassword} />
-                                <Route exact path="/confirmemail/:token" component={ConfirmEmail} />
+                        <Routes>
+                            <Route path="/" element={<Layout />}>
+                                <Route index element={<Home />} />
+                                <Route path="signup" element={<Signup />} />
+                                <Route path="signin" element={<Signin />} />
+                                <Route path="forgotpassword" element={<ForgotPassword />} />
+                                <Route path="confirmemail/:token" element={<ConfirmEmail />} />
+                                <Route path="changepassword/:token" element={<ChangePassword />} />
                                 <Route
-                                    exact
-                                    path="/changepassword/:token"
-                                    component={ChangePassword}
+                                    path="inbox"
+                                    element={
+                                        <PrivateRoute>
+                                            <Inbox />
+                                        </PrivateRoute>
+                                    }
                                 />
-
-                                <PrivateRoute exact path="/inbox" component={Inbox} />
-                                <PrivateRoute
-                                    exact
-                                    path="/createv1"
-                                    component={RequestCreationPage}
+                                <Route
+                                    path="createV1"
+                                    element={
+                                        <PrivateRoute>
+                                            <RequestCreationPage />
+                                        </PrivateRoute>
+                                    }
                                 />
-                                <PrivateRoute exact path="/create" component={Request} />
-                                <PrivateRoute exact path="/profile" component={UserProfile} />
-                            </Switch>
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </Layout>
+                                <Route
+                                    path="create"
+                                    element={
+                                        <PrivateRoute>
+                                            <Request />
+                                        </PrivateRoute>
+                                    }
+                                />
+                                <Route
+                                    path="profile"
+                                    element={
+                                        <PrivateRoute>
+                                            <UserProfile />
+                                        </PrivateRoute>
+                                    }
+                                />
+                            </Route>
+                        </Routes>
+                        <ReactQueryDevtools initialIsOpen={false} />
                     </AuthProvider>
                 </QueryClientProvider>
             </BrowserRouter>

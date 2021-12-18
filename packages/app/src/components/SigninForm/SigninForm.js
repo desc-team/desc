@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import M from 'materialize-css';
 import { useAuthContext } from '../../context/AuthContext';
 import TextField from '../Common/TextField';
@@ -29,8 +29,9 @@ const css = {
     }
 };
 
-const SigninForm = ({ history }) => {
+const SigninForm = () => {
     const authCtx = useAuthContext();
+    const navigate = useNavigate();
 
     const [form, setValues] = useState({
         email: '',
@@ -42,7 +43,7 @@ const SigninForm = ({ history }) => {
         if (data.success) {
             const { user, accessToken: token } = data.payload;
             authCtx.login(user, token);
-            history.push('/');
+            navigate('/');
         } else {
             if (data.message === 'unauthorized') {
                 setValues({
@@ -79,7 +80,7 @@ const SigninForm = ({ history }) => {
     };
 
     const handleCancel = () => {
-        history.push('/');
+        navigate('/');
     };
 
     return (

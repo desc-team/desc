@@ -1,6 +1,6 @@
 import M from 'materialize-css';
 import React, { useState, useRef, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TextField from '../Common/TextField';
 import useForgotPassword from '../../hooks/useForgotPassword';
 
@@ -29,7 +29,7 @@ const css = {
 };
 
 const ForgotPasswordForm = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const textFieldRef = useRef();
 
     const [isRequestSent, setIsRequestSent] = useState(false);
@@ -69,7 +69,7 @@ const ForgotPasswordForm = () => {
     };
 
     const handleCancel = () => {
-        history.push('/');
+        navigate('/');
     };
 
     const handleChange = (e) => {

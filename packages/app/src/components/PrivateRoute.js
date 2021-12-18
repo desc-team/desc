@@ -1,17 +1,10 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({ children }) => {
     const authCtx = useAuthContext();
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                authCtx.token ? <Component {...props} /> : <Redirect to="/signin" />
-            }
-        />
-    );
+    return authCtx.token ? children : <Navigate to="/signin" />;
 };
 
 export default PrivateRoute;

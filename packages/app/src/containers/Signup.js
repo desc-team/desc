@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import SignupForm from '../components/SignupForm/SignupForm';
 import { useAuthContext } from '../context/AuthContext';
 
@@ -25,18 +25,18 @@ const SignupComplete = () => {
     );
 };
 
-const Signup = (props) => {
+const Signup = () => {
     const authCtx = useAuthContext();
     const [isSignupComplete, setIsSignupComplete] = useState(false);
 
     if (authCtx.contextUser) {
-        return <Redirect to="/" />;
+        return <Navigate to="/" />;
     }
 
     return (
         <div>
             {!isSignupComplete ? (
-                <SignupForm {...props} onRegister={() => setIsSignupComplete(true)} />
+                <SignupForm onRegister={() => setIsSignupComplete(true)} />
             ) : (
                 <SignupComplete />
             )}

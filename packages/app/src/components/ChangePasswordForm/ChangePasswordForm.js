@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import TextField from '../Common/TextField';
 import useChangePassword from '../../hooks/useChangePassword';
@@ -20,7 +20,7 @@ const css = {
 
 const ChangePasswordForm = () => {
     const { token } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
 
@@ -37,7 +37,7 @@ const ChangePasswordForm = () => {
                 classes: 'teal',
                 displayLength: 3000,
                 completeCallback: () => {
-                    history.push('/signin');
+                    navigate('/signin');
                 }
             });
         } else {
@@ -82,8 +82,9 @@ const ChangePasswordForm = () => {
     const isFormValid = () => {
         return form.password.length > 0 && form.password === form.confirmPassword;
     };
+
     const handleCancel = () => {
-        history.push('/');
+        navigate('/');
     };
 
     return (

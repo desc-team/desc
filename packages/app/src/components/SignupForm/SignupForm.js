@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import M from 'materialize-css';
 import TextField from '../Common/TextField';
 import useSignup from '../../hooks/useSignup';
@@ -17,7 +18,9 @@ const css = {
     }
 };
 
-const SignupForm = ({ history, onRegister }) => {
+const SignupForm = ({ onRegister }) => {
+    const navigate = useNavigate();
+
     const [form, setValues] = useState({
         firstName: '',
         lastNameDesktop: '',
@@ -83,7 +86,7 @@ const SignupForm = ({ history, onRegister }) => {
     };
 
     const handleCancel = () => {
-        history.push('/');
+        navigate('/');
     };
 
     return (

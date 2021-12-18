@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Nav from '../components/Nav/Nav';
 import { useAuthContext } from '../context/AuthContext';
 
@@ -18,7 +19,9 @@ const Layout = ({ children }) => {
                     <header>
                         <Nav />
                     </header>
-                    <main className="container">{children}</main>
+                    <main className="container">
+                        <Outlet />
+                    </main>
                     <footer className="page-footer teal">
                         <div className="container"></div>
                         <div className="footer-copyright">

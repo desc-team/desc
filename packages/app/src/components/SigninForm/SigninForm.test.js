@@ -8,10 +8,12 @@ import AuthContext from '../../context/AuthContext';
 import * as Auth from '../../services/auth';
 
 jest.mock('../../services/auth');
+const mockedUsedNavigate = jest.fn();
 
-const history = {
-    push: jest.fn()
-};
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedUsedNavigate
+}));
 
 const queryClient = new QueryClient();
 
@@ -33,7 +35,7 @@ describe('SigninForm', () => {
         const { getByLabelText } = render(
             <MemoryRouter>
                 <QueryClientProvider client={queryClient}>
-                    <SigninForm />{' '}
+                    <SigninForm />
                 </QueryClientProvider>
             </MemoryRouter>
         );
@@ -49,7 +51,7 @@ describe('SigninForm', () => {
             <MemoryRouter>
                 <AuthContext.Provider value={{ login: () => {} }}>
                     <QueryClientProvider client={queryClient}>
-                        <SigninForm history={history} />
+                        <SigninForm />
                     </QueryClientProvider>
                 </AuthContext.Provider>
             </MemoryRouter>

@@ -9,6 +9,7 @@ import './Nav.css';
 import useLogout from '../../hooks/useLogout';
 
 const Nav = () => {
+    const mobileActiveClassName = 'teal white-text';
     const authCtx = useAuthContext();
     const isAuthed = authCtx.contextUser && authCtx.token;
 
@@ -68,12 +69,22 @@ const Nav = () => {
                 {!isAuthed && (
                     <>
                         <li>
-                            <NavLink to="/signup" activeClassName="teal white-text">
+                            <NavLink
+                                to="/signup"
+                                className={({ isActive }) =>
+                                    isActive ? mobileActiveClassName : undefined
+                                }
+                            >
                                 Sign Up
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/signin" activeClassName="teal white-text">
+                            <NavLink
+                                to="/signin"
+                                className={({ isActive }) =>
+                                    isActive ? mobileActiveClassName : undefined
+                                }
+                            >
                                 Sign In
                             </NavLink>
                         </li>
@@ -82,17 +93,32 @@ const Nav = () => {
                 {isAuthed && (
                     <>
                         <li>
-                            <NavLink to="/create" activeClassName="teal white-text">
+                            <NavLink
+                                to="/create"
+                                className={({ isActive }) =>
+                                    isActive ? mobileActiveClassName : undefined
+                                }
+                            >
                                 Create Request
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/inbox" activeClassName="teal white-text">
+                            <NavLink
+                                to="/inbox"
+                                className={({ isActive }) =>
+                                    isActive ? mobileActiveClassName : undefined
+                                }
+                            >
                                 View Requests
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/profile" activeClassName="teal white-text">
+                            <NavLink
+                                to="/profile"
+                                className={({ isActive }) =>
+                                    isActive ? mobileActiveClassName : undefined
+                                }
+                            >
                                 Profile
                             </NavLink>
                         </li>

@@ -1,16 +1,21 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import ChangePasswordForm from './ChangePasswordForm';
 import * as UserDataService from '../../services/users';
 
-jest.mock('../../services/users');
-
 const token = '40a2be43-8628-4c4e-a31c-af755e105330';
-
 const queryClient = new QueryClient();
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockedUsedNavigate
+}));
+
+jest.mock('../../services/users');
 
 describe('ChangePassword Form', () => {
     afterEach(cleanup);
@@ -82,11 +87,11 @@ describe('ChangePassword Form', () => {
 
         const { container, getByLabelText, getByText, getByTestId } = render(
             <MemoryRouter initialEntries={[`/changepassword/${token}`]}>
-                <Route path="/changepassword/:token">
-                    <QueryClientProvider client={queryClient}>
-                        <ChangePasswordForm />
-                    </QueryClientProvider>
-                </Route>
+                <QueryClientProvider client={queryClient}>
+                    <Routes>
+                        <Route path="changepassword/:token" element={<ChangePasswordForm />} />
+                    </Routes>
+                </QueryClientProvider>
             </MemoryRouter>
         );
 
@@ -118,11 +123,11 @@ describe('ChangePassword Form', () => {
 
         const { container, getByLabelText, getByText, getByTestId } = render(
             <MemoryRouter initialEntries={[`/changepassword/${token}`]}>
-                <Route path="/changepassword/:token">
-                    <QueryClientProvider client={queryClient}>
-                        <ChangePasswordForm />
-                    </QueryClientProvider>
-                </Route>
+                <QueryClientProvider client={queryClient}>
+                    <Routes>
+                        <Route path="changepassword/:token" element={<ChangePasswordForm />} />
+                    </Routes>
+                </QueryClientProvider>
             </MemoryRouter>
         );
 
