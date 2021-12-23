@@ -24,7 +24,7 @@ const ApproverInbox = () => {
                         <ul className="tabs">
                             <li className="tab col s3">
                                 <a className="active" href="#active">
-                                    Open
+                                    Active
                                 </a>
                             </li>
                             <li className="tab col s3">
@@ -49,7 +49,10 @@ const ApproverInbox = () => {
                         <ApproverItemList items={items} filter="wishlist" />
                     </div>
                     <div id="archive" className="col s12">
-                        <ApproverItemList items={items} filter="archived" />
+                        <ApproverItemList
+                            items={items}
+                            filter={['denied', 'fulfilled', 'archived']}
+                        />
                     </div>
                 </div>
             )}

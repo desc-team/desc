@@ -1,3 +1,5 @@
+export const closedStatuses = ['denied', 'fulfilled', 'archived'];
+
 export const inboxStyles = {
     listHeader: {
         fontWeight: 'bold',

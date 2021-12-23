@@ -35,7 +35,7 @@ export enum ItemStatus {
     ACTIVE = 'active',
     APPROVED = 'approved',
     DENIED = 'denied',
-    FUFILLED = 'fulfilled',
+    FULFILLED = 'fulfilled',
     WISHLIST = 'wishlist',
     ARCHIVED = 'archived'
 }

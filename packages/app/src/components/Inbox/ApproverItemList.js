@@ -2,9 +2,16 @@ import M from 'materialize-css';
 import { useEffect, useState } from 'react';
 import useUpdateItem from '../../hooks/useUpdateItem';
 import { useQueryClient } from 'react-query';
+import ApproverActions from './ApproverActions';
 import NoteDetails from './NoteDetails';
 import AddNoteForm from './AddNoteForm';
-import { inboxStyles as css, initCollapsibleElements } from './utils';
+import { inboxStyles as css, initCollapsibleElements, closedStatuses } from './utils';
+
+const statusMap = {
+    denied: 'Rejected',
+    archived: 'Archived',
+    fulfilled: 'Fulfilled'
+};
 
 const ListHeader = () => {
     return (
@@ -34,7 +41,14 @@ const ApproverItemList = ({ filter, items }) => {
     }, []);
 
     useEffect(() => {
-        setDisplayableItems(items.filter((item) => item.status === filter));
+        setDisplayableItems(
+            items.filter((item) => {
+                if (Array.isArray(filter)) {
+                    return filter.some((status) => status === item.status);
+                }
+                return item.status === filter;
+            })
+        );
     }, [items, filter]);
 
     const handleNoteAdd = (itemId, itemData) => {
@@ -58,6 +72,10 @@ const ApproverItemList = ({ filter, items }) => {
         updateItem({ itemId: id, itemData: { status } });
     };
 
+    const isItemClosed = (item) => {
+        return closedStatuses.some((status) => status === item.status);
+    };
+
     return (
         <ul className="collapsible expandable">
             <ListHeader />
@@ -76,36 +94,25 @@ const ApproverItemList = ({ filter, items }) => {
                                 </p>
                             </div>
                             <div className="collapsible-body">
-                                <div className="actions">
-                                    <button
-                                        className="btn-small btn-flat"
-                                        onClick={() => updateItemStatus(item.id, 'approved')}
-                                    >
-                                        <i className="material-icons left">check_box</i>
-                                        Approve
-                                    </button>
-                                    <button
-                                        className="btn-small btn-flat"
-                                        onClick={() => updateItemStatus(item.id, 'denied')}
-                                    >
-                                        <i className="material-icons left">clear</i>
-                                        Reject
-                                    </button>
-                                    <button
-                                        className="btn-small btn-flat"
-                                        onClick={() => updateItemStatus(item.id, 'wishlist')}
-                                    >
-                                        <i className="material-icons left">access_time</i>
-                                        Wishlist
-                                    </button>
-                                    <p style={{ fontSize: '1.125rem', marginBottom: '.5rem' }}>
-                                        Notes:
-                                    </p>
-                                    {item.notes.map((note) => (
-                                        <NoteDetails key={note.id} note={note} />
-                                    ))}
-                                    <AddNoteForm itemId={item.id} onNoteAdd={handleNoteAdd} />
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <ApproverActions
+                                        filter={filter}
+                                        item={item}
+                                        onStatusChange={updateItemStatus}
+                                    />
+                                    {isItemClosed(item) ? (
+                                        <span className="text-grey-lighten-1">
+                                            <em>{statusMap[item.status]}</em>
+                                        </span>
+                                    ) : null}
                                 </div>
+                                <p style={{ fontSize: '1.125rem', marginBottom: '.5rem' }}>
+                                    Notes:
+                                </p>
+                                {item.notes.map((note) => (
+                                    <NoteDetails key={note.id} note={note} />
+                                ))}
+                                <AddNoteForm itemId={item.id} onNoteAdd={handleNoteAdd} />
                             </div>
                         </li>
                     );
