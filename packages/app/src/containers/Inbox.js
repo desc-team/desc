@@ -1,6 +1,5 @@
 import React from 'react';
-import RequestorInbox from '../components/RequestorInbox';
-import ApproverInbox from '../components/ApproverInbox';
+import { ApproverInbox, RequestorInbox } from '../components/Inbox';
 import { useAuthContext } from '../context/AuthContext';
 
 const Inbox = () => {
