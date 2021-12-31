@@ -41,3 +41,18 @@ export function initCollapsibleElements(materializeLib) {
         onCloseEnd: onCloseEndCb
     });
 }
+
+export function updateItemsWithNote(itemId, itemData) {
+    return (item) => {
+        if (item.id === itemId) {
+            return {
+                ...item,
+                updatedAt: itemData.updatedAt,
+                notes: [...itemData.notes]
+            };
+        }
+        return {
+            ...item
+        };
+    };
+}

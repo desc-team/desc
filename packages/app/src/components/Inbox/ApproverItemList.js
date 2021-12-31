@@ -1,11 +1,17 @@
 import M from 'materialize-css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useUpdateItem from '../../hooks/useUpdateItem';
 import { useQueryClient } from 'react-query';
 import ApproverActions from './ApproverActions';
 import NoteDetails from './NoteDetails';
 import AddNoteForm from './AddNoteForm';
-import { inboxStyles as css, initCollapsibleElements, closedStatuses } from './utils';
+import {
+    inboxStyles as css,
+    initCollapsibleElements,
+    closedStatuses,
+    updateItemsWithNote
+} from './utils';
+import useFilterItemsByStatus from '../../hooks/useFilterItemsByStatus';
 
 const statusMap = {
     denied: 'Rejected',
@@ -27,7 +33,7 @@ const ListHeader = () => {
 };
 
 const ApproverItemList = ({ filter, items }) => {
-    const [displayableItems, setDisplayableItems] = useState([]);
+    const [displayableItems, setDisplayableItems] = useFilterItemsByStatus(items, filter);
     const queryClient = useQueryClient();
 
     const { updateItem } = useUpdateItem((response) => {
@@ -40,32 +46,8 @@ const ApproverItemList = ({ filter, items }) => {
         initCollapsibleElements(M);
     }, []);
 
-    useEffect(() => {
-        setDisplayableItems(
-            items.filter((item) => {
-                if (Array.isArray(filter)) {
-                    return filter.some((status) => status === item.status);
-                }
-                return item.status === filter;
-            })
-        );
-    }, [items, filter]);
-
     const handleNoteAdd = (itemId, itemData) => {
-        setDisplayableItems(
-            displayableItems.map((item) => {
-                if (item.id === itemId) {
-                    return {
-                        ...item,
-                        updatedAt: itemData.updatedAt,
-                        notes: [...itemData.notes]
-                    };
-                }
-                return {
-                    ...item
-                };
-            })
-        );
+        setDisplayableItems(displayableItems.map(updateItemsWithNote(itemId, itemData)));
     };
 
     const updateItemStatus = (id, status) => {

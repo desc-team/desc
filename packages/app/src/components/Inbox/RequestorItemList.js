@@ -1,8 +1,9 @@
 import M from 'materialize-css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import NoteDetails from './NoteDetails';
 import AddNoteForm from './AddNoteForm';
-import { inboxStyles as css, initCollapsibleElements } from './utils';
+import { inboxStyles as css, initCollapsibleElements, updateItemsWithNote } from './utils';
+import useFilterItemsByStatus from '../../hooks/useFilterItemsByStatus';
 
 const ListHeader = () => {
     return (
@@ -18,31 +19,14 @@ const ListHeader = () => {
 };
 
 const RequestorItemList = ({ items, filter }) => {
-    const [displayableItems, setDisplayableItems] = useState([]);
+    const [displayableItems, setDisplayableItems] = useFilterItemsByStatus(items, filter);
 
     useEffect(() => {
         initCollapsibleElements(M);
     }, []);
 
-    useEffect(() => {
-        setDisplayableItems(items.filter((item) => item.status === filter));
-    }, [items, filter]);
-
     const handleNoteAdd = (itemId, itemData) => {
-        setDisplayableItems(
-            displayableItems.map((item) => {
-                if (item.id === itemId) {
-                    return {
-                        ...item,
-                        updatedAt: itemData.updatedAt,
-                        notes: [...itemData.notes]
-                    };
-                }
-                return {
-                    ...item
-                };
-            })
-        );
+        setDisplayableItems(displayableItems.map(updateItemsWithNote(itemId, itemData)));
     };
 
     return (
