@@ -3,6 +3,13 @@ import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { useLogout } from '../../hooks';
 
+const commonStyles = {
+    minHeight: { xs: '56px', sm: '64px' },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+};
+
 interface NavLinkProps {
     children: React.ReactNode;
     to: string;
@@ -16,7 +23,7 @@ function NavLink({ children, to }: NavLinkProps): JSX.Element {
             color="inherit"
             underline="none"
             sx={{
-                py: 2.75,
+                ...commonStyles,
                 px: 2,
                 '&.active, &:hover': {
                     backgroundColor: 'primary.dark'
@@ -60,7 +67,7 @@ function NavBar(): JSX.Element {
                             </Stack>
                         </Link>
                     </Box>
-                    <Box>
+                    <Stack direction="row">
                         {!token ? (
                             <>
                                 <NavLink to="/login">Log In</NavLink>
@@ -72,7 +79,7 @@ function NavBar(): JSX.Element {
                                 variant="outlined"
                                 disableRipple
                                 sx={{
-                                    py: 3,
+                                    ...commonStyles,
                                     color: 'common.white',
                                     textTransform: 'capitalize',
                                     fontSize: '1rem',
@@ -87,7 +94,7 @@ function NavBar(): JSX.Element {
                                 Log Out
                             </Button>
                         ) : null}
-                    </Box>
+                    </Stack>
                 </Stack>
             </Toolbar>
         </AppBar>
