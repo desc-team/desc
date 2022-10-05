@@ -1,43 +1,11 @@
-import { AppBar, Box, Button, Link, Stack, Toolbar } from '@mui/material';
-import { Link as RouterLink, NavLink as RouterNavLink } from 'react-router-dom';
+import { AppBar, Stack, Toolbar } from '@mui/material';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { useLogout } from '../../hooks';
-
-const commonStyles = {
-    minHeight: { xs: '56px', sm: '64px' },
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-};
-
-interface NavLinkProps {
-    children: React.ReactNode;
-    to: string;
-}
-
-function NavLink({ children, to }: NavLinkProps): JSX.Element {
-    return (
-        <Link
-            to={to}
-            component={RouterNavLink}
-            color="inherit"
-            underline="none"
-            sx={{
-                ...commonStyles,
-                px: 2,
-                '&.active, &:hover': {
-                    backgroundColor: 'primary.dark'
-                }
-            }}
-        >
-            {children}
-        </Link>
-    );
-}
+import HomeLogo from './HomeLogo';
+import LogoutButton from './LogoutButton';
+import NavLink from './NavLink';
 
 function NavBar(): JSX.Element {
     const { token } = useAuthContext();
-    const { mutate: doLogout } = useLogout();
     return (
         <AppBar position="static">
             <Toolbar disableGutters={true} sx={{ px: 12 }}>
@@ -47,26 +15,7 @@ function NavBar(): JSX.Element {
                     justifyContent="space-between"
                     sx={{ width: '100%' }}
                 >
-                    <Box>
-                        <Link
-                            to="/"
-                            component={RouterLink}
-                            variant="h5"
-                            underline="none"
-                            color="inherit"
-                        >
-                            <Stack direction="row" spacing={2} alignItems="center">
-                                <img
-                                    className=""
-                                    src="https://www.desc.org/wp-content/themes/desc/img/logo-desc.png"
-                                    height="60"
-                                    width="60"
-                                    alt="DESC logo"
-                                />
-                                <span>DESC Portal</span>
-                            </Stack>
-                        </Link>
-                    </Box>
+                    <HomeLogo />
                     <Stack direction="row">
                         {!token ? (
                             <>
@@ -74,26 +23,7 @@ function NavBar(): JSX.Element {
                                 <NavLink to="/register">Register</NavLink>
                             </>
                         ) : null}
-                        {token ? (
-                            <Button
-                                variant="outlined"
-                                disableRipple
-                                sx={{
-                                    ...commonStyles,
-                                    color: 'common.white',
-                                    textTransform: 'capitalize',
-                                    fontSize: '1rem',
-                                    fontWeight: 400,
-                                    letterSpacing: 'normal',
-                                    '&.active, &:hover': {
-                                        backgroundColor: 'primary.dark'
-                                    }
-                                }}
-                                onClick={() => doLogout()}
-                            >
-                                Log Out
-                            </Button>
-                        ) : null}
+                        {token ? <LogoutButton /> : null}
                     </Stack>
                 </Stack>
             </Toolbar>
